@@ -5,6 +5,7 @@ import { DATA } from "@/data/resume";
 import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
 import { Inter as FontSans } from "next/font/google";
+import Particles from "@/components/magicui/particles"; // Adjust the path as necessary
 import "./globals.css";
 
 const fontSans = FontSans({
@@ -61,6 +62,9 @@ export default function RootLayout({
           fontSans.variable
         )}
       >
+        <div className="particles-container">
+          <Particles />
+        </div>
         <ThemeProvider attribute="class" defaultTheme="light">
           <TooltipProvider delayDuration={0}>
             {children}
