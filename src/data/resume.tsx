@@ -1,5 +1,5 @@
 import { Icons } from "@/components/icons";
-import { CodeIcon, HomeIcon, MailIcon, NotebookIcon } from "lucide-react";
+import { BookIcon, CodeIcon, HomeIcon, MailIcon, NotebookIcon } from "lucide-react";
 
 export const DATA = {
   name: "Yunus Emre Yavuz",
@@ -118,6 +118,11 @@ export const DATA = {
           type: "Source",
           href: "https://github.com/yunuseyvz/Bachelorthesis_Phishing",
           icon: <Icons.github className="size-3" />,
+        },
+        {
+          type: "Read",
+          href: "/bachelorthesis.pdf",
+          icon: <BookIcon className="size-3" />,
         },
       ],
       image: "/bachelor.png",
