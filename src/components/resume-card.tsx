@@ -15,6 +15,7 @@ interface ResumeCardProps {
   title: string;
   subtitle?: string;
   href?: string;
+  location?: string;
   badges?: readonly string[];
   period: string;
   description?: string;
@@ -27,6 +28,7 @@ export const ResumeCard = ({
   href,
   badges,
   period,
+  location,
   description,
 }: ResumeCardProps) => {
   const [isExpanded, setIsExpanded] = React.useState(false);
@@ -81,7 +83,7 @@ export const ResumeCard = ({
                 />
               </h3>
               <div className="text-xs sm:text-sm tabular-nums text-muted-foreground text-right">
-                {period}
+                {period} 
               </div>
             </div>
             {subtitle && <div className="font-sans text-xs">{subtitle}</div>}
@@ -101,6 +103,7 @@ export const ResumeCard = ({
               className="mt-2 text-xs sm:text-sm"
             >
               {description}
+              {location}
             </motion.div>
           )}
         </div>

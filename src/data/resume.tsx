@@ -82,18 +82,20 @@ export const DATA = {
     {
       school: "LMU Munich",
       href: "https://lmu.de",
-      degree: "Master's Degree of Human Computer Interaction (M.Sc.)",
+      degree: "Human Computer Interaction (M.Sc.)",
       logoUrl: "/lmu.svg",
       start: "2025",
-      end: "",
+      end: "2027",
+      description: "Pursuing a Master's degree in Human Computer Interaction.",
     },
     {
       school: "LMU Munich",
       href: "https://lmu.de",
-      degree: "Bachelor's Degree of Media Informatics (B.Sc.)",
+      degree: "Media Informatics (B.Sc.)",
       logoUrl: "/lmu.svg",
       start: "2019",
       end: "2024",
+      description: "Thesis Topic: Evaluating the Effectiveness of Phishing Warnings in Email Clients",
     },
   ],
   projects: [
