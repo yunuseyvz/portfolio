@@ -113,6 +113,17 @@ export default function Page() {
           </div>
         </div>
       </section>
+      <section id="cv">
+        <div className="flex justify-center items-center">
+        <BlurFade delay={BLUR_FADE_DELAY * 11}>
+          <Link href="/CV.pdf" passHref>   
+              <Badge variant="secondary" className="text-[12px]">
+                Download CV
+              </Badge>       
+          </Link>
+        </BlurFade>
+        </div>
+      </section>
     </main>
   );
 }

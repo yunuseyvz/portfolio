@@ -197,6 +197,13 @@ export const DATA = {
         "React",
         "Express.js",
       ],
+      links: [
+        {
+          type: "Demo",
+          href: "",
+          icon: <Icons.globe className="size-3" />,
+        },
+      ],
       image: "/mememuc.png",
       video:
         "",
@@ -211,6 +218,13 @@ export const DATA = {
         "Java",
         "Agile Development",
         "Game Development",
+      ],
+      links: [
+        {
+          type: "Demo",
+          href: "",
+          icon: <Icons.globe className="size-3" />,
+        },
       ],
       image: "/roborally.png",
       video:
