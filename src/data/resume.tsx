@@ -26,24 +26,24 @@ export const DATA = {
     "C++",
   ],
   navbar: [
-    { href: "#home", icon: HomeIcon, label: "Home" },
-    { href: "#projects", icon: CodeIcon, label: "Projects" },
+    { href: "/", icon: HomeIcon, label: "Home" },
+    { href: "/projects", icon: CodeIcon, label: "Projects" },
     { href: "/blog", icon: NotebookIcon, label: "Blog" },
   ],
   contact: {
-    email: "hello@example.com",
-    tel: "+123456789",
+    email: "yyavuz1999@gmail.com",
+    tel: "+4917639642538",
     social: {
       GitHub: {
         name: "GitHub",
-        url: "https://dub.sh/dillion-github",
+        url: "https://github.com/yunuseyvz",
         icon: Icons.github,
 
         navbar: true,
       },
       LinkedIn: {
         name: "LinkedIn",
-        url: "https://dub.sh/dillion-linkedin",
+        url: "https://www.linkedin.com/in/yunuseyvz/",
         icon: Icons.linkedin,
 
         navbar: true,
