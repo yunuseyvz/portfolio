@@ -162,10 +162,37 @@ code[data-line-numbers-max-digits="3"] > [data-line]::before {
   height: 100%;
 }
 
-.card-hover-animation {
-  transition: transform 0.3s ease-out;
+@media (hover: hover) and (pointer: fine) {
+  .card-hover-animation {
+    transition: transform 0.3s ease-out;
+  }
+
+  .card-hover-animation:hover {
+    transform: scale(1.05);
+  }
 }
 
-.card-hover-animation:hover {
-  transform: scale(1.05);
+
+.social-icons-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px; 
+}
+
+.social-icon {
+  display: inline-block;
+  padding: 10px; 
+  transition: transform 0.2s;
+  text-decoration: none;
+  color: inherit;
+}
+
+.social-icon:hover {
+  transform: scale(1.2); 
+}
+
+.icon {
+  width: 30px; 
+  height: 30px;
 }

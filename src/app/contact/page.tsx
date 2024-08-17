@@ -1,6 +1,7 @@
 import BlurFade from "@/components/magicui/blur-fade";
 import { DATA } from "@/data/resume";
 import Link from "next/link";
+import { Icons } from "@/components/icons";
 
 const BLUR_FADE_DELAY = 0.04;
 
@@ -10,7 +11,7 @@ export default function Contact() {
   return (
     <main className="flex flex-col">
       <section id="contact">
-      <div className="flex flex-col items-center justify-center space-y-4 text-center">
+        <div className="flex flex-col items-center justify-center space-y-4 text-center">
           <BlurFade delay={BLUR_FADE_DELAY}>
             <div className="space-y-3">
               <div className="inline-block rounded-lg bg-foreground text-background px-3 py-1 text-sm">
@@ -20,16 +21,16 @@ export default function Contact() {
                 Get in Touch
               </h2>
               <p className="mx-auto max-w-[600px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                You can reach me on
+                You can find me via the following channels.
               </p>
               <div className="flex justify-center space-x-4">
                 {Object.values(social).map((socialItem) => (
-                  <Link key={socialItem.name} href={socialItem.url}>
-                    {socialItem.name}
+                  <Link key={socialItem.name} href={socialItem.url} className="social-icon">
+                    <socialItem.icon className="icon" />
                   </Link>
                 ))}
-                <a href={`mailto:${email}`}>
-                  Email
+                <a href={`mailto:${email}`} className="social-icon">
+                  <Icons.email className="icon" />
                 </a>
               </div>
             </div>
