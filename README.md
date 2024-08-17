@@ -46,4 +46,4 @@ Based on the template by [dillionverma](https://github.com/dillionverma).
 
 # License
 
-Licensed under the [MIT license](https://github.com/yunuseyvz/portfolio_next/blob/main/LICENSE.md).
+Licensed under the [MIT license](./LICENSE.md).
