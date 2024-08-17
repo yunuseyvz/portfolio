@@ -87,6 +87,7 @@ export const DATA = {
       start: "2025",
       end: "2027",
       description: "Pursuing a Master's degree in Human Computer Interaction.",
+      thesis: "",
     },
     {
       school: "LMU Munich",
@@ -96,6 +97,7 @@ export const DATA = {
       start: "2019",
       end: "2024",
       description: "Thesis Topic: Evaluating the Effectiveness of Phishing Warnings in Email Clients",
+      thesis: "/bachelorthesis.pdf",
     },
   ],
   projects: [

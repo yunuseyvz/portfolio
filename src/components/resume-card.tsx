@@ -19,7 +19,9 @@ interface ResumeCardProps {
   badges?: readonly string[];
   period: string;
   description?: string;
+  thesis?: string;
 }
+
 export const ResumeCard = ({
   logoUrl,
   altText,
@@ -30,6 +32,7 @@ export const ResumeCard = ({
   period,
   location,
   description,
+  thesis,
 }: ResumeCardProps) => {
   const [isExpanded, setIsExpanded] = React.useState(false);
 
@@ -83,7 +86,7 @@ export const ResumeCard = ({
                 />
               </h3>
               <div className="text-xs sm:text-sm tabular-nums text-muted-foreground text-right">
-                {period} 
+                {period}
               </div>
             </div>
             {subtitle && <div className="font-sans text-xs">{subtitle}</div>}
@@ -93,7 +96,6 @@ export const ResumeCard = ({
               initial={{ opacity: 0, height: 0 }}
               animate={{
                 opacity: isExpanded ? 1 : 0,
-
                 height: isExpanded ? "auto" : 0,
               }}
               transition={{
@@ -103,7 +105,15 @@ export const ResumeCard = ({
               className="mt-2 text-xs sm:text-sm"
             >
               {description}
-              {location}
+              {thesis && (
+                <div className="mt-2" suppressHydrationWarning>
+                  <Link href={thesis} passHref>
+                    <Badge variant="secondary" className="text-[12px]">
+                      Read Thesis
+                    </Badge>
+                  </Link>
+                </div>
+              )}
             </motion.div>
           )}
         </div>
