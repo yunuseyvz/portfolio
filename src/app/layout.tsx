@@ -65,7 +65,7 @@ export default function RootLayout({
         <div className="particles-container">
           <Particles />
         </div>
-        <ThemeProvider attribute="class" defaultTheme="light">
+        <ThemeProvider attribute="class" defaultTheme="dark">
           <TooltipProvider delayDuration={0}>
             {children}
             <Navbar />
