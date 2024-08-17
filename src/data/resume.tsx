@@ -186,9 +186,9 @@ export const DATA = {
       ],
       links: [
         {
-          type: "Demo",
+          type: "Play",
           href: "https://lastchicken-yunuseyvzs-projects.vercel.app/",
-          icon: <Icons.globe className="size-3" />,
+          icon: <Icons.game className="size-3" />,
         },
       ],
       image: "/minigame.png",
