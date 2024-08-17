@@ -20,7 +20,7 @@ export default function Contact() {
   return (
     <main className="flex flex-col">
       <section id="contact">
-        <div className="grid items-center justify-center gap-4 px-4 text-center md:px-6 w-full py-12">
+      <div className="flex flex-col items-center justify-center space-y-4 text-center">
           <BlurFade delay={BLUR_FADE_DELAY}>
             <div className="space-y-3">
               <div className="inline-block rounded-lg bg-foreground text-background px-3 py-1 text-sm">
