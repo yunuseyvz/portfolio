@@ -13,9 +13,9 @@ const BLUR_FADE_DELAY = 0.04;
 
 export default function Projects() {
   return (
-    <main className="flex flex-col min-h-[100dvh] space-y-10">
+    <main className="flex flex-col min-h-[100dvh] space-y-10 mb-16">
       <section id="projects">
-      <div className="mx-auto w-full max-w-2xl space-y-8">
+        <div className="mx-auto w-full max-w-2xl space-y-8">
           <BlurFade delay={BLUR_FADE_DELAY}>
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
