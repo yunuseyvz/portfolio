@@ -81,7 +81,7 @@ export const DATA = {
   ],
   education: [
     {
-      school: "LMU Munich",
+      school: "LMU Munich ",
       href: "https://lmu.de",
       degree: "Human Computer Interaction (M.Sc.)",
       logoUrl: "/lmu.svg",
