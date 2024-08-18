@@ -8,6 +8,7 @@ import { Inter as FontSans } from "next/font/google";
 import Particles from "@/components/magicui/particles"; // Adjust the path as necessary
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/react"
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -64,6 +65,7 @@ export default function RootLayout({
         )}
       >
         <Analytics />
+        <SpeedInsights />
         <div className="particles-container">
           <Particles />
         </div>
