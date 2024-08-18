@@ -7,6 +7,7 @@ import { DATA } from "@/data/resume";
 import Link from "next/link";
 import Markdown from "react-markdown";
 import { CoolMode } from "@/components/magicui/cool-mode";
+import { FaDownload } from 'react-icons/fa'
 
 const BLUR_FADE_DELAY = 0.04;
 
@@ -31,10 +32,10 @@ export default function Page() {
             </div>
             <BlurFade delay={BLUR_FADE_DELAY}>
               <CoolMode>
-              <Avatar className="size-36 border">
-                <AvatarImage alt={DATA.name} src={DATA.avatarUrl} />
-                <AvatarFallback>{DATA.initials}</AvatarFallback>
-              </Avatar>
+                <Avatar className="size-36 border">
+                  <AvatarImage alt={DATA.name} src={DATA.avatarUrl} />
+                  <AvatarFallback>{DATA.initials}</AvatarFallback>
+                </Avatar>
               </CoolMode>
             </BlurFade>
           </div>
@@ -117,13 +118,14 @@ export default function Page() {
       </section>
       <section id="cv">
         <div className="flex justify-center items-center">
-        <BlurFade delay={BLUR_FADE_DELAY * 11}>
-          <Link href="/CV.pdf" passHref>   
-              <Badge variant="secondary" className="text-[12px]">
-                Download CV
-              </Badge>       
-          </Link>
-        </BlurFade>
+          <BlurFade delay={BLUR_FADE_DELAY * 11}>
+            <Link href="/CV.pdf" passHref>
+              <Badge variant="secondary" className="text-[12px] flex items-center space-x-2">
+                <FaDownload /> 
+                <span>Download CV</span>
+              </Badge>
+            </Link>
+          </BlurFade>
         </div>
       </section>
     </main>
