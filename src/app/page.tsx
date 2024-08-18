@@ -18,19 +18,20 @@ export default function Page() {
   const [visitorCount, setVisitorCount] = useState("0");
 
   useEffect(() => {
-    const fetchVisitorCount = async () => {
-      try {
-        const response = await fetch("https://visit-counter.vercel.app/counter?page=yuemya.de");
-        const count = await response.text();
-        setVisitorCount(count);
-        console.log("Visitor count:", count);
-      } catch (error) {
-        console.error("Failed to fetch visitor count:", error);
-      }
-    };
-    fetchVisitorCount();
+    if (process.env.NODE_ENV !== "development") {
+      const fetchVisitorCount = async () => {
+        try {
+          const response = await fetch("https://visit-counter.vercel.app/counter?page=yuemya.de");
+          const count = await response.text();
+          setVisitorCount(count);
+          console.log("Visitor count:", count);
+        } catch (error) {
+          console.error("Failed to fetch visitor count:", error);
+        }
+      };
+      fetchVisitorCount();
+    }
   }, []);
-
   
   return (
     <main className="flex flex-col min-h-[100dvh] space-y-10 mb-16">
