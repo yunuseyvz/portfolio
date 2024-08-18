@@ -26,6 +26,7 @@ export default function Contact() {
               <div className="flex justify-center space-x-4">
                 {Object.values(social).map((socialItem, id) => (
                   <BlurFade
+                  key={socialItem.name}
                   delay={BLUR_FADE_DELAY * 3 + id * 0.05}
                 >
                   <Link key={socialItem.name} href={socialItem.url} className="social-icon">
