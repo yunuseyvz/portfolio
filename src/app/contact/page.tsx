@@ -24,14 +24,20 @@ export default function Contact() {
                 You can find me via the following channels.
               </p>
               <div className="flex justify-center space-x-4">
-                {Object.values(social).map((socialItem) => (
+                {Object.values(social).map((socialItem, id) => (
+                  <BlurFade
+                  delay={BLUR_FADE_DELAY * 3 + id * 0.05}
+                >
                   <Link key={socialItem.name} href={socialItem.url} className="social-icon">
                     <socialItem.icon className="icon" />
                   </Link>
+                </BlurFade>
                 ))}
+                <BlurFade delay={BLUR_FADE_DELAY * 4}>
                 <a href={`mailto:${email}`} className="social-icon">
                   <Icons.email className="icon" />
                 </a>
+                </BlurFade>
               </div>
             </div>
           </BlurFade>
