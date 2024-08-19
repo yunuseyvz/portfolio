@@ -4,7 +4,7 @@
 
 # 🌟 Portfolio
 
-🚀 Built with [Next.js](https://nextjs.org/), [shadcn/ui](https://ui.shadcn.com/), [Magic UI](https://magicui.design/), [Aceternity UI](https://ui.aceternity.com/) and deployed on [Vercel](https://vercel.com/)!
+🚀 Built with [Next.js](https://nextjs.org/), [shadcn/ui](https://ui.shadcn.com/), [Magic UI](https://magicui.design/), [Aceternity UI](https://ui.aceternity.com/) and deployed on [Vercel](https://vercel.com/).
 
 💡 Based on an awesome template by [dillionverma](https://github.com/dillionverma).
 
@@ -16,7 +16,7 @@
 - 📱 **Fully Responsive**: Works flawlessly across all devices 📲
 - ⚡ **Optimized**: For smooth performance on Next.js and Vercel 🌐
 
-# Getting Started Locally
+## 🚀 Getting Started Locally
 
 1. Clone this repository to your local machine:
 
@@ -44,6 +44,6 @@
 
 5. Open the [Config file](./src/data/resume.tsx) and make changes
 
-# License
+## 📄 License
 
 Licensed under the [MIT license](./LICENSE).
