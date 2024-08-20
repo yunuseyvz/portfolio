@@ -11,11 +11,14 @@ import Markdown from "react-markdown";
 import { CoolMode } from "@/components/magicui/cool-mode";
 import { FaDownload } from 'react-icons/fa'
 import { useState, useEffect } from "react";
+import { useTheme } from "next-themes";
+import Particles from "@/components/magicui/particles";
 
 const BLUR_FADE_DELAY = 0.04;
 
 export default function Page() {
   const [visitorCount, setVisitorCount] = useState("0");
+  const { theme } = useTheme();
 
   useEffect(() => {
     if (process.env.NODE_ENV !== "development") {
@@ -33,8 +36,10 @@ export default function Page() {
     }
   }, []);
   
+  console.log(theme);
+
   return (
-    <main className="flex flex-col min-h-[100dvh] space-y-10 mb-16">
+    <main className="flex flex-col min-h-[100dvh] space-y-10 mb-16">     
       <section id="hero">
         <div className="mx-auto w-full max-w-2xl space-y-8">
           <div className="gap-2 flex justify-between">
