@@ -15,22 +15,24 @@ import { useState, useEffect } from "react";
 const BLUR_FADE_DELAY = 0.04;
 
 export default function Page() {
-  const [visitorCount, setVisitorCount] = useState<number | null>(null);
+  const [visitorCount, setVisitorCount] = useState("0");
 
   useEffect(() => {
-    const fetchVisitorCount = async () => {
-      try {
-        const response = await fetch('/api/visitor-count');
-        const data = await response.json();
-        setVisitorCount(data.count);
-      } catch (error) {
-        console.error('Failed to fetch visitor count', error);
-      }
-    };
-
-    fetchVisitorCount();
+    if (process.env.NODE_ENV !== "development") {
+      const fetchVisitorCount = async () => {
+        try {
+          const response = await fetch("https://visit-counter.vercel.app/counter?page=yuemya.de");
+          const count = await response.text();
+          setVisitorCount(count);
+          console.log("Visitor count:", count);
+        } catch (error) {
+          console.error("Failed to fetch visitor count:", error);
+        }
+      };
+      fetchVisitorCount();
+    }
   }, []);
-
+  
   return (
     <main className="flex flex-col min-h-[100dvh] space-y-10 mb-16">
       <section id="hero">
@@ -147,13 +149,13 @@ export default function Page() {
           </BlurFade>
         </div>
       </section>
-      <section id="visitor-count">
+      <section id="visitors">
         <div className="flex justify-center items-center">
           <BlurFade delay={BLUR_FADE_DELAY * 12}>
-            <Badge variant="secondary" className="text-[12px] flex items-center space-x-2">
-              <span>Visitors: </span>
-              <span>{visitorCount !== null ? visitorCount : 'Loading...'}</span>  
-            </Badge>
+              <Badge variant="secondary" className="text-[12px] flex items-center space-x-2">
+                <span>Visitors: </span>
+                <span>{visitorCount}</span>  
+              </Badge>
           </BlurFade>
         </div>
       </section>
