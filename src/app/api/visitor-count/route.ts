@@ -5,12 +5,12 @@ export async function GET(req: NextRequest) {
   try {
     console.log('Received GET request for visitor count');
 
-    // Get the current visitor count, default to "0" if null
-    let countStr = await kv.get<string>('visitors') || '0';
+    // Get the current visitor count
+    let countStr = await kv.get<string>('visitors');
     console.log('Current visitor count:', countStr);
 
-    // Parse countStr to a number
-    let count = parseInt(countStr, 10);
+    // Parse countStr to a number, or default to 0 if it doesn't exist
+    let count = countStr ? parseInt(countStr, 10) : 0;
 
     // Increment the visitor count
     count += 1;
