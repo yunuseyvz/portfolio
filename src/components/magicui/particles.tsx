@@ -76,6 +76,7 @@ const Particles: React.FC<ParticlesProps> = ({
   const mouse = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
   const canvasSize = useRef<{ w: number; h: number }>({ w: 0, h: 0 });
   const dpr = typeof window !== "undefined" ? window.devicePixelRatio : 1;
+  const colorRef = useRef<string>(theme === "dark" ? "#ffffff" : "#000000");
 
   useEffect(() => {
     if (canvasRef.current) {
@@ -88,7 +89,7 @@ const Particles: React.FC<ParticlesProps> = ({
     return () => {
       window.removeEventListener("resize", initCanvas);
     };
-  }, [theme]);
+  }, []);
 
   useEffect(() => {
     onMouseMove();
@@ -98,9 +99,15 @@ const Particles: React.FC<ParticlesProps> = ({
     initCanvas();
   }, [refresh]);
 
+  useEffect(() => {
+    colorRef.current = theme === "dark" ? "#ffffff" : "#000000";
+  }, [theme]);
+
   const initCanvas = () => {
     resizeCanvas();
-    drawParticles();
+    if (circles.current.length === 0) {
+      drawParticles();
+    }
   };
 
   const onMouseMove = () => {
@@ -132,7 +139,6 @@ const Particles: React.FC<ParticlesProps> = ({
 
   const resizeCanvas = () => {
     if (canvasContainerRef.current && canvasRef.current && context.current) {
-      circles.current.length = 0;
       canvasSize.current.w = canvasContainerRef.current.offsetWidth;
       canvasSize.current.h = canvasContainerRef.current.offsetHeight;
       canvasRef.current.width = canvasSize.current.w * dpr;
@@ -171,8 +177,7 @@ const Particles: React.FC<ParticlesProps> = ({
   const drawCircle = (circle: Circle, update = false) => {
     if (context.current) {
       const { x, y, translateX, translateY, size, alpha } = circle;
-      const color = theme === "dark" ? "#ffffff" : "#000000";
-      const rgb = hexToRgb(color);
+      const rgb = hexToRgb(colorRef.current);
       context.current.translate(translateX, translateY);
       context.current.beginPath();
       context.current.arc(x, y, size, 0, 2 * Math.PI);
