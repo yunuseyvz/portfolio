@@ -24,24 +24,6 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const [visitorCount, setVisitorCount] = useState<number | null>(null);
-
-  useEffect(() => {
-    //if (process.env.NODE_ENV !== "development") {
-    const fetchVisitorCount = async () => {
-      try {
-        const response = await fetch('/api/visitor-count');
-        const data = await response.json();
-        setVisitorCount(data.count);
-      } catch (error) {
-        console.error('Failed to fetch visitor count', error);
-      }
-    };
-
-    fetchVisitorCount();
-    //}
-  }, []);
-  
 
   return (
     <html lang="en" suppressHydrationWarning>
@@ -60,14 +42,6 @@ export default function RootLayout({
           <TooltipProvider delayDuration={0}>
             {children}
             <Navbar />
-            <BlurFade delay={1}>
-            <footer className="flex justify-center items-center">
-              <Badge variant="secondary" className="text-[12px] flex items-center space-x-2">
-                <span>Visitors: </span>
-                <span>{visitorCount !== null ? visitorCount : 'Loading...'}</span>  
-              </Badge>
-            </footer>
-            </BlurFade>
           </TooltipProvider>
         </ThemeProvider>
       </body>

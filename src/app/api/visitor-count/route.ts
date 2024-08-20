@@ -7,7 +7,7 @@ export async function GET(req: NextRequest) {
     console.log('Received GET request for visitor count');
 
     // Get the current visitor count
-    let count: number = parseInt(await kv.get('visitors') || '0', 10);
+    let count = await kv.get('visitors');
     console.log('Current visitor count:', count);
 
     // Increment the visitor count
