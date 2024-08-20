@@ -27,7 +27,7 @@ export default function RootLayout({
   const [visitorCount, setVisitorCount] = useState<number | null>(null);
 
   useEffect(() => {
-    if (process.env.NODE_ENV !== "development") {
+    //if (process.env.NODE_ENV !== "development") {
     const fetchVisitorCount = async () => {
       try {
         const response = await fetch('/api/visitor-count');
@@ -39,7 +39,7 @@ export default function RootLayout({
     };
 
     fetchVisitorCount();
-    }
+    //}
   }, []);
   
 
