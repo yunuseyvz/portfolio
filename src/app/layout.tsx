@@ -1,61 +1,48 @@
+"use client";
+
 import Navbar from "@/components/navbar";
 import { ThemeProvider } from "@/components/theme-provider";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { DATA } from "@/data/resume";
 import { cn } from "@/lib/utils";
-import type { Metadata } from "next";
 import { Inter as FontSans } from "next/font/google";
 import Particles from "@/components/magicui/particles"; // Adjust the path as necessary
 import "./globals.css";
-import { Analytics } from "@vercel/analytics/react"
-import { SpeedInsights } from "@vercel/speed-insights/next"
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
+import { useEffect, useState } from "react";
+import { Badge } from "@/components/ui/badge";
+import BlurFade from "@/components/magicui/blur-fade";
 
 const fontSans = FontSans({
   subsets: ["latin"],
   variable: "--font-sans",
 });
 
-export const metadata: Metadata = {
-  metadataBase: new URL(DATA.url),
-  title: {
-    default: `Portfolio | ${DATA.name}`,
-    template: `%s | ${DATA.name}`,
-  },
-  description: DATA.description,
-  openGraph: {
-    title: `${DATA.name}`,
-    description: DATA.description,
-    url: DATA.url,
-    siteName: `${DATA.name}`,
-    locale: "en_US",
-    type: "website",
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
-  },
-  twitter: {
-    title: `${DATA.name}`,
-    card: "summary_large_image",
-  },
-  verification: {
-    google: "",
-    yandex: "",
-  },
-};
-
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const [visitorCount, setVisitorCount] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (process.env.NODE_ENV !== "development") {
+    const fetchVisitorCount = async () => {
+      try {
+        const response = await fetch('/api/visitor-count');
+        const data = await response.json();
+        setVisitorCount(data.count);
+      } catch (error) {
+        console.error('Failed to fetch visitor count', error);
+      }
+    };
+
+    fetchVisitorCount();
+    }
+  }, []);
+  
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body
@@ -73,6 +60,14 @@ export default function RootLayout({
           <TooltipProvider delayDuration={0}>
             {children}
             <Navbar />
+            <BlurFade delay={1}>
+            <footer className="flex justify-center items-center">
+              <Badge variant="secondary" className="text-[12px] flex items-center space-x-2">
+                <span>Visitors: </span>
+                <span>{visitorCount !== null ? visitorCount : 'Loading...'}</span>  
+              </Badge>
+            </footer>
+            </BlurFade>
           </TooltipProvider>
         </ThemeProvider>
       </body>
