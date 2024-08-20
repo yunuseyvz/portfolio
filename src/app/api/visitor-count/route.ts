@@ -1,4 +1,3 @@
-// app/api/visitor-count/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import { kv } from '@vercel/kv';
 
@@ -7,14 +6,17 @@ export async function GET(req: NextRequest) {
     console.log('Received GET request for visitor count');
 
     // Get the current visitor count
-    let count = await kv.get('visitors');
-    console.log('Current visitor count:', count);
+    let countStr = await kv.get<string>('visitors');
+    console.log('Current visitor count:', countStr);
+
+    // Parse countStr to a number, or default to 0 if it doesn't exist
+    let count = countStr ? parseInt(countStr, 10) : 0;
 
     // Increment the visitor count
-    count = count + 1;
+    count += 1;
     console.log('Incremented visitor count:', count);
 
-    // Store the updated count
+    // Store the updated count as a string
     await kv.set('visitors', count.toString());
     console.log('Updated visitor count stored:', count);
 
