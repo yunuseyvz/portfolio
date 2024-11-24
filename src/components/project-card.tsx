@@ -10,6 +10,7 @@ import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 import Markdown from "react-markdown";
+import { useTheme } from "next-themes";
 
 interface Props {
   title: string;
@@ -19,6 +20,7 @@ interface Props {
   tags: readonly string[];
   link?: string;
   image?: string;
+  imageLight?: string;
   video?: string;
   links?: readonly {
     icon: React.ReactNode;
@@ -36,17 +38,19 @@ export function ProjectCard({
   tags,
   link,
   image,
+  imageLight,
   video,
   links,
   className,
 }: Props) {
+  const { theme } = useTheme();
+
   return (
     <Card
       className={
         "flex flex-col overflow-hidden border hover:shadow-lg transition-all duration-300 ease-out h-full card-hover-animation"
       }
     >
-
       {video && (
         <video
           src={video}
@@ -57,14 +61,24 @@ export function ProjectCard({
           className="pointer-events-none mx-auto h-40 w-full object-cover object-top" // needed because random black line at bottom of video
         />
       )}
-      {image && (
+      {(imageLight && theme === "light") ? (
         <Image
-          src={image}
+          src={imageLight}
           alt={title}
           width={500}
           height={300}
           className="h-40 w-full overflow-hidden object-cover object-top"
         />
+      ) : (
+        image && (
+          <Image
+            src={image}
+            alt={title}
+            width={500}
+            height={300}
+            className="h-40 w-full overflow-hidden object-cover object-top"
+          />
+        )
       )}
 
       <CardHeader className="px-2">

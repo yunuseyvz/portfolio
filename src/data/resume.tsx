@@ -123,6 +123,7 @@ export const DATA = {
         },
       ],
       image: "/dolphin.png",
+      imageLight: "/dolphin_light.png",
       video: "",
     },
     {
@@ -150,6 +151,7 @@ export const DATA = {
         },  
       ],
       image: "/saturnalia.png",
+      imageLight: "/saturnalia.png",
       video: "",
     },
     {
@@ -177,6 +179,7 @@ export const DATA = {
         },
       ],
       image: "/bachelor.png",
+      imageLight: "/bachelor.png",
       video:
         "",
     },
@@ -199,6 +202,7 @@ export const DATA = {
         },
       ],
       image: "/mememuc.png",
+      imageLight: "/mememuc.png",
       video:
         "",
     },
@@ -222,6 +226,7 @@ export const DATA = {
         },
       ],
       image: "/minigame.png",
+      imageLight: "/minigame.png",
       video:
         "",
     },
@@ -245,6 +250,7 @@ export const DATA = {
         },
       ],
       image: "/wecommuters.png",
+      imageLight: "/wecommuters.png",
       video: "",
     },
     {
@@ -266,6 +272,7 @@ export const DATA = {
         },
       ],
       image: "/walkietalkie.png",
+      imageLight: "/walkietalkie.png",
       video: "",
     },
     {
@@ -287,6 +294,7 @@ export const DATA = {
         },
       ],
       image: "/roborally.png",
+      imageLight: "/roborally.png",
       video:
         "",
     },

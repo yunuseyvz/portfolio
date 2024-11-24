@@ -6,7 +6,6 @@ import { DATA } from "@/data/resume";
 import { Link } from "lucide-react";
 import GitHubCalendar from 'react-github-calendar';
 
-
 const BLUR_FADE_DELAY = 0.04;
 
 export default function Projects() {
@@ -59,6 +58,7 @@ export default function Projects() {
                   dates={project.dates}
                   tags={project.technologies}
                   image={project.image}
+                  imageLight={project.imageLight}
                   video={project.video}
                   links={project.links}
                 />
