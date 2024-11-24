@@ -98,9 +98,9 @@ export const DATA = {
       start: "2019",
       end: "2024",
       description: "Thesis Topic: Evaluating the Effectiveness of Phishing Warnings in Email Clients",
-      thesis: "/bachelorthesis.pdf",
+      thesis: "https://raw.githubusercontent.com/yunuseyvz/Bachelorthesis_Phishing/refs/heads/main/thesis_files/final_thesis.pdf",
     },
-  ],
+  ], 
   projects: [
     {
       title: "Next.js Business Website",
@@ -174,7 +174,7 @@ export const DATA = {
         },
         {
           type: "Read",
-          href: "/bachelorthesis.pdf",
+          href: "https://raw.githubusercontent.com/yunuseyvz/Bachelorthesis_Phishing/refs/heads/main/thesis_files/final_thesis.pdf",
           icon: <BookIcon className="size-3" />,
         },
       ],
