@@ -11,7 +11,7 @@ export const DATA = {
     "Media Informatics student passionate about UX design, frontend development, and creating intuitive digital products.",
   summary:
     "My name is Yunus Emre Yavuz and I am a student mostly interested in UX Design and Research. Currently, I am studying Media Informatics, and starting soon, I will pursue my Master's degree in Human Computer Interaction.",
-  avatarUrl: "/me.png",
+  avatarUrl: "/me.jpg",
   skills: [
     "React",
     "Next.js",
