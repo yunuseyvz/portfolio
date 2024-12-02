@@ -32,7 +32,7 @@ export const DATA = {
     { href: "/blog", icon: NotebookIcon, label: "Blog" },
   ],
   contact: {
-    email: "me@yuemya.de",
+    email: "yunus@yuemya.de",
     tel: "+4917639642538",
     social: {
       GitHub: {
