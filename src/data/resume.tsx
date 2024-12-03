@@ -29,7 +29,6 @@ export const DATA = {
     { href: "/", icon: HomeIcon, label: "Home" },
     { href: "/projects", icon: CodeIcon, label: "Projects" },
     { href: "/contact", icon: MailIcon, label: "Contact" },
-    { href: "/blog", icon: NotebookIcon, label: "Blog" },
   ],
   contact: {
     email: "yunus@yuemya.de",

@@ -66,9 +66,6 @@ export default function RootLayout({
           fontSans.variable
         )}
       >
-        <Analytics />
-        <SpeedInsights />
-
         <ThemeProvider attribute="class" defaultTheme="dark">
           <div className="particles-container">
             <Particles />
