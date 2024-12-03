@@ -32,7 +32,7 @@ export const DATA = {
   ],
   contact: {
     email: "yunus@yuemya.de",
-    tel: "+4917639642538",
+    tel: "",
     social: {
       GitHub: {
         name: "GitHub",

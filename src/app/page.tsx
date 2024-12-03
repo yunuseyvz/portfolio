@@ -157,12 +157,19 @@ export default function Page() {
         </div>
       </section>
       <section id="visitors">
-        <div className="flex justify-center items-center">
+        <div className="flex justify-center items-center space-x-4">
           <BlurFade delay={BLUR_FADE_DELAY * 12}>
               <Badge variant="secondary" className="text-[12px] flex items-center space-x-2">
                 <span>Visitors: </span>
                 <NumberTicker value={visitorCount}/>
               </Badge>
+          </BlurFade>
+          <BlurFade delay={BLUR_FADE_DELAY * 12}>
+            <Link href="/impressum" passHref>
+              <Badge variant="secondary" className="text-[12px] flex items-center space-x-2">
+                <span>Impressum</span>
+              </Badge>
+            </Link>
           </BlurFade>
         </div>
       </section>
