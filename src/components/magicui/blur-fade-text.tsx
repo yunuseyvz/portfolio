@@ -17,6 +17,7 @@ interface BlurFadeTextProps {
   yOffset?: number;
   animateByCharacter?: boolean;
 }
+
 const BlurFadeText = ({
   text,
   className,
@@ -56,6 +57,9 @@ const BlurFadeText = ({
             </motion.span>
           ))}
         </AnimatePresence>
+        <noscript>
+          {text}
+        </noscript>
       </div>
     );
   }
@@ -78,6 +82,9 @@ const BlurFadeText = ({
           {text}
         </motion.span>
       </AnimatePresence>
+      <noscript>
+        {text}
+      </noscript>
     </div>
   );
 };

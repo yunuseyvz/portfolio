@@ -1,5 +1,3 @@
-"use client"; 
-
 import BlurFade from "@/components/magicui/blur-fade";
 import BlurFadeText from "@/components/magicui/blur-fade-text";
 import { ResumeCard } from "@/components/resume-card";
@@ -10,38 +8,12 @@ import Link from "next/link";
 import Markdown from "react-markdown";
 import { CoolMode } from "@/components/magicui/cool-mode";
 import { FaDownload } from 'react-icons/fa'
-import { useState, useEffect } from "react";
-import { useTheme } from "next-themes";
-import Particles from "@/components/magicui/particles";
-import NumberTicker from "@/components/magicui/number-ticker";
 
 const BLUR_FADE_DELAY = 0.04;
 
 export default function Page() {
-  const [visitorCount, setVisitorCount] = useState(0);
-
-  useEffect(() => {
-    if (process.env.NODE_ENV !== "development") {
-      const fetchVisitorCount = async () => {
-        try {
-          const response = await fetch("https://visit-counter.vercel.app/counter?page=yuemya.de");
-          const count = await response.text();
-          setVisitorCount(Number(count));
-          console.log("Visitor count:", count);
-        } catch (error) {
-          console.error("Failed to fetch visitor count:", error);
-        }
-      };
-      fetchVisitorCount();
-    } else {
-      setVisitorCount(0);
-      console.log("Visitor count not fetched in development mode.");
-    }
-  }, []);
-  
-
   return (
-    <main className="flex flex-col min-h-[100dvh] space-y-10 mb-16">     
+    <main className="flex flex-col min-h-[100dvh] space-y-10 mb-10">     
       <section id="hero">
         <div className="mx-auto w-full max-w-2xl space-y-8">
           <div className="gap-2 flex justify-between">
@@ -151,23 +123,6 @@ export default function Page() {
               <Badge variant="secondary" className="text-[12px] flex items-center space-x-2">
                 <FaDownload /> 
                 <span>Download CV</span>
-              </Badge>
-            </Link>
-          </BlurFade>
-        </div>
-      </section>
-      <section id="visitors">
-        <div className="flex justify-center items-center space-x-4">
-          <BlurFade delay={BLUR_FADE_DELAY * 12}>
-              <Badge variant="secondary" className="text-[12px] flex items-center space-x-2">
-                <span>Visitors: </span>
-                <NumberTicker value={visitorCount}/>
-              </Badge>
-          </BlurFade>
-          <BlurFade delay={BLUR_FADE_DELAY * 12}>
-            <Link href="/impressum" passHref>
-              <Badge variant="secondary" className="text-[12px] flex items-center space-x-2">
-                <span>Impressum</span>
               </Badge>
             </Link>
           </BlurFade>

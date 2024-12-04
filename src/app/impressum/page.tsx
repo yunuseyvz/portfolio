@@ -2,16 +2,7 @@
 
 import BlurFade from "@/components/magicui/blur-fade";
 import BlurFadeText from "@/components/magicui/blur-fade-text";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
-import Link from "next/link";
 import Markdown from "react-markdown";
-import { CoolMode } from "@/components/magicui/cool-mode";
-import { FaDownload } from 'react-icons/fa'
-import { useState, useEffect } from "react";
-import { useTheme } from "next-themes";
-import Particles from "@/components/magicui/particles";
-import NumberTicker from "@/components/magicui/number-ticker";
 
 const BLUR_FADE_DELAY = 0.04;
 
@@ -31,7 +22,7 @@ export default function Impressum() {
             <div className="flex-col flex flex-1 space-y-1.5">
               <BlurFadeText
                 delay={BLUR_FADE_DELAY}
-                className="text-3xl font-bold tracking-tighter sm:text-4xl xl:text-4xl/none"
+                className="text-3xl font-bold tracking-tighter sm:text-xl xl:text-4xl/none"
                 yOffset={8}
                 text="Impressum gemäß §5 TMG"
               />

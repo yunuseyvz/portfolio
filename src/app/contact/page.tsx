@@ -2,6 +2,7 @@ import BlurFade from "@/components/magicui/blur-fade";
 import { DATA } from "@/data/resume";
 import Link from "next/link";
 import { Icons } from "@/components/icons";
+import { Badge } from "@/components/ui/badge";
 
 const BLUR_FADE_DELAY = 0.04;
 
@@ -26,20 +27,29 @@ export default function Contact() {
               <div className="flex justify-center space-x-4">
                 {Object.values(social).map((socialItem, id) => (
                   <BlurFade
-                  key={socialItem.name}
-                  delay={BLUR_FADE_DELAY * 3 + id * 0.05}
-                >
-                  <Link key={socialItem.name} href={socialItem.url} className="social-icon">
-                    <socialItem.icon className="icon" />
-                  </Link>
-                </BlurFade>
+                    key={socialItem.name}
+                    delay={BLUR_FADE_DELAY * 3 + id * 0.05}
+                  >
+                    <Link key={socialItem.name} href={socialItem.url} className="social-icon">
+                      <socialItem.icon className="icon" />
+                    </Link>
+                  </BlurFade>
                 ))}
                 <BlurFade delay={BLUR_FADE_DELAY * 4}>
-                <a href={`mailto:${email}`} className="social-icon">
-                  <Icons.email className="icon" />
-                </a>
+                  <a href={`mailto:${email}`} className="social-icon">
+                    <Icons.email className="icon" />
+                  </a>
                 </BlurFade>
               </div>
+              <BlurFade delay={BLUR_FADE_DELAY * 5}>
+                <div className="flex justify-center mt-4">
+                  <Link href="/impressum" passHref>
+                    <Badge className="text-[12px] flex items-center space-x-2">
+                      <span>Impressum</span>
+                    </Badge>
+                  </Link>
+                </div>
+              </BlurFade>
             </div>
           </BlurFade>
         </div>
