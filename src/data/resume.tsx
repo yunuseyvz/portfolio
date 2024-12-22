@@ -113,6 +113,7 @@ export const DATA = {
         "Next.js",
         "Vercel",
         "Tailwind CSS",
+        "PostgreSQL",
       ],
       links: [
         {
@@ -135,7 +136,7 @@ export const DATA = {
       technologies: [
         "JavaScript",
         "React",
-        "Gameboard.io",
+        "Boardgame.io",
       ],
       links: [
         {
