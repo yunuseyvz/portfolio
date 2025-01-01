@@ -8,9 +8,9 @@ export const DATA = {
   location: "Munich, Germany",
   locationLink: "https://www.google.com/maps/place/munich",
   description:
-    "Media Informatics student passionate about UX design, frontend development, and creating intuitive digital products.",
+    "HCI student passionate about frontend development, UI design, and building seamless user experiences.",
   summary:
-    "My name is Yunus Emre Yavuz and I am a student mostly interested in UX Design and Research. Currently, I am studying Media Informatics, and starting soon, I will pursue my Master's degree in Human Computer Interaction.",
+   "My name is Yunus Emre Yavuz, and I am student with a strong focus on frontend development and UI design. Currently, I am pursuing a Master's degree in Human Computer Interaction at LMU Munich. Check out my projects and feel free to reach out!",
   avatarUrl: "/me.jpg",
   skills: [
     "React",
@@ -24,6 +24,7 @@ export const DATA = {
     "Python",
     "Java",
     "C++",
+    "PostgreSQL",
   ],
   navbar: [
     { href: "/", icon: HomeIcon, label: "Home" },
