@@ -1,5 +1,8 @@
 {
   "rewrites": [
-    { "source": "/game", "destination": "https://lastchicken-yunuseyvzs-projects.vercel.app" }
+    {
+      "source": "/game",
+      "destination": "https://lastchicken-yunuseyvzs-projects.vercel.app/"
+    }
   ]
 }
