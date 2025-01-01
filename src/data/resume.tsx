@@ -208,7 +208,7 @@ export const DATA = {
     },
     {
       title: "2D Sidescroller Minigame",
-      href: "https://lastchicken-yunuseyvzs-projects.vercel.app/",
+      href: "/game",
       dates: "2022",
       active: true,
       description:
@@ -221,7 +221,7 @@ export const DATA = {
       links: [
         {
           type: "Play",
-          href: "https://lastchicken-yunuseyvzs-projects.vercel.app/",
+          href: "/game",
           icon: <Icons.game className="size-3" />,
         },
       ],
