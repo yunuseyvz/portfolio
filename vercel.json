@@ -2,7 +2,15 @@
   "rewrites": [
     {
       "source": "/game",
-      "destination": "https://lastchicken-yunuseyvzs-projects.vercel.app/"
+      "destination": "https://lastchicken.vercel.app/"
+    },
+    {
+      "source": "/TemplateData/:path*",
+      "destination": "https://lastchicken.vercel.app/TemplateData/:path*"
+    },
+    {
+      "source": "/Build/:path*",
+      "destination": "https://lastchicken.vercel.app/Build/:path*"
     }
   ]
 }
