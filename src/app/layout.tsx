@@ -5,7 +5,7 @@ import { DATA } from "@/data/resume";
 import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
 import { Inter as FontSans } from "next/font/google";
-import Particles from "@/components/magicui/particles"; // Adjust the path as necessary
+import Particles from "@/components/magicui/particles";
 import "./globals.css";
 
 

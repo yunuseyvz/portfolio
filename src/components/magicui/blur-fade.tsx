@@ -1,7 +1,15 @@
 "use client";
 
-import { AnimatePresence, motion, useInView, Variants } from "framer-motion";
 import { useRef } from "react";
+import {
+  AnimatePresence,
+  motion,
+  useInView,
+  UseInViewOptions,
+  Variants,
+} from "framer-motion";
+
+type MarginType = UseInViewOptions["margin"];
 
 interface BlurFadeProps {
   children: React.ReactNode;
@@ -14,11 +22,11 @@ interface BlurFadeProps {
   delay?: number;
   yOffset?: number;
   inView?: boolean;
-  inViewMargin?: string;
+  inViewMargin?: MarginType;
   blur?: string;
 }
 
-const BlurFade = ({
+export default function BlurFade({
   children,
   className,
   variant,
@@ -28,42 +36,40 @@ const BlurFade = ({
   inView = false,
   inViewMargin = "-50px",
   blur = "6px",
-}: BlurFadeProps) => {
+}: BlurFadeProps) {
   const ref = useRef(null);
   const inViewResult = useInView(ref, { once: true, margin: inViewMargin });
   const isInView = !inView || inViewResult;
+
+  // Default visible variants for no-JS fallback
   const defaultVariants: Variants = {
     hidden: { y: yOffset, opacity: 0, filter: `blur(${blur})` },
-    visible: { y: -yOffset, opacity: 1, filter: `blur(0px)` },
+    visible: { y: 0, opacity: 1, filter: `blur(0px)` },
   };
+
   const combinedVariants = variant || defaultVariants;
 
   return (
-    <>
-      <AnimatePresence>
-        <motion.div
-          ref={ref}
-          initial="hidden"
-          animate={isInView ? "visible" : "hidden"}
-          exit="hidden"
-          variants={combinedVariants}
-          transition={{
-            delay: 0.04 + delay,
-            duration,
-            ease: "easeOut",
-          }}
-          className={className}
-        >
-          {children}
-        </motion.div>
-      </AnimatePresence>
-      <noscript>
-        <div className={className}>
-          {children}
-        </div>
-      </noscript>
-    </>
+    <AnimatePresence>
+      <motion.div
+        ref={ref}
+        initial={typeof window === "undefined" ? "visible" : "hidden"} // Server-Fallback: immer sichtbar
+        animate={isInView ? "visible" : "hidden"}
+        exit="hidden"
+        variants={combinedVariants}
+        transition={{
+          delay: 0.04 + delay,
+          duration,
+          ease: "easeOut",
+        }}
+        className={className}
+        style={{
+          opacity: typeof window === "undefined" ? 1 : undefined, // Fallback-Stil
+          filter: typeof window === "undefined" ? "blur(0px)" : undefined, // Fallback-Stil
+        }}
+      >
+        {children}
+      </motion.div>
+    </AnimatePresence>
   );
-};
-
-export default BlurFade;
+}
