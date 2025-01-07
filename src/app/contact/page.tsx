@@ -42,10 +42,15 @@ export default function Contact() {
                 </BlurFade>
               </div>
               <BlurFade delay={BLUR_FADE_DELAY * 5}>
-                <div className="flex justify-center mt-4">
+                <div className="w-3/4 grid grid-cols-2 gap-4 justify-center mt-4 mx-auto">
                   <Link href="/impressum" passHref>
-                    <Badge className="text-[12px] flex items-center space-x-2">
+                    <Badge className="text-[12px] flex items-center justify-center space-x-2">
                       <span>Impressum</span>
+                    </Badge>
+                  </Link>
+                  <Link href="/datenschutz" passHref>
+                    <Badge className="text-[12px] flex items-center justify-center space-x-2">
+                      <span>Datenschutz</span>
                     </Badge>
                   </Link>
                 </div>
