@@ -98,7 +98,7 @@ export const DATA = {
       start: "2019",
       end: "2024",
       description: "Thesis Topic: Evaluating the Effectiveness of Phishing Warnings in Email Clients",
-      thesis: "/bachelorthesis.pdf",
+      thesis: "/bachelorthesis",
     },
   ], 
   projects: [
