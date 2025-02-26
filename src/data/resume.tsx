@@ -103,6 +103,32 @@ export const DATA = {
   ], 
   projects: [
     {
+      title: "Information Visualization Project",
+      href: "https://www.infovis07.vercel.app/",
+      dates: "2025",
+      active: true,
+      description:
+      "For a university course, we developed an interactive information visualization project using Next.js. The project visualizes fitness data from our professor's Strava App.",
+      technologies: [
+        "TypeScript",
+        "Next.js",
+        "Vercel",
+        "Tailwind CSS",
+        "Recharts",
+        "Python",
+      ],
+      links: [
+        {
+          type: "View",
+          href: "https://infovis07.vercel.app/",
+          icon: <Icons.globe className="size-3" />,
+        },
+      ],
+      image: "/infovis.png",
+      imageLight: "/infovis_light.png",
+      video: "",
+    },
+    {
       title: "Next.js Business Website",
       href: "https://www.dolphinmarket.de/",
       dates: "2024",
@@ -165,6 +191,7 @@ export const DATA = {
       technologies: [
         "JavaScript",
         "HTML",
+        "User Studies",
         "Eye Tracking",
       ],
       links: [
@@ -175,7 +202,7 @@ export const DATA = {
         },
         {
           type: "Read",
-          href: "/bachelorthesis.pdf",
+          href: "/bachelorthesis",
           icon: <BookIcon className="size-3" />,
         },
       ],

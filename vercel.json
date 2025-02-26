@@ -11,6 +11,14 @@
     {
       "source": "/Build/:path*",
       "destination": "https://lastchicken.vercel.app/Build/:path*"
+    },
+    {
+      "source": "/cv",
+      "destination": "https://482vinrqhnhtlafe.public.blob.vercel-storage.com/portfolio/cv-ToneAfTtb0Fs2XOl8siQM8lJYlCcOs.pdf"
+    },
+    {
+      "source": "/bachelorthesis",
+      "destination": "https://482vinrqhnhtlafe.public.blob.vercel-storage.com/portfolio/bachelorthesis-6l8tvuSS0YkNXorjmkbF8quiugjLpI.pdf"
     }
   ]
 }

@@ -119,7 +119,7 @@ export default function Page() {
       <section id="cv">
         <div className="flex justify-center items-center">
           <BlurFade delay={BLUR_FADE_DELAY * 11}>
-            <Link href="/CV.pdf" passHref target="_blank">
+            <Link href="/cv" passHref target="_blank">
               <Badge variant="secondary" className="text-[12px] flex items-center space-x-2">
                 <FaDownload /> 
                 <span>Download CV</span>
