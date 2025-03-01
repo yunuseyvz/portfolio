@@ -1,6 +1,6 @@
 "use client"; 
 
-import BlurFade from "@/components/magicui/blur-fade";
+import BlurFade from "@/components/magicui/blur-fade-nojs";
 import BlurFadeText from "@/components/magicui/blur-fade-text";
 import Markdown from "react-markdown";
 

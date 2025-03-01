@@ -1,4 +1,4 @@
-import BlurFade from "@/components/magicui/blur-fade";
+import BlurFade from "@/components/magicui/blur-fade-nojs";
 import { DATA } from "@/data/resume";
 import Link from "next/link";
 import { Icons } from "@/components/icons";

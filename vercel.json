@@ -19,6 +19,10 @@
     {
       "source": "/bachelorthesis",
       "destination": "https://482vinrqhnhtlafe.public.blob.vercel-storage.com/portfolio/bachelorthesis-6l8tvuSS0YkNXorjmkbF8quiugjLpI.pdf"
+    },
+    {
+      "source": "/certificate-of-excellence",
+      "destination": "https://482vinrqhnhtlafe.public.blob.vercel-storage.com/portfolio/excellence-HfSaGvfqqb1rhWqnc1BLXNmjxOZZW8.jpg"
     }
   ]
 }

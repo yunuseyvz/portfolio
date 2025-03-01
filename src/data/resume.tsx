@@ -1,5 +1,5 @@
 import { Icons } from "@/components/icons";
-import { BookIcon, CodeIcon, HomeIcon, MailIcon, NotebookIcon } from "lucide-react";
+import { BookIcon, CodeIcon, HomeIcon, MailIcon, PartyPopper } from "lucide-react";
 
 export const DATA = {
   name: "Yunus Emre Yavuz",
@@ -127,6 +127,11 @@ export const DATA = {
           href: "https://infovis07.vercel.app/",
           icon: <Icons.globe className="size-3" />,
         },
+        {
+          type: "Certificate (yep, we got one)",
+          href: "/certificate-of-excellence",
+          icon: <PartyPopper className="size-3" />,
+        }
       ],
       image: "/infovis.png",
       imageLight: "/infovis_light.png",

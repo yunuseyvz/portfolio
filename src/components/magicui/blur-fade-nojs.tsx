@@ -53,7 +53,7 @@ export default function BlurFade({
     <AnimatePresence>
       <motion.div
         ref={ref}
-        initial="hidden"
+        initial={typeof window === "undefined" ? "visible" : "hidden"} // Server-Fallback: immer sichtbar
         animate={isInView ? "visible" : "hidden"}
         exit="hidden"
         variants={combinedVariants}
@@ -63,6 +63,10 @@ export default function BlurFade({
           ease: "easeOut",
         }}
         className={className}
+        style={{
+          opacity: typeof window === "undefined" ? 1 : undefined, // Fallback-Stil
+          filter: typeof window === "undefined" ? "blur(0px)" : undefined, // Fallback-Stil
+        }}
       >
         {children}
       </motion.div>
