@@ -50,7 +50,7 @@ export default function Projects() {
       content: (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           {projectsByYear[year].map((project, id) => (
-            <BlurFade key={project.title} delay={BLUR_FADE_DELAY * 12 + id * 0.05}>
+            <BlurFade key={project.title} delay={BLUR_FADE_DELAY * 4 + id * 0.05}>
               <ProjectCard
                 title={project.title}
                 description={project.description}

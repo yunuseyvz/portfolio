@@ -116,7 +116,7 @@ export const DATA = {
       technologies: [
         "TypeScript",
         "Next.js",
-        "Vercel",
+        "CI/CD",
         "Tailwind CSS",
         "Recharts",
         "Python",
@@ -143,13 +143,14 @@ export const DATA = {
       dates: "2024",
       active: true,
       description:
-        "For my family's small business, I designed and developed a modern website using Next.js, Tailwind CSS and Shadcn. The website showcases business information, services, and contact details. Check it out!",
+        "For my family's small business, I designed and developed a website using a modern stack. The website showcases business information, contact details and a dynamic news section.",
       technologies: [
         "TypeScript",
         "Next.js",
-        "Vercel",
+        "CI/CD",
         "Tailwind CSS",
         "PostgreSQL",
+        "NextAuth.js",
       ],
       links: [
         {
