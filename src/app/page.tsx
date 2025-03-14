@@ -68,7 +68,7 @@ export default function Page() {
                 altText={education.school}
                 title={education.school}
                 subtitle={education.degree}
-                period={`${education.start} - ${education.end}`}
+                period={education.period}
                 description={education.description}
                 thesis={education.thesis}
               />
@@ -94,7 +94,7 @@ export default function Page() {
                 subtitle={work.title}
                 href={work.href}
                 badges={work.badges}
-                period={`${work.start} - ${work.end ?? "Present"}`}
+                period={work.period}
                 description={work.description}
                 location={work.location}
               />
