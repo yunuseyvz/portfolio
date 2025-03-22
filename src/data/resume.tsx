@@ -64,8 +64,7 @@ export const DATA = {
       location: "Munich, Germany",
       title: "Working Student in IT Quality & IT Governance",
       logoUrl: "/mtu.svg",
-      start: "2022",
-      end: "2023",
+      period: "2022 - 2024",
       description:
         "Provided assistance in Software Asset Management by organizing, cataloging, and maintaining the company’s software inventory, including licenses, subscriptions, and usage data",
     },
@@ -76,8 +75,7 @@ export const DATA = {
       location: "Munich, Germany",
       title: "Working Student in Private Client Real Estate Financing",
       logoUrl: "/mhb.svg",
-      start: "2019",
-      end: "2020",
+      period: "2019 - 2020",
       description:
         "Reviewed documents, requested missing documentation, maintained data in SAP, and corresponded with customers, notaries, and banks.",
     },
@@ -88,8 +86,7 @@ export const DATA = {
       href: "https://lmu.de",
       degree: "Human Computer Interaction (M.Sc.)",
       logoUrl: "/lmu.svg",
-      start: "2025",
-      end: "2027",
+      period: "since 2024",
       description: "Pursuing a Master's degree in Human Computer Interaction.",
       thesis: "",
     },
@@ -98,8 +95,7 @@ export const DATA = {
       href: "https://lmu.de",
       degree: "Media Informatics (B.Sc.)",
       logoUrl: "/lmu.svg",
-      start: "2019",
-      end: "2024",
+      period: "2019 - 2024",
       description: "Thesis Topic: Evaluating the Effectiveness of Phishing Warnings in Email Clients",
       thesis: "/bachelorthesis",
     },
@@ -115,7 +111,7 @@ export const DATA = {
       technologies: [
         "TypeScript",
         "Next.js",
-        "Vercel",
+        "CI/CD",
         "Tailwind CSS",
         "Recharts",
         "Python",
@@ -142,13 +138,14 @@ export const DATA = {
       dates: "2024",
       active: true,
       description:
-        "For my family's small business, I designed and developed a modern website using Next.js, Tailwind CSS and Shadcn. The website showcases business information, services, and contact details. Check it out!",
+        "For my family's small business, I designed and developed a website using a modern stack. The website showcases business information, contact details and a dynamic news section.",
       technologies: [
         "TypeScript",
         "Next.js",
-        "Vercel",
+        "CI/CD",
         "Tailwind CSS",
         "PostgreSQL",
+        "NextAuth.js",
       ],
       links: [
         {
