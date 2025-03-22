@@ -102,7 +102,7 @@ export const ResumeCard = ({
               {description}
               {thesis && (
                 <div className="mt-2" suppressHydrationWarning>
-                  <Link href={thesis} passHref>
+                  <Link href={thesis} passHref prefetch={false}>
                     <Badge variant="secondary" className="text-[12px]">
                       Read Thesis
                     </Badge>
