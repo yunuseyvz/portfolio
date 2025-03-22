@@ -1,5 +1,5 @@
 import { Icons } from "@/components/icons";
-import { BookIcon, CodeIcon, HomeIcon, MailIcon, PartyPopper } from "lucide-react";
+import { BookIcon, CodeIcon, HomeIcon, MailIcon, PartyPopper, VenetianMask } from "lucide-react";
 
 export const DATA = {
   name: "Yunus Emre Yavuz",
@@ -34,6 +34,7 @@ export const DATA = {
     { href: "/", icon: HomeIcon, label: "Home" },
     { href: "/projects", icon: CodeIcon, label: "Projects" },
     { href: "/contact", icon: MailIcon, label: "Contact" },
+    { href: "/admin", icon: VenetianMask, label: "Secret Area" },
   ],
   contact: {
     email: "yunus@yuemya.de",
@@ -56,7 +57,6 @@ export const DATA = {
       },
     },
   },
-
   work: [
     {
       company: "MTU Aero Engines AG",
