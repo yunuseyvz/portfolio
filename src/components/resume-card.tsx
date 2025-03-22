@@ -44,12 +44,7 @@ export const ResumeCard = ({
   };
 
   return (
-    <Link
-      href={href || "#"}
-      className="block cursor-pointer"
-      onClick={handleClick}
-    >
-      <Card className="flex">
+      <Card className="flex hover:cursor-pointer" onClick={handleClick}>
         <div className="flex-none">
           <Avatar className="border size-12 m-auto bg-muted-background dark:bg-foreground">
             <AvatarImage
@@ -118,6 +113,5 @@ export const ResumeCard = ({
           )}
         </div>
       </Card>
-    </Link>
   );
 };
