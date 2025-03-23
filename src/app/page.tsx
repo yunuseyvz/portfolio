@@ -4,10 +4,9 @@ import { ResumeCard } from "@/components/resume-card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { DATA } from "@/data/resume";
-import Link from "next/link";
 import Markdown from "react-markdown";
 import { CoolMode } from "@/components/magicui/cool-mode";
-import { FaDownload } from 'react-icons/fa'
+import { GenerateCVButton } from "@/components/generate-cv-button";
 
 const BLUR_FADE_DELAY = 0.04;
 
@@ -119,12 +118,7 @@ export default function Page() {
       <section id="cv">
         <div className="flex justify-center items-center">
           <BlurFade delay={BLUR_FADE_DELAY * 11}>
-            <Link href="/api/generate-cv" passHref prefetch={false} target="_blank" rel="noopener noreferrer">
-              <Badge variant="secondary" className="text-[12px] flex items-center space-x-2 cursor-pointer">
-                <FaDownload /> 
-                <span>Generate CV</span>
-              </Badge>
-            </Link>
+            <GenerateCVButton />
           </BlurFade>
         </div>
       </section>
