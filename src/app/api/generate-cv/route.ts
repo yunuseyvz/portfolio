@@ -2,13 +2,10 @@ import { NextRequest, NextResponse } from 'next/server';
 
 /**
  * API route to compile LaTeX CV using latexonline.cc and a GitHub repository
- * @param req - The incoming request with optional parameters
- * @returns PDF data or error response
  */
 export async function GET(req: NextRequest) {
   try {
-
-    const latexOnlineUrl = 'https://latexonline.cc/compile?git=https://github.com/yunuseyvz/cv&target=tex/main.tex&command=pdflatex';
+    const latexOnlineUrl = 'https://latexonline.cc/compile?git=https://github.com/yunuseyvz/cv&target=tex/main.tex';
     
     const response = await fetch(latexOnlineUrl, {
       method: 'GET',

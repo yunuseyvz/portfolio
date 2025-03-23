@@ -119,10 +119,10 @@ export default function Page() {
       <section id="cv">
         <div className="flex justify-center items-center">
           <BlurFade delay={BLUR_FADE_DELAY * 11}>
-            <Link href="/cv" passHref prefetch={false}>
-              <Badge variant="secondary" className="text-[12px] flex items-center space-x-2">
+            <Link href="/api/generate-cv" passHref prefetch={false} target="_blank" rel="noopener noreferrer">
+              <Badge variant="secondary" className="text-[12px] flex items-center space-x-2 cursor-pointer">
                 <FaDownload /> 
-                <span>Download CV</span>
+                <span>Generate CV</span>
               </Badge>
             </Link>
           </BlurFade>
