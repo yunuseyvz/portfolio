@@ -3,6 +3,12 @@
 import { useState } from 'react';
 import { Badge } from "@/components/ui/badge";
 import { FaDownload } from 'react-icons/fa';
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+  } from "@/components/ui/tooltip";
 
 export const GenerateCVButton = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -39,22 +45,31 @@ export const GenerateCVButton = () => {
   };
 
   return (
-    <Badge 
-      variant="secondary" 
-      className="text-[12px] flex items-center space-x-2 cursor-pointer"
-      onClick={handleGenerateCV}
-    >
-      {isLoading ? (
-        <>
-          <div className="animate-spin h-3 w-3 border-2 border-current border-t-transparent rounded-full" />
-          <span>Generating CV...</span>
-        </>
-      ) : (
-        <>
-          <FaDownload /> 
-          <span>Generate CV</span>
-        </>
-      )}
-    </Badge>
+    <TooltipProvider>
+      <Tooltip delayDuration={0.5}>
+        <TooltipTrigger asChild>
+          <Badge 
+            variant="secondary" 
+            className="text-[12px] flex items-center space-x-2 cursor-pointer"
+            onClick={handleGenerateCV}
+          >
+            {isLoading ? (
+              <>
+                <div className="animate-spin h-3 w-3 border-2 border-current border-t-transparent rounded-full" />
+                <span className="hover:cursor-not-allowed">Generating CV...</span>
+              </>
+            ) : (
+              <>
+                <FaDownload /> 
+                <span>Generate CV</span>
+              </>
+            )}
+          </Badge>
+        </TooltipTrigger>
+        <TooltipContent>
+          <p>Compile my CV from LaTeX code</p>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
   );
 };
