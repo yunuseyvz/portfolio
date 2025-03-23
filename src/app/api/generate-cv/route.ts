@@ -28,7 +28,7 @@ export async function GET(req: NextRequest) {
       status: 200,
       headers: {
         'Content-Type': 'application/pdf',
-        'Content-Disposition': 'inline; filename="cv.pdf"', 
+        'Content-Disposition': 'inline; filename="yunus-cv.pdf"', 
       },
     });
   } catch (error) {

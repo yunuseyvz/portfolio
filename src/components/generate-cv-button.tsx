@@ -10,14 +10,22 @@ export const GenerateCVButton = () => {
   const handleGenerateCV = async () => {
     setIsLoading(true);
     try {
-
       const response = await fetch('/api/generate-cv');
       
       if (response.ok) {
-
         const blob = await response.blob();
-        const blobUrl = window.URL.createObjectURL(blob);
-        window.open(blobUrl, '_blank');
+        
+        const a = document.createElement('a');
+        const url = window.URL.createObjectURL(blob);
+
+        a.href = url;
+        a.download = 'yunus-cv.pdf';
+        a.target = '_blank';
+        
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
       } else {
         console.error('Failed to generate CV');
         alert('Failed to generate CV. Please try again later.');
