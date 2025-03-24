@@ -61,7 +61,7 @@ export const GenerateCVButton = () => {
             ) : (
               <>
                 <FaDownload /> 
-                <span>Generate CV</span>
+                <span>Download CV</span>
               </>
             )}
           </Badge>
