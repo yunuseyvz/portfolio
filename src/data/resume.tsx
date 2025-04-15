@@ -133,19 +133,20 @@ export const DATA = {
       video: "",
     },
     {
-      title: "Next.js Business Website",
+      title: "dolphinmarket.de",
       href: "https://www.dolphinmarket.de/",
-      dates: "2024",
+      dates: "2025",
       active: true,
       description:
-        "For my family's small business, I designed and developed a website using a modern stack. The website showcases business information, contact details and a dynamic news section.",
+        "A full stack web application for my family's business, developed using Next.js. The application includes information about the business and a click and collect system, which allows customers to order products online and pick them up in-store. For employees, a dashboard is available to manage orders and products.",
       technologies: [
         "TypeScript",
         "Next.js",
         "CI/CD",
         "Tailwind CSS",
         "PostgreSQL",
-        "NextAuth.js",
+        "Auth.js",
+        "Resend",
       ],
       links: [
         {
