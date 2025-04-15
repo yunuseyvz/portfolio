@@ -105,7 +105,7 @@ export const DATA = {
       title: "Information Visualization Project",
       href: "https://www.infovis07.vercel.app/",
       dates: "2025",
-      active: true,
+      active: false,
       description:
       "For a university course, we developed an interactive information visualization project using Next.js. The project visualizes fitness data from our professor's Strava App.",
       technologies: [
@@ -163,7 +163,7 @@ export const DATA = {
       title: "Saturnalia - A React Quiz Game",
       href: "https://saturnalia.onrender.com/",
       dates: "2024",
-      active: true,
+      active: false,
       description:
         "For a game night with friends, I developed a quiz and buzzer game using React. The game is forked from a popular open-source project and customized to fit our needs. Check it out!",
       technologies: [
@@ -191,7 +191,7 @@ export const DATA = {
       title: "Bachelor Thesis Project",
       href: "https://github.com/yunuseyvz/Bachelorthesis_Phishing",
       dates: "2024",
-      active: true,
+      active: false,
       description:
         "My bachelor’s thesis evaluated the effectiveness of different phishing warnings in email clients, using eye-tracking technology and feedback from participants.",
       technologies: [
@@ -220,7 +220,7 @@ export const DATA = {
     {
       title: "Meme Generator",
       dates: "2023",
-      active: true,
+      active: false,
       description:
         "As part of a course project, we developed a meme generator web application. I focused on frontend development using React, while the backend was built with Express.js.",
       technologies: [
@@ -244,7 +244,7 @@ export const DATA = {
       title: "2D Sidescroller Minigame",
       href: "/game",
       dates: "2022",
-      active: true,
+      active: false,
       description:
         "As part of a course project, we developed a small 2D sidescroller jump and run game using Unity.",
       technologies: [
@@ -268,7 +268,7 @@ export const DATA = {
       title: "Prototype: Car Pooling App",
       href: "https://www.figma.com/proto/Yeni4yv3NOmEcVuXCtPC9H/WeCommuters?node-id=6-2&starting-point-node-id=6%3A2&t=KQ80qou9GuY6kNgt-1",
       dates: "2021",
-      active: true,
+      active: false,
       description:
         "Our team designed a prototype for a car pooling app. Through extensive user research and brainstorming sessions, we developed an interactive prototype using Figma.",
       technologies: [
@@ -291,7 +291,7 @@ export const DATA = {
       title: "Prototype: Language Learning App",
       href: "https://www.figma.com/proto/LskgvLIixXjYt6MTnyXXt2/AppPrototype?node-id=18-3&t=68zkrRk3OH4btXYn-1&scaling=scale-down&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=18%3A3",
       dates: "2021",
-      active: true,
+      active: false,
       description:
         "A team project focused on practicing product prototyping through a mobile app for language learning.",
       technologies: [
@@ -312,7 +312,7 @@ export const DATA = {
     {
       title: "RoboRally - Digital Board Game",
       dates: "2021",
-      active: true,
+      active: false,
       description:
         "As part of my software development module, we developed a digital version of the board game 'RoboRally' using Java.",
       technologies: [

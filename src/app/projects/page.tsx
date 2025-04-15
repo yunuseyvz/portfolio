@@ -32,8 +32,10 @@ export default function Projects() {
     return sortOrder === "desc" ? yearB - yearA : yearA - yearB;
   });
 
-  // Group 
-  const projectsByYear = sortedProjects.reduce<Record<string, typeof sortedProjects>>((acc, project) => {
+  const ongoingProjects = sortedProjects.filter(project => project.active);
+  const completedProjects = sortedProjects.filter(project => !project.active);
+
+  const projectsByYear = completedProjects.reduce<Record<string, typeof sortedProjects>>((acc, project) => {
     const year = project.dates.split(" ")[0];
     if (!acc[year]) {
       acc[year] = [];
@@ -42,8 +44,8 @@ export default function Projects() {
     return acc;
   }, {});
 
-  // Timeline
-  const timelineData = Object.keys(projectsByYear)
+  // Timeline data for completed projects
+  const yearTimelineData = Object.keys(projectsByYear)
     .sort((a, b) => (sortOrder === "desc" ? parseInt(b) - parseInt(a) : parseInt(a) - parseInt(b)))
     .map((year) => ({
       title: year,
@@ -66,6 +68,33 @@ export default function Projects() {
         </div>
       ),
     }));
+
+  const timelineData = ongoingProjects.length > 0 
+    ? [
+        {
+          title: "Ongoing",
+          content: (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              {ongoingProjects.map((project, id) => (
+                <BlurFade key={project.title} delay={BLUR_FADE_DELAY * 4 + id * 0.05}>
+                  <ProjectCard
+                    title={project.title}
+                    description={project.description}
+                    dates={project.dates}
+                    tags={project.technologies}
+                    image={project.image}
+                    imageLight={project.imageLight}
+                    video={project.video}
+                    links={project.links}
+                  />
+                </BlurFade>
+              ))}
+            </div>
+          ),
+        },
+        ...yearTimelineData,
+      ]
+    : yearTimelineData;
 
   return (
     <main className="flex flex-col min-h-[100dvh] space-y-10 mb-16">
