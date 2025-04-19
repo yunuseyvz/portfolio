@@ -147,6 +147,7 @@ export const DATA = {
         "PostgreSQL",
         "Auth.js",
         "Resend",
+        "Web Push"
       ],
       links: [
         {
