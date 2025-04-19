@@ -1,12 +1,12 @@
 import { createClient } from "redis";
+import { DATA } from "@/data/resume";
 
 // Create Redis client
 const client = createClient({
   url: process.env.REDIS_URL || '',
 });
 
-// Connect to Redis (will be done on first use)
-const getRedisClient = async () => {
+export const getRedisClient = async () => {
   if (!client.isOpen) {
     await client.connect();
   }
@@ -32,36 +32,12 @@ export interface Project {
   links?: Array<{ href: string; type: string; icon?: any }>;
 }
 
-// Initialize projects from resume data (if needed)
-export async function initializeProjects() {
-  const redis = await getRedisClient();
-  
-  // Check if projects already exist
-  const existingProjects = await redis.get('projects')
-    .then(data => data ? JSON.parse(data) : null)
-    .catch(() => null);
-  
-  if (!existingProjects || existingProjects.length === 0) {
-    // We'll initialize with an empty array for now, 
-    // can import from resume data if needed
-    await redis.set('projects', JSON.stringify([]));
-    return [];
-  }
-  
-  return existingProjects;
-}
-
 // Get all projects
 export async function getProjects() {
   const redis = await getRedisClient();
   const projectsData = await redis.get('projects');
   
   let projects = projectsData ? JSON.parse(projectsData) : null;
-  
-  // Initialize if no projects exist
-  if (!projects || projects.length === 0) {
-    projects = await initializeProjects();
-  }
   
   return projects || [];
 }
