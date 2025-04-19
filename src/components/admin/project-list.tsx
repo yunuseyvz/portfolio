@@ -52,16 +52,13 @@ export default function ProjectList({ projects: initialProjects }: ProjectListPr
       <TableHeader>
         <TableRow>
           <TableHead>Title</TableHead>
-          <TableHead>Description</TableHead>
-          <TableHead>Featured</TableHead>
-          <TableHead>Tags</TableHead>
           <TableHead className="text-right">Actions</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
         {projects.length === 0 ? (
           <TableRow>
-            <TableCell colSpan={5} className="text-center py-4 text-muted-foreground">
+            <TableCell colSpan={3} className="text-center py-4 text-muted-foreground">
               No projects found. Add your first project!
             </TableCell>
           </TableRow>
@@ -69,25 +66,6 @@ export default function ProjectList({ projects: initialProjects }: ProjectListPr
           projects.map((project) => (
             <TableRow key={project.id}>
               <TableCell className="font-medium">{project.title}</TableCell>
-              <TableCell className="max-w-[300px] truncate">{project.description}</TableCell>
-              <TableCell>{project.featured ? 'Yes' : 'No'}</TableCell>
-              <TableCell>
-                <div className="flex flex-wrap gap-1">
-                  {(project.tags || []).slice(0, 3).map((tag) => (
-                    <span
-                      key={tag}
-                      className="rounded-full bg-gray-100 dark:bg-gray-800 px-2 py-0.5 text-xs"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                  {(project.tags || []).length > 3 && (
-                    <span className="text-xs text-muted-foreground">
-                      +{project.tags.length - 3} more
-                    </span>
-                  )}
-                </div>
-              </TableCell>
               <TableCell className="text-right space-x-2">
                 <Link href={`/admin/projects/${project.id}`}>
                   <Button variant="outline" size="sm">
