@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { ProjectLink } from "@/lib/db";
 import { Globe, Github, Video, Award, PartyPopper, ExternalLink, GamepadIcon, Figma, Book } from "lucide-react";
 import { JSX } from "react";
+import { motion } from "framer-motion";
 
 interface ProjectCardProps {
   title: string;
@@ -38,20 +39,20 @@ export function ProjectCard({
   const renderIcon = (iconName?: string | any) => {
     // For debugging
     if (!iconName || typeof iconName !== 'string') {
-      return <Globe className="size-3" />;
+      return <Globe className="size-4" />;
     }
     
     // Map of icon names to components
     const iconMap: Record<string, JSX.Element> = {
-      'globe': <Globe className="size-3" />,
-      'github': <Github className="size-3" />,
-      'video': <Video className="size-3" />,
-      'award': <Award className="size-3" />,
-      'partypopper': <PartyPopper className="size-3" />,
-      'externallink': <ExternalLink className="size-3" />,
-      'gamepad': <GamepadIcon className="size-3" />,
-      'figma': <Figma className="size-3" />,
-      'book': <Book className="size-3" />,
+      'globe': <Globe className="size-4" />,
+      'github': <Github className="size-4" />,
+      'video': <Video className="size-4" />,
+      'award': <Award className="size-4" />,
+      'partypopper': <PartyPopper className="size-4" />,
+      'externallink': <ExternalLink className="size-4" />,
+      'gamepad': <GamepadIcon className="size-4" />,
+      'figma': <Figma className="size-4" />,
+      'book': <Book className="size-4" />,
     };
     
     try {
@@ -68,12 +69,23 @@ export function ProjectCard({
   const hasLinks = link || (links && links.length > 0 && links.some(l => l.href));
 
   return (
-    <div
+    <motion.div
       className={cn(
-        "flex flex-col overflow-hidden border rounded-lg hover:shadow-lg transition-all duration-300 ease-out h-full card-hover-animation relative",
+        "flex flex-col overflow-hidden border rounded-lg hover:shadow-lg transition-all duration-300 ease-out h-full relative",
         "backdrop-blur-xl bg-white/30 dark:bg-black/30",
         className
       )}
+      whileHover={{ 
+        scale: 1.03,
+        y: -5,
+        transition: { 
+          type: "spring", 
+          stiffness: 400, 
+          damping: 10,
+          bounce: 0.5
+        }
+      }}
+      initial={{ scale: 1 }}
     >    
       {image && (
         <div className="relative overflow-hidden w-full h-42 rounded-t-lg">
@@ -121,18 +133,7 @@ export function ProjectCard({
       {/* Links Section - Always maintain consistent padding */}
       <div className="p-5 pt-0 relative z-10">
         {hasLinks && (
-          <div className="flex flex-wrap gap-2 mt-1">
-            {/* If there's a primary link, add it first */}
-            {link && (
-              <Link href={link} target="_blank" rel="noopener noreferrer">
-                <Badge variant="outline" className="flex gap-2 px-2.5 py-1 text-[11px] rounded-md">
-                  <Globe className="size-3" />
-                  View Project
-                </Badge>
-              </Link>
-            )}
-            
-            {/* Additional custom links */}
+          <div className="flex flex-wrap gap-2 mt-1">   
             {links?.map((customLink, idx) => 
               customLink.href && (
                 <Link 
@@ -143,7 +144,7 @@ export function ProjectCard({
                 >
                   <Badge 
                     variant="outline" 
-                    className="flex gap-2 px-2.5 py-1 text-[11px] rounded-md"
+                    className="bg-black text-white dark:bg-white dark:text-black flex gap-2 px-2.5 py-1 text-[11px] rounded-md"
                   >
                     {renderIcon(customLink.icon)}
                     {customLink.type}
@@ -155,6 +156,6 @@ export function ProjectCard({
         )}
         {!hasLinks && <div className="h-1"></div>}
       </div>
-    </div>
+    </motion.div>
   );
 }
