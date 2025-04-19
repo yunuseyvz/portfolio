@@ -13,6 +13,13 @@ export const getRedisClient = async () => {
   return client;
 };
 
+// Link interface for project links
+export interface ProjectLink {
+  type: string;
+  href: string;
+  icon?: string; // Optional icon for the link
+}
+
 // Project type definition
 export interface Project {
   id: string;
@@ -29,7 +36,7 @@ export interface Project {
   dates: string;
   active?: boolean;
   technologies?: string[];
-  links?: Array<{ href: string; type: string; icon?: any }>;
+  links?: ProjectLink[];
 }
 
 // Get all projects

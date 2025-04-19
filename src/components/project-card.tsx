@@ -1,32 +1,22 @@
-import { Badge } from "@/components/ui/badge";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { cn } from "@/lib/utils";
-import Image from "next/image";
 import Link from "next/link";
-import Markdown from "react-markdown";
-import { useTheme } from "next-themes";
+import Image from "next/image";
+import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
+import { ProjectLink } from "@/lib/db";
+import { Globe, Github, Video, Award, PartyPopper, ExternalLink } from "lucide-react";
+import { JSX } from "react";
 
-interface Props {
+interface ProjectCardProps {
   title: string;
   href?: string;
   description: string;
   dates: string;
-  tags: readonly string[];
+  tags?: string[];
   link?: string;
   image?: string;
   imageLight?: string;
   video?: string;
-  links?: readonly {
-    icon: React.ReactNode;
-    type: string;
-    href: string;
-  }[];
+  links?: ProjectLink[];
   className?: string;
 }
 
@@ -42,14 +32,43 @@ export function ProjectCard({
   video,
   links,
   className,
-}: Props) {
-  const { theme } = useTheme();
+}: ProjectCardProps) {
+  
+  // Function to render the appropriate icon based on the icon name
+  const renderIcon = (iconName?: string | any) => {
+    // For debugging
+    if (!iconName || typeof iconName !== 'string') {
+      return <Globe className="size-3" />;
+    }
+    
+    // Map of icon names to components - accommodate different naming conventions
+    const iconMap: Record<string, JSX.Element> = {
+      'globe': <Globe className="size-3" />,
+      'github': <Github className="size-3" />,
+      'video': <Video className="size-3" />,
+      'award': <Award className="size-3" />,
+      'partypopper': <PartyPopper className="size-3" />,
+      'partyPopper': <PartyPopper className="size-3" />,
+      'externallink': <ExternalLink className="size-3" />,
+      'externalLink': <ExternalLink className="size-3" />
+    };
+    
+    try {
+      // Safe way to access the icon with type checking
+      const iconKey = typeof iconName === 'string' ? iconName.toLowerCase() : '';
+      return iconMap[iconKey] || <Globe className="size-3" />;
+    } catch (error) {
+      // Fallback to default if any error occurs
+      return <Globe className="size-3" />;
+    }
+  };
 
   return (
-    <Card
-      className={
-        "flex flex-col overflow-hidden border hover:shadow-lg transition-all duration-300 ease-out h-full card-hover-animation"
-      }
+    <div
+      className={cn(
+        "flex flex-col overflow-hidden border hover:shadow-lg transition-all duration-300 ease-out h-full card-hover-animation",
+        className
+      )}
     >
       {video && (
         <video
@@ -58,72 +77,85 @@ export function ProjectCard({
           loop
           muted
           playsInline
-          className="pointer-events-none mx-auto h-40 w-full object-cover object-top" // needed because random black line at bottom of video
+          className="pointer-events-none mx-auto h-40 w-full object-cover object-top"
         />
       )}
-      {(imageLight && theme === "light") ? (
-        <Image
-          src={imageLight}
-          alt={title}
-          width={500}
-          height={300}
-          className="h-40 w-full overflow-hidden object-cover object-top"
-        />
-      ) : (
-        image && (
+      
+      {image && (
+        <div className="relative overflow-hidden w-full h-48">
           <Image
             src={image}
             alt={title}
             width={500}
             height={300}
-            className="h-40 w-full overflow-hidden object-cover object-top"
+            className="object-cover w-full h-full dark:block hidden"
           />
-        )
+          <Image
+            src={imageLight || image}
+            alt={title}
+            width={500}
+            height={300}
+            className="object-cover w-full h-full dark:hidden block"
+          />
+        </div>
       )}
 
-      <CardHeader className="px-2">
+      <div className="flex flex-col flex-grow p-4">
         <div className="space-y-1">
-          <CardTitle className="mt-1 text-base">{title}</CardTitle>
-          <time className="font-sans text-xs">{dates}</time>
-          <div className="hidden font-sans text-xs underline print:visible">
-            {link?.replace("https://", "").replace("www.", "").replace("/", "")}
-          </div>
-          <Markdown className="prose max-w-full text-pretty font-sans text-xs text-muted-foreground dark:prose-invert">
+          <h3 className="mt-1 text-base">{title}</h3>
+          <div className="font-sans text-xs">{dates}</div>
+          <p className="prose max-w-full text-pretty font-sans text-xs text-muted-foreground dark:prose-invert">
             {description}
-          </Markdown>
+          </p>
         </div>
-      </CardHeader>
-      <CardContent className="mt-auto flex flex-col px-2">
-        {tags && tags.length > 0 && (
-          <div className="mt-2 flex flex-wrap gap-1">
-            {tags?.map((tag) => (
-              <Badge
-                className="px-1 py-0 text-[10px]"
-                variant="secondary"
-                key={tag}
-              >
-                {tag}
-              </Badge>
-            ))}
-          </div>
-        )}
-      </CardContent>
-      <CardFooter className="px-2 pb-2">
-        {links && links.length > 0 && (
-          <div className="flex flex-row flex-wrap items-start gap-1">
-            {links?.map((link, idx) => (
-              link?.href && (
-                <Link href={link.href} key={idx} target="_blank" prefetch={false}>
-                  <Badge key={idx} className="flex gap-2 px-2 py-1 text-[10px]">
-                    {link.icon}
-                    {link.type}
+      </div>
+
+      <div className="p-4 border-t bg-muted/30 dark:bg-muted/10">
+        <div className="flex flex-wrap gap-2">
+          {tags?.map((tag) => (
+            <Badge key={tag} variant="secondary" className="px-1 py-0 text-[10px]">
+              {tag}
+            </Badge>
+          ))}
+        </div>
+      </div>
+
+      {/* Links Section */}
+      <div className="p-4 pt-0">
+        {(links?.length > 0 || link) && (
+          <div className="flex flex-wrap gap-2 mt-2">
+            {/* If there's a primary link, add it first */}
+            {link && (
+              <Link href={link} target="_blank" rel="noopener noreferrer">
+                <Badge variant="outline" className="flex gap-2 px-2 py-1 text-[10px]">
+                  <Globe className="size-3" />
+                  View Project
+                </Badge>
+              </Link>
+            )}
+            
+            {/* Additional custom links */}
+            {links?.map((customLink, idx) => 
+              customLink.href && (
+                <Link 
+                  key={idx} 
+                  href={customLink.href} 
+                  target="_blank"  
+                  rel="noopener noreferrer"
+                >
+                  <Badge 
+                    variant="outline" 
+                    className="flex gap-2 px-2 py-1 text-[10px]"
+                  >
+                    {renderIcon(customLink.icon)}
+                    {customLink.type}
                   </Badge>
                 </Link>
               )
-            ))}
+            )}
           </div>
         )}
-      </CardFooter>
-    </Card>
+      </div>
+    </div>
   );
 }

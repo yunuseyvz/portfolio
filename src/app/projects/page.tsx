@@ -1,28 +1,52 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { MdArrowDownward, MdArrowUpward, MdDelete } from "react-icons/md";
 import BlurFade from "@/components/magicui/blur-fade";
 import { ProjectCard } from "@/components/project-card";
 import { DATA } from "@/data/resume";
+import { Project } from "@/lib/db";
 import GitHubCalendar from 'react-github-calendar';
 import { Timeline } from "@/components/ui/timeline";
 import { Input } from "@/components/ui/input";
-
 
 const BLUR_FADE_DELAY = 0.04;
 
 export default function Projects() {
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
   const [filterText, setFilterText] = useState("");
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Fetch projects from Redis database
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        const response = await fetch('/api/projects');
+        if (response.ok) {
+          const data = await response.json();
+          setProjects(data);
+        } else {
+          console.error('Failed to fetch projects');
+        }
+      } catch (error) {
+        console.error('Error fetching projects:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchProjects();
+  }, []);
 
   // Filter
-  const filteredProjects = DATA.projects.filter(project => {
+  const filteredProjects = projects.filter(project => {
     const searchTerm = filterText.toLowerCase();
     return (
       project.title.toLowerCase().includes(searchTerm) ||
       project.description.toLowerCase().includes(searchTerm) ||
-      project.technologies.some((tag) => tag.toLowerCase().includes(searchTerm))
+      project.tags?.some((tag) => tag.toLowerCase().includes(searchTerm)) ||
+      project.technologies?.some((tag) => tag.toLowerCase().includes(searchTerm))
     );
   });
 
@@ -52,12 +76,12 @@ export default function Projects() {
       content: (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           {projectsByYear[year].map((project, id) => (
-            <BlurFade key={project.title} delay={BLUR_FADE_DELAY * 4 + id * 0.05}>
+            <BlurFade key={project.id || project.title} delay={BLUR_FADE_DELAY * 4 + id * 0.05}>
               <ProjectCard
                 title={project.title}
                 description={project.description}
                 dates={project.dates}
-                tags={project.technologies}
+                tags={project.tags || project.technologies}
                 image={project.image}
                 imageLight={project.imageLight}
                 video={project.video}
@@ -76,12 +100,12 @@ export default function Projects() {
           content: (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               {ongoingProjects.map((project, id) => (
-                <BlurFade key={project.title} delay={BLUR_FADE_DELAY * 4 + id * 0.05}>
+                <BlurFade key={project.id || project.title} delay={BLUR_FADE_DELAY * 4 + id * 0.05}>
                   <ProjectCard
                     title={project.title}
                     description={project.description}
                     dates={project.dates}
-                    tags={project.technologies}
+                    tags={project.tags || project.technologies}
                     image={project.image}
                     imageLight={project.imageLight}
                     video={project.video}
@@ -150,7 +174,11 @@ export default function Projects() {
             </div>
           </BlurFade>
           <BlurFade delay={BLUR_FADE_DELAY}>
-            {filterText && sortedProjects.length === 0 ? (
+            {isLoading ? (
+              <div className="p-6 rounded-lg text-center text-sm text-gray-700 dark:text-gray-500">
+                Loading projects...
+              </div>
+            ) : filterText && sortedProjects.length === 0 ? (
               <div className="p-6 rounded-lg text-center text-sm text-gray-700 dark:text-gray-500">
                 No projects match your search.
               </div>
