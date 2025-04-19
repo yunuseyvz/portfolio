@@ -41,16 +41,14 @@ export function ProjectCard({
       return <Globe className="size-3" />;
     }
     
-    // Map of icon names to components - accommodate different naming conventions
+    // Map of icon names to components
     const iconMap: Record<string, JSX.Element> = {
       'globe': <Globe className="size-3" />,
       'github': <Github className="size-3" />,
       'video': <Video className="size-3" />,
       'award': <Award className="size-3" />,
       'partypopper': <PartyPopper className="size-3" />,
-      'partyPopper': <PartyPopper className="size-3" />,
       'externallink': <ExternalLink className="size-3" />,
-      'externalLink': <ExternalLink className="size-3" />
     };
     
     try {
@@ -63,10 +61,13 @@ export function ProjectCard({
     }
   };
 
+  // Check if project has any links to display
+  const hasLinks = link || (links && links.length > 0 && links.some(l => l.href));
+
   return (
     <div
       className={cn(
-        "flex flex-col overflow-hidden border hover:shadow-lg transition-all duration-300 ease-out h-full card-hover-animation",
+        "flex flex-col overflow-hidden border rounded-lg hover:shadow-lg transition-all duration-300 ease-out h-full card-hover-animation",
         className
       )}
     >
@@ -82,7 +83,7 @@ export function ProjectCard({
       )}
       
       {image && (
-        <div className="relative overflow-hidden w-full h-48">
+        <div className="relative overflow-hidden w-full h-48 rounded-t-lg">
           <Image
             src={image}
             alt={title}
@@ -100,34 +101,38 @@ export function ProjectCard({
         </div>
       )}
 
-      <div className="flex flex-col flex-grow p-4">
-        <div className="space-y-1">
-          <h3 className="mt-1 text-base">{title}</h3>
-          <div className="font-sans text-xs">{dates}</div>
+      {/* Title and Description Section */}
+      <div className="flex flex-col flex-grow p-5">
+        <div className="space-y-2">
+          <h3 className="font-medium text-base">{title}</h3>
+          <div className="font-sans text-xs text-muted-foreground">{dates}</div>
           <p className="prose max-w-full text-pretty font-sans text-xs text-muted-foreground dark:prose-invert">
             {description}
           </p>
         </div>
       </div>
 
-      <div className="p-4 border-t bg-muted/30 dark:bg-muted/10">
-        <div className="flex flex-wrap gap-2">
-          {tags?.map((tag) => (
-            <Badge key={tag} variant="secondary" className="px-1 py-0 text-[10px]">
-              {tag}
-            </Badge>
-          ))}
+      {/* Tags Section */}
+      {tags && tags.length > 0 && (
+        <div className="p-5 pt-0 pb-3">
+          <div className="flex flex-wrap gap-2">
+            {tags.map((tag) => (
+              <Badge key={tag} variant="secondary" className="px-1.5 py-0.5 text-[10px] rounded-md">
+                {tag}
+              </Badge>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
 
-      {/* Links Section */}
-      <div className="p-4 pt-0">
-        {(links?.length > 0 || link) && (
-          <div className="flex flex-wrap gap-2 mt-2">
+      {/* Links Section - Only shown if there are links */}
+      {hasLinks && (
+        <div className="p-5 pt-0">
+          <div className="flex flex-wrap gap-2 mt-1">
             {/* If there's a primary link, add it first */}
             {link && (
               <Link href={link} target="_blank" rel="noopener noreferrer">
-                <Badge variant="outline" className="flex gap-2 px-2 py-1 text-[10px]">
+                <Badge variant="outline" className="flex gap-2 px-2.5 py-1 text-[10px] rounded-md">
                   <Globe className="size-3" />
                   View Project
                 </Badge>
@@ -145,7 +150,7 @@ export function ProjectCard({
                 >
                   <Badge 
                     variant="outline" 
-                    className="flex gap-2 px-2 py-1 text-[10px]"
+                    className="flex gap-2 px-2.5 py-1 text-[10px] rounded-md"
                   >
                     {renderIcon(customLink.icon)}
                     {customLink.type}
@@ -154,8 +159,8 @@ export function ProjectCard({
               )
             )}
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 }
