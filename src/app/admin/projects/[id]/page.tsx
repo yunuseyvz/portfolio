@@ -10,8 +10,11 @@ interface EditProjectPageProps {
   };
 }
 
-export default async function EditProjectPage({ params }: EditProjectPageProps) {
-  const project = await getProject(params.id);
+export default async function EditProjectPage({ 
+  params 
+}: EditProjectPageProps) {
+  const { id } = params;
+  const project = await getProject(id);
 
   if (!project) {
     return notFound();
