@@ -3,7 +3,7 @@ import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { ProjectLink } from "@/lib/db";
-import { Globe, Github, Video, Award, PartyPopper, ExternalLink } from "lucide-react";
+import { Globe, Github, Video, Award, PartyPopper, ExternalLink, GamepadIcon, Figma, Book } from "lucide-react";
 import { JSX } from "react";
 
 interface ProjectCardProps {
@@ -49,6 +49,9 @@ export function ProjectCard({
       'award': <Award className="size-3" />,
       'partypopper': <PartyPopper className="size-3" />,
       'externallink': <ExternalLink className="size-3" />,
+      'gamepad': <GamepadIcon className="size-3" />,
+      'figma': <Figma className="size-3" />,
+      'book': <Book className="size-3" />,
     };
     
     try {
@@ -67,23 +70,13 @@ export function ProjectCard({
   return (
     <div
       className={cn(
-        "flex flex-col overflow-hidden border rounded-lg hover:shadow-lg transition-all duration-300 ease-out h-full card-hover-animation",
+        "flex flex-col overflow-hidden border rounded-lg hover:shadow-lg transition-all duration-300 ease-out h-full card-hover-animation relative",
+        "backdrop-blur-xl bg-white/30 dark:bg-black/30",
         className
       )}
-    >
-      {video && (
-        <video
-          src={video}
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="pointer-events-none mx-auto h-40 w-full object-cover object-top"
-        />
-      )}
-      
+    >    
       {image && (
-        <div className="relative overflow-hidden w-full h-48 rounded-t-lg">
+        <div className="relative overflow-hidden w-full h-42 rounded-t-lg">
           <Image
             src={image}
             alt={title}
@@ -102,7 +95,7 @@ export function ProjectCard({
       )}
 
       {/* Title and Description Section */}
-      <div className="flex flex-col flex-grow p-5">
+      <div className="flex flex-col flex-grow p-5 relative z-10">
         <div className="space-y-2">
           <h3 className="font-medium text-base">{title}</h3>
           <div className="font-sans text-xs text-muted-foreground">{dates}</div>
@@ -114,10 +107,10 @@ export function ProjectCard({
 
       {/* Tags Section */}
       {tags && tags.length > 0 && (
-        <div className="p-5 pt-0 pb-3">
+        <div className="p-5 pt-0 pb-3 relative z-10">
           <div className="flex flex-wrap gap-2">
             {tags.map((tag) => (
-              <Badge key={tag} variant="secondary" className="px-1.5 py-0.5 text-[10px] rounded-md">
+              <Badge key={tag} variant="secondary" className="px-1.5 py-0.5 text-[11px] rounded-md">
                 {tag}
               </Badge>
             ))}
@@ -125,14 +118,14 @@ export function ProjectCard({
         </div>
       )}
 
-      {/* Links Section - Only shown if there are links */}
-      {hasLinks && (
-        <div className="p-5 pt-0">
+      {/* Links Section - Always maintain consistent padding */}
+      <div className="p-5 pt-0 relative z-10">
+        {hasLinks && (
           <div className="flex flex-wrap gap-2 mt-1">
             {/* If there's a primary link, add it first */}
             {link && (
               <Link href={link} target="_blank" rel="noopener noreferrer">
-                <Badge variant="outline" className="flex gap-2 px-2.5 py-1 text-[10px] rounded-md">
+                <Badge variant="outline" className="flex gap-2 px-2.5 py-1 text-[11px] rounded-md">
                   <Globe className="size-3" />
                   View Project
                 </Badge>
@@ -150,7 +143,7 @@ export function ProjectCard({
                 >
                   <Badge 
                     variant="outline" 
-                    className="flex gap-2 px-2.5 py-1 text-[10px] rounded-md"
+                    className="flex gap-2 px-2.5 py-1 text-[11px] rounded-md"
                   >
                     {renderIcon(customLink.icon)}
                     {customLink.type}
@@ -159,8 +152,9 @@ export function ProjectCard({
               )
             )}
           </div>
-        </div>
-      )}
+        )}
+        {!hasLinks && <div className="h-1"></div>}
+      </div>
     </div>
   );
 }

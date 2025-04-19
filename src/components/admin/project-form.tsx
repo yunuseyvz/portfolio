@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Project, ProjectLink } from '@/lib/db';
 import { Button } from '@/components/ui/button';
@@ -8,20 +8,45 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
-import { X, Plus, Globe, Github, Video, Award, PartyPopper, ExternalLink } from 'lucide-react';
+import { X, Plus, Globe, Github, Video, Award, PartyPopper, ExternalLink, GamepadIcon, Figma, Book } from 'lucide-react';
 
 interface ProjectFormProps {
   project?: Project;
 }
 
 const ICON_OPTIONS = [
-  { value: 'globe', label: 'Globe', icon: <Globe className="h-4 w-4" /> },
-  { value: 'github', label: 'GitHub', icon: <Github className="h-4 w-4" /> },
-  { value: 'video', label: 'Video', icon: <Video className="h-4 w-4" /> },
-  { value: 'award', label: 'Award', icon: <Award className="h-4 w-4" /> },
-  { value: 'partyPopper', label: 'Party Popper', icon: <PartyPopper className="h-4 w-4" /> },
-  { value: 'externalLink', label: 'External Link', icon: <ExternalLink className="h-4 w-4" /> },
+  { value: 'globe', label: 'Globe', icon: <Globe className="h-5 w-5" /> },
+  { value: 'github', label: 'GitHub', icon: <Github className="h-5 w-5" /> },
+  { value: 'video', label: 'Video', icon: <Video className="h-5 w-5" /> },
+  { value: 'award', label: 'Award', icon: <Award className="h-5 w-5" /> },
+  { value: 'partyPopper', label: 'Party', icon: <PartyPopper className="h-5 w-5" /> },
+  { value: 'externalLink', label: 'Link', icon: <ExternalLink className="h-5 w-5" /> },
+  { value: 'gamepad', label: 'Gamepad', icon: <GamepadIcon className="h-5 w-5" /> },
+  { value: 'figma', label: 'Figma', icon: <Figma className="h-5 w-5" /> },
+  { value: 'book', label: 'Book', icon: <Book className="h-5 w-5" /> },
 ];
+
+function IconSelector({ selectedIcon, onChange }: { selectedIcon: string, onChange: (value: string) => void }) {
+  return (
+    <div className="flex flex-wrap gap-2">
+      {ICON_OPTIONS.map((option) => (
+        <button
+          key={option.value}
+          type="button"
+          className={`h-10 w-10 rounded-md flex items-center justify-center transition-colors border ${
+            selectedIcon === option.value 
+              ? 'bg-primary/20 border-primary/50' 
+              : 'hover:bg-accent border-muted-foreground/20'
+          }`}
+          onClick={() => onChange(option.value)}
+          title={option.label}
+        >
+          {option.icon}
+        </button>
+      ))}
+    </div>
+  );
+}
 
 export default function ProjectForm({ project }: ProjectFormProps) {
   const isEditing = !!project;
@@ -110,10 +135,6 @@ export default function ProjectForm({ project }: ProjectFormProps) {
     }
   };
 
-  const getIconByName = (iconName: string) => {
-    return ICON_OPTIONS.find(option => option.value === iconName)?.icon || ICON_OPTIONS[0].icon;
-  };
-
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <div className="space-y-4">
@@ -151,32 +172,6 @@ export default function ProjectForm({ project }: ProjectFormProps) {
             required
             className="h-24"
           />
-        </div>
-
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-          <div>
-            <Label htmlFor="link">Primary Project URL</Label>
-            <Input
-              id="link"
-              name="link"
-              value={formData.link}
-              onChange={handleChange}
-              type="url"
-              placeholder="https://..."
-            />
-          </div>
-
-          <div>
-            <Label htmlFor="github">GitHub URL</Label>
-            <Input
-              id="github"
-              name="github"
-              value={formData.github}
-              onChange={handleChange}
-              type="url"
-              placeholder="https://github.com/..."
-            />
-          </div>
         </div>
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -220,15 +215,6 @@ export default function ProjectForm({ project }: ProjectFormProps) {
         <div className="flex items-center space-x-8">
           <div className="flex items-center space-x-2">
             <Checkbox 
-              id="featured" 
-              checked={formData.featured}
-              onCheckedChange={(checked) => handleCheckboxChange('featured', !!checked)} 
-            />
-            <Label htmlFor="featured">Featured Project</Label>
-          </div>
-
-          <div className="flex items-center space-x-2">
-            <Checkbox 
               id="active" 
               checked={formData.active}
               onCheckedChange={(checked) => handleCheckboxChange('active', !!checked)} 
@@ -239,7 +225,7 @@ export default function ProjectForm({ project }: ProjectFormProps) {
 
         <div className="space-y-3">
           <div className="flex justify-between items-center">
-            <Label>Additional Links</Label>
+            <Label>Links</Label>
             <Button 
               type="button" 
               size="sm"
@@ -257,53 +243,53 @@ export default function ProjectForm({ project }: ProjectFormProps) {
           )}
 
           {links.map((link, index) => (
-            <div key={index} className="flex items-center gap-3 p-3 border rounded-md bg-background">
-              <div className="flex-grow grid grid-cols-3 gap-2">
+            <div key={index} className="flex flex-col border rounded-md bg-background overflow-hidden">
+              {/* Link header with remove button */}
+              <div className="flex justify-between items-center px-3 py-2 bg-muted/40">
+                <h4 className="text-sm font-medium">Link #{index + 1}</h4>
+                <Button 
+                  type="button"
+                  variant="ghost" 
+                  size="sm"
+                  onClick={() => removeLink(index)}
+                  className="h-8 w-8 p-0"
+                >
+                  <X className="h-4 w-4" />
+                </Button>
+              </div>
+              
+              {/* Link content with consistent padding */}
+              <div className="p-3 space-y-3">
                 <div>
-                  <Label htmlFor={`link-type-${index}`}>Type/Label</Label>
+                  <Label htmlFor={`link-type-${index}`} className="block mb-2">Type/Label</Label>
                   <Input
                     id={`link-type-${index}`}
                     value={link.type}
                     onChange={(e) => updateLink(index, 'type', e.target.value)}
                     placeholder="View, Documentation, Demo..."
+                    className="h-10"
                   />
                 </div>
 
                 <div>
-                  <Label htmlFor={`link-icon-${index}`}>Icon</Label>
-                  <select
-                    id={`link-icon-${index}`}
-                    value={link.icon || 'globe'}
-                    onChange={(e) => updateLink(index, 'icon', e.target.value)}
-                    className="w-full h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                  >
-                    {ICON_OPTIONS.map((option) => (
-                      <option key={option.value} value={option.value}>
-                        {option.label}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                <div>
-                  <Label htmlFor={`link-href-${index}`}>URL</Label>
+                  <Label htmlFor={`link-href-${index}`} className="block mb-2">URL</Label>
                   <Input
                     id={`link-href-${index}`}
                     value={link.href}
                     onChange={(e) => updateLink(index, 'href', e.target.value)}
                     placeholder="https://..."
+                    className="h-10"
+                  />
+                </div>
+                
+                <div>
+                  <Label htmlFor={`link-icon-${index}`} className="block mb-2">Icon</Label>
+                  <IconSelector 
+                    selectedIcon={link.icon || 'globe'} 
+                    onChange={(value) => updateLink(index, 'icon', value)} 
                   />
                 </div>
               </div>
-              <Button 
-                type="button"
-                variant="ghost" 
-                size="sm"
-                className="self-end"
-                onClick={() => removeLink(index)}
-              >
-                <X className="h-4 w-4" />
-              </Button>
             </div>
           ))}
         </div>
