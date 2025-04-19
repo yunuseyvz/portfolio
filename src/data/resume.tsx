@@ -34,6 +34,7 @@ export const DATA = {
     { href: "/", icon: HomeIcon, label: "Home" },
     { href: "/projects", icon: CodeIcon, label: "Projects" },
     { href: "/contact", icon: MailIcon, label: "Contact" },
+    { href: "/admin", icon: VenetianMask, label: "Admin Area" },
   ],
   contact: {
     email: "yunus@yuemya.de",
