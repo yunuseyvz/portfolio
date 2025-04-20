@@ -61,7 +61,6 @@ export default function ProjectForm({ project }: ProjectFormProps) {
     image: project?.image || '',
     imageLight: project?.imageLight || '',
     tags: project?.tags?.join(', ') || '',
-    featured: project?.featured || false,
     active: project?.active || false,
   });
 

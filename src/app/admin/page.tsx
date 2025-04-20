@@ -1,5 +1,5 @@
 import { auth } from "@/auth";
-import AdminDashboardClient from "@/components/admin/dashboard-client";
+import AdminDashboardClient from "@/components/admin-section/dashboard-client";
 
 export default async function AdminPage() {
   const session = await auth();

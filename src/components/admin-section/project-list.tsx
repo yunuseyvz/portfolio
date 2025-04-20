@@ -14,7 +14,7 @@ import Link from 'next/link';
 import { Project } from '@/lib/db';
 import { useRouter } from 'next/navigation';
 import { Edit2, Trash2, Eye } from 'lucide-react';
-import BlurFade from '@/components/magicui/blur-fade';
+import BlurFade from '@/components/ui/blur-fade';
 import { Badge } from '@/components/ui/badge';
 
 interface ProjectListProps {

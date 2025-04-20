@@ -31,7 +31,6 @@ export interface Project {
   image?: string;
   imageLight?: string;
   video?: string;
-  featured?: boolean;
   dates: string;
   active?: boolean;
   technologies?: string[];

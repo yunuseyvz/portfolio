@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { MdArrowDownward, MdArrowUpward, MdDelete } from "react-icons/md";
-import BlurFade from "@/components/magicui/blur-fade";
+import BlurFade from "@/components/ui/blur-fade";
 import { ProjectCard } from "@/components/project-card";
 import { DATA } from "@/data/resume";
 import { Project } from "@/lib/db";

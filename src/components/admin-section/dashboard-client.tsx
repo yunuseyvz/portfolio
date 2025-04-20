@@ -2,7 +2,7 @@
 
 import { Session } from "next-auth";
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
-import BlurFade from "@/components/magicui/blur-fade";
+import BlurFade from "@/components/ui/blur-fade";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { PlusCircle, Settings, BarChart3, Folder, Globe } from "lucide-react";

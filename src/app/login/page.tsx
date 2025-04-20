@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { auth, signIn } from "@/auth";
-import BlurFade from "@/components/magicui/blur-fade";
+import BlurFade from "@/components/ui/blur-fade";
 import { Github } from "lucide-react";
 
 export default async function LoginPage({

@@ -1,7 +1,7 @@
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import { DATA } from "@/data/resume";
-import AdminLayoutClient from "@/components/admin/layout-client";
+import AdminLayoutClient from "@/components/admin-section/layout-client";
 
 export default async function AdminLayout({
   children,
