@@ -4,11 +4,12 @@ import { auth, signIn } from "@/auth";
 import BlurFade from "@/components/ui/blur-fade";
 import { Github } from "lucide-react";
 
-export default async function LoginPage({
-  searchParams,
-}: {
-  searchParams: { error?: string };
-}) {
+export default async function LoginPage(
+  props: {
+    searchParams: Promise<{ error?: string }>;
+  }
+) {
+  const searchParams = await props.searchParams;
   const session = await auth();
   if (session?.user) {
     redirect("/admin");

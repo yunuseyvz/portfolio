@@ -5,14 +5,13 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
 interface EditProjectPageProps {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
-export default async function EditProjectPage({ 
-  params 
-}: EditProjectPageProps) {
+export default async function EditProjectPage(props: EditProjectPageProps) {
+  const params = await props.params;
   const { id } = params;
   const project = await getProject(id);
 
