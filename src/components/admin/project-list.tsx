@@ -58,6 +58,7 @@ export default function ProjectList({ projects: initialProjects }: ProjectListPr
         <TableHeader>
           <TableRow className="bg-muted/50 hover:bg-muted/50">
             <TableHead className="font-semibold">Project</TableHead>
+            <TableHead className="font-semibold text-right">Actions</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -76,8 +77,7 @@ export default function ProjectList({ projects: initialProjects }: ProjectListPr
             </TableRow>
           ) : (
             projects.map((project, index) => (
-              <BlurFade key={project.id} delay={BLUR_FADE_DELAY * (index + 1)}>
-                <TableRow>
+                <TableRow key={project.id}>
                   <TableCell className="font-medium">
                     <div className="flex flex-col">
                       <span className="font-semibold">{project.title}</span>
@@ -113,7 +113,6 @@ export default function ProjectList({ projects: initialProjects }: ProjectListPr
                     </div>
                   </TableCell>
                 </TableRow>
-              </BlurFade>
             ))
           )}
         </TableBody>

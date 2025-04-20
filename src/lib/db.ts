@@ -1,5 +1,4 @@
 import { createClient } from "redis";
-import { DATA } from "@/data/resume";
 
 // Create Redis client
 const client = createClient({
