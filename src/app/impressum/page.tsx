@@ -1,7 +1,7 @@
 "use client"; 
 
-import BlurFade from "@/components/magicui/blur-fade-nojs";
-import BlurFadeText from "@/components/magicui/blur-fade-text";
+import BlurFade from "@/components/ui/blur-fade-nojs";
+import BlurFadeText from "@/components/ui/blur-fade-text";
 import Markdown from "react-markdown";
 
 const BLUR_FADE_DELAY = 0.04;

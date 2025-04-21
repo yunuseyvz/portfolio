@@ -1,11 +1,11 @@
-import BlurFade from "@/components/magicui/blur-fade";
-import BlurFadeText from "@/components/magicui/blur-fade-text";
+import BlurFade from "@/components/ui/blur-fade";
+import BlurFadeText from "@/components/ui/blur-fade-text";
 import { ResumeCard } from "@/components/resume-card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { DATA } from "@/data/resume";
 import Markdown from "react-markdown";
-import { CoolMode } from "@/components/magicui/cool-mode";
+import { CoolMode } from "@/components/ui/cool-mode";
 import { GenerateCVButton } from "@/components/generate-cv-button";
 
 const BLUR_FADE_DELAY = 0.04;

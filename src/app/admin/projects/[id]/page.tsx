@@ -1,18 +1,17 @@
-import ProjectForm from '@/components/admin/project-form';
+import ProjectForm from '@/components/admin-section/project-form';
 import { getProject } from '@/lib/db';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
 interface EditProjectPageProps {
-  params: {
-    id: string;
-  };
+  params: Promise<{
+    id: number;
+  }>;
 }
 
-export default async function EditProjectPage({ 
-  params 
-}: EditProjectPageProps) {
+export default async function EditProjectPage(props: EditProjectPageProps) {
+  const params = await props.params;
   const { id } = params;
   const project = await getProject(id);
 
