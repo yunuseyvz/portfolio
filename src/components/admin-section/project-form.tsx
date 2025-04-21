@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Project, ProjectLink } from '@/lib/db';
 import { Button } from '@/components/ui/button';
@@ -55,11 +55,9 @@ export default function ProjectForm({ project }: ProjectFormProps) {
   const [formData, setFormData] = useState({
     title: project?.title || '',
     description: project?.description || '',
-    dates: project?.dates || new Date().getFullYear().toString(),
-    link: project?.link || '',
-    github: project?.github || '',
+    year: project?.year || new Date().getFullYear(),
     image: project?.image || '',
-    imageLight: project?.imageLight || '',
+    image_light: project?.image_light || '',
     tags: project?.tags?.join(', ') || '',
     active: project?.active || false,
   });
@@ -69,6 +67,12 @@ export default function ProjectForm({ project }: ProjectFormProps) {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleYearChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    const yearValue = value ? parseInt(value, 10) : null;
+    setFormData((prev) => ({ ...prev, year: yearValue as number }));
   };
 
   const handleCheckboxChange = (name: string, checked: boolean) => {
@@ -150,13 +154,14 @@ export default function ProjectForm({ project }: ProjectFormProps) {
           </div>
           
           <div>
-            <Label htmlFor="dates">Date/Year</Label>
+            <Label htmlFor="year">Year</Label>
             <Input
-              id="dates"
-              name="dates"
-              value={formData.dates}
-              onChange={handleChange}
-              required
+              id="year"
+              name="year"
+              type="number"
+              value={formData.year || ''}
+              onChange={handleYearChange}
+              placeholder={new Date().getFullYear().toString()}
             />
           </div>
         </div>
@@ -186,11 +191,11 @@ export default function ProjectForm({ project }: ProjectFormProps) {
           </div>
 
           <div>
-            <Label htmlFor="imageLight">Light Mode Image URL (optional)</Label>
+            <Label htmlFor="image_light">Light Mode Image URL (optional)</Label>
             <Input
-              id="imageLight"
-              name="imageLight"
-              value={formData.imageLight}
+              id="image_light"
+              name="image_light"
+              value={formData.image_light}
               onChange={handleChange}
               placeholder="/project-image-light.png"
             />
@@ -211,15 +216,13 @@ export default function ProjectForm({ project }: ProjectFormProps) {
           </p>
         </div>
 
-        <div className="flex items-center space-x-8">
-          <div className="flex items-center space-x-2">
-            <Checkbox 
-              id="active" 
-              checked={formData.active}
-              onCheckedChange={(checked) => handleCheckboxChange('active', !!checked)} 
-            />
-            <Label htmlFor="active">Active/Ongoing Project</Label>
-          </div>
+        <div className="flex items-center space-x-2">
+          <Checkbox 
+            id="active" 
+            checked={formData.active}
+            onCheckedChange={(checked) => handleCheckboxChange('active', !!checked)} 
+          />
+          <Label htmlFor="active">Active/Ongoing Project</Label>
         </div>
 
         <div className="space-y-3">

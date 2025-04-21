@@ -18,7 +18,7 @@ export default function Projects() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Fetch projects from Redis database
+  // Fetch projects from PostgreSQL database
   useEffect(() => {
     const fetchProjects = async () => {
       try {
@@ -45,22 +45,22 @@ export default function Projects() {
     return (
       project.title.toLowerCase().includes(searchTerm) ||
       project.description.toLowerCase().includes(searchTerm) ||
-      project.tags?.some((tag) => tag.toLowerCase().includes(searchTerm)) ||
-      project.technologies?.some((tag) => tag.toLowerCase().includes(searchTerm))
+      project.tags?.some((tag) => tag.toLowerCase().includes(searchTerm))
     );
   });
 
   const sortedProjects = [...filteredProjects].sort((a, b) => {
-    const yearA = parseInt(a.dates.split(" ")[0]);
-    const yearB = parseInt(b.dates.split(" ")[0]);
+    const yearA = a.year || 0;
+    const yearB = b.year || 0;
     return sortOrder === "desc" ? yearB - yearA : yearA - yearB;
   });
 
+  // Use active flag to determine ongoing projects
   const ongoingProjects = sortedProjects.filter(project => project.active);
   const completedProjects = sortedProjects.filter(project => !project.active);
 
   const projectsByYear = completedProjects.reduce<Record<string, typeof sortedProjects>>((acc, project) => {
-    const year = project.dates.split(" ")[0];
+    const year = project.year?.toString() || "Unknown";
     if (!acc[year]) {
       acc[year] = [];
     }
@@ -76,15 +76,14 @@ export default function Projects() {
       content: (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           {projectsByYear[year].map((project, id) => (
-            <BlurFade key={project.id || project.title} delay={BLUR_FADE_DELAY * 4 + id * 0.05}>
+            <BlurFade key={project.id || id} delay={BLUR_FADE_DELAY * 4 + id * 0.05}>
               <ProjectCard
                 title={project.title}
                 description={project.description}
-                dates={project.dates}
-                tags={project.tags || project.technologies}
+                dates={project.year ? `${project.year}` : ""}
+                tags={project.tags || []}
                 image={project.image}
-                imageLight={project.imageLight}
-                video={project.video}
+                imageLight={project.image_light}
                 links={project.links}
               />
             </BlurFade>
@@ -100,15 +99,14 @@ export default function Projects() {
           content: (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               {ongoingProjects.map((project, id) => (
-                <BlurFade key={project.id || project.title} delay={BLUR_FADE_DELAY * 4 + id * 0.05}>
+                <BlurFade key={project.id || id} delay={BLUR_FADE_DELAY * 4 + id * 0.05}>
                   <ProjectCard
                     title={project.title}
                     description={project.description}
-                    dates={project.dates}
-                    tags={project.tags || project.technologies}
+                    dates={project.year ? `${project.year}` : "Ongoing"}
+                    tags={project.tags || []}
                     image={project.image}
-                    imageLight={project.imageLight}
-                    video={project.video}
+                    imageLight={project.image_light}
                     links={project.links}
                   />
                 </BlurFade>

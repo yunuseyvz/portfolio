@@ -6,7 +6,7 @@ import { notFound } from 'next/navigation';
 
 interface EditProjectPageProps {
   params: Promise<{
-    id: string;
+    id: number;
   }>;
 }
 

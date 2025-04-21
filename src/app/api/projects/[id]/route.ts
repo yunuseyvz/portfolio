@@ -2,10 +2,18 @@ import { NextResponse } from "next/server";
 import { getProject, updateProject, deleteProject } from "@/lib/db";
 import { auth } from "@/auth";
 
-export async function GET(request: Request, props: { params: Promise<{ id: string }> }) {
-  const params = await props.params;
+export async function GET(request: Request, props: { params: { id: string } }) {
   try {
-    const project = await getProject(params.id);
+    const id = parseInt(props.params.id, 10);
+    
+    if (isNaN(id)) {
+      return NextResponse.json(
+        { error: "Invalid project ID" },
+        { status: 400 }
+      );
+    }
+    
+    const project = await getProject(id);
     
     if (!project) {
       return NextResponse.json(
@@ -24,8 +32,7 @@ export async function GET(request: Request, props: { params: Promise<{ id: strin
   }
 }
 
-export async function PUT(request: Request, props: { params: Promise<{ id: string }> }) {
-  const params = await props.params;
+export async function PUT(request: Request, props: { params: { id: string } }) {
   try {
     const session = await auth();
     
@@ -37,8 +44,17 @@ export async function PUT(request: Request, props: { params: Promise<{ id: strin
       );
     }
     
+    const id = parseInt(props.params.id, 10);
+    
+    if (isNaN(id)) {
+      return NextResponse.json(
+        { error: "Invalid project ID" },
+        { status: 400 }
+      );
+    }
+    
     const projectData = await request.json();
-    const updatedProject = await updateProject(params.id, projectData);
+    const updatedProject = await updateProject(id, projectData);
     
     if (!updatedProject) {
       return NextResponse.json(
@@ -57,8 +73,7 @@ export async function PUT(request: Request, props: { params: Promise<{ id: strin
   }
 }
 
-export async function DELETE(request: Request, props: { params: Promise<{ id: string }> }) {
-  const params = await props.params;
+export async function DELETE(request: Request, props: { params: { id: string } }) {
   try {
     const session = await auth();
     
@@ -70,7 +85,16 @@ export async function DELETE(request: Request, props: { params: Promise<{ id: st
       );
     }
     
-    const result = await deleteProject(params.id);
+    const id = parseInt(props.params.id, 10);
+    
+    if (isNaN(id)) {
+      return NextResponse.json(
+        { error: "Invalid project ID" },
+        { status: 400 }
+      );
+    }
+    
+    const result = await deleteProject(id);
     
     if (!result) {
       return NextResponse.json(
