@@ -29,7 +29,7 @@ export default function AdminProjectsClient({ initialProjects }: AdminProjectsCl
       <BlurFade delay={BLUR_FADE_DELAY}>
         <div className="flex flex-col gap-2 md:flex-row md:justify-between md:items-center">
           <h1 className="text-2xl font-bold">Projects</h1>
-          <Link href="/admin/projects/new">
+          <Link href="/admin/projects/new" prefetch={false}>
             <Button>
               <PlusCircle className="mr-2 h-4 w-4" /> 
               New Project

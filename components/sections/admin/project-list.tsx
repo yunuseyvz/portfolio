@@ -89,7 +89,7 @@ export default function ProjectList({ projects: initialProjects }: ProjectListPr
                   <div className="flex flex-col items-center gap-2">
                     <p>No projects found</p>
                     <Button asChild variant="outline" size="sm">
-                      <Link href="/admin/projects/new">Add your first project</Link>
+                      <Link href="/admin/projects/new" prefetch={false}>Add your first project</Link>
                     </Button>
                   </div>
                 </BlurFade>
@@ -115,7 +115,7 @@ export default function ProjectList({ projects: initialProjects }: ProjectListPr
                         size="icon"
                         asChild
                       >
-                        <Link href={`/admin/projects/${project.id}`}>
+                        <Link prefetch={false} href={`/admin/projects/${project.id}`}>
                           <span className="sr-only">Edit</span>
                           <Edit2 className="h-4 w-4" />
                         </Link>
