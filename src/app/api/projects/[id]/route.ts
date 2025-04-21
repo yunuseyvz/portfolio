@@ -3,9 +3,9 @@ import { getProject, updateProject, deleteProject } from "@/lib/db";
 import { auth } from "@/auth";
 import { revalidateProjects } from "@/lib/server-actions";
 
-export async function GET(request: Request, props: { params: { id: string } }) {
+export async function GET(request: Request, props: { params: Promise<{ id: string }> }) {
   try {
-    const id = parseInt(props.params.id, 10);
+    const id = parseInt((await props.params).id, 10);
     
     if (isNaN(id)) {
       return NextResponse.json(
@@ -33,7 +33,7 @@ export async function GET(request: Request, props: { params: { id: string } }) {
   }
 }
 
-export async function PUT(request: Request, props: { params: { id: string } }) {
+export async function PUT(request: Request, props: { params: Promise<{ id: string }> }) {
   try {
     const session = await auth();
     
@@ -45,7 +45,7 @@ export async function PUT(request: Request, props: { params: { id: string } }) {
       );
     }
     
-    const id = parseInt(props.params.id, 10);
+    const id = parseInt((await props.params).id, 10);
     
     if (isNaN(id)) {
       return NextResponse.json(
@@ -77,7 +77,7 @@ export async function PUT(request: Request, props: { params: { id: string } }) {
   }
 }
 
-export async function DELETE(request: Request, props: { params: { id: string } }) {
+export async function DELETE(request: Request, props: { params: Promise<{ id: string }> }) {
   try {
     const session = await auth();
     
@@ -89,7 +89,7 @@ export async function DELETE(request: Request, props: { params: { id: string } }
       );
     }
     
-    const id = parseInt(props.params.id, 10);
+    const id = parseInt((await props.params).id, 10);
     
     if (isNaN(id)) {
       return NextResponse.json(
