@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getProjects, createProject } from "@/lib/db";
 import { auth } from "@/auth";
+import { revalidateProjects } from "@/lib/server-actions";
 
 export async function GET() {
   try {
@@ -29,6 +30,9 @@ export async function POST(req: Request) {
     
     const projectData = await req.json();
     const newProject = await createProject(projectData);
+    
+    // Revalidate the projects page to reflect the new project
+    revalidateProjects();
     
     return NextResponse.json(newProject, { status: 201 });
   } catch (error) {

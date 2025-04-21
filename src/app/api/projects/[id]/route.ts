@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getProject, updateProject, deleteProject } from "@/lib/db";
 import { auth } from "@/auth";
+import { revalidateProjects } from "@/lib/server-actions";
 
 export async function GET(request: Request, props: { params: { id: string } }) {
   try {
@@ -63,6 +64,9 @@ export async function PUT(request: Request, props: { params: { id: string } }) {
       );
     }
     
+    // Revalidate the projects page when a project is updated
+    revalidateProjects();
+    
     return NextResponse.json(updatedProject);
   } catch (error) {
     console.error("Error updating project:", error);
@@ -102,6 +106,9 @@ export async function DELETE(request: Request, props: { params: { id: string } }
         { status: 404 }
       );
     }
+    
+    // Revalidate the projects page when a project is deleted
+    revalidateProjects();
     
     return NextResponse.json({ success: true });
   } catch (error) {
