@@ -1,7 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
+import { upload } from '@vercel/blob/client';
 import { Project, ProjectLink } from '@/lib/db';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -84,6 +85,9 @@ export default function ProjectForm({ project }: ProjectFormProps) {
   const isEditing = !!project;
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isUploading, setIsUploading] = useState<{ main: boolean; light: boolean }>({ main: false, light: false });
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const fileInputLightRef = useRef<HTMLInputElement>(null);
   const [formData, setFormData] = useState({
     title: project?.title || '',
     description: project?.description || '',
@@ -212,25 +216,169 @@ export default function ProjectForm({ project }: ProjectFormProps) {
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div>
-            <Label htmlFor="image">Image URL</Label>
-            <Input
-              id="image"
-              name="image"
-              value={formData.image}
-              onChange={handleChange}
-              placeholder="/project-image.png"
-            />
+            <Label htmlFor="image">Image</Label>
+            <div className="space-y-2">
+              <Input
+                id="image"
+                name="image"
+                value={formData.image}
+                onChange={handleChange}
+                placeholder="/project-image.png or blob URL"
+                className="mb-2"
+              />
+              <div className="flex items-center gap-2">
+                <input
+                  type="file"
+                  ref={fileInputRef}
+                  onChange={async (e) => {
+                    const file = e.target.files?.[0];
+                    if (!file) return;
+                    
+                    try {
+                      setIsUploading(prev => ({ ...prev, main: true }));
+                      
+                      // Generate a unique file name with timestamp to avoid collisions
+                      const timestamp = new Date().getTime();
+                      const fileName = `${timestamp}-${file.name.replace(/\s+/g, '-')}`;
+                      
+                      // Upload directly to API route
+                      const response = await fetch(
+                        `/api/upload?filename=${encodeURIComponent(fileName)}`,
+                        {
+                          method: 'POST',
+                          body: file,
+                        },
+                      );
+                      
+                      if (!response.ok) {
+                        throw new Error('Upload failed');
+                      }
+                      
+                      const newBlob = await response.json();
+                      setFormData(prev => ({ ...prev, image: newBlob.url }));
+                    } catch (error) {
+                      console.error('Error uploading file:', error);
+                      alert('Failed to upload image. Please try again.');
+                    } finally {
+                      setIsUploading(prev => ({ ...prev, main: false }));
+                    }
+                  }}
+                  accept="image/*"
+                  className="hidden"
+                />
+                <Button 
+                  type="button"
+                  variant="outline"
+                  onClick={() => fileInputRef.current?.click()}
+                  disabled={isUploading.main}
+                  className="text-sm"
+                >
+                  {isUploading.main ? 'Uploading...' : 'Upload Image'}
+                </Button>
+                {formData.image && (
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    onClick={() => setFormData(prev => ({ ...prev, image: '' }))}
+                    className="h-8 w-8 p-0"
+                  >
+                    <X className="h-4 w-4" />
+                  </Button>
+                )}
+              </div>
+              {formData.image && (
+                <div className="mt-2">
+                  <img 
+                    src={formData.image} 
+                    alt="Project Preview" 
+                    className="max-h-40 rounded-md object-cover border" 
+                  />
+                </div>
+              )}
+            </div>
           </div>
 
           <div>
-            <Label htmlFor="image_light">Light Mode Image URL (optional)</Label>
-            <Input
-              id="image_light"
-              name="image_light"
-              value={formData.image_light}
-              onChange={handleChange}
-              placeholder="/project-image-light.png"
-            />
+            <Label htmlFor="image_light">Light Mode Image</Label>
+            <div className="space-y-2">
+              <Input
+                id="image_light"
+                name="image_light"
+                value={formData.image_light}
+                onChange={handleChange}
+                placeholder="/project-image-light.png or blob URL"
+                className="mb-2"
+              />
+              <div className="flex items-center gap-2">
+                <input
+                  type="file"
+                  ref={fileInputLightRef}
+                  onChange={async (e) => {
+                    const file = e.target.files?.[0];
+                    if (!file) return;
+                    
+                    try {
+                      setIsUploading(prev => ({ ...prev, light: true }));
+                      
+                      // Generate a unique file name with timestamp to avoid collisions
+                      const timestamp = new Date().getTime();
+                      const fileName = `${timestamp}-${file.name.replace(/\s+/g, '-')}`;
+                      
+                      // Upload directly to API route
+                      const response = await fetch(
+                        `/api/upload?filename=${encodeURIComponent(fileName)}`,
+                        {
+                          method: 'POST',
+                          body: file,
+                        },
+                      );
+                      
+                      if (!response.ok) {
+                        throw new Error('Upload failed');
+                      }
+                      
+                      const newBlob = await response.json();
+                      setFormData(prev => ({ ...prev, image_light: newBlob.url }));
+                    } catch (error) {
+                      console.error('Error uploading file:', error);
+                      alert('Failed to upload image. Please try again.');
+                    } finally {
+                      setIsUploading(prev => ({ ...prev, light: false }));
+                    }
+                  }}
+                  accept="image/*"
+                  className="hidden"
+                />
+                <Button 
+                  type="button"
+                  variant="outline"
+                  onClick={() => fileInputLightRef.current?.click()}
+                  disabled={isUploading.light}
+                  className="text-sm"
+                >
+                  {isUploading.light ? 'Uploading...' : 'Upload Image'}
+                </Button>
+                {formData.image_light && (
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    onClick={() => setFormData(prev => ({ ...prev, image_light: '' }))}
+                    className="h-8 w-8 p-0"
+                  >
+                    <X className="h-4 w-4" />
+                  </Button>
+                )}
+              </div>
+              {formData.image_light && (
+                <div className="mt-2">
+                  <img 
+                    src={formData.image_light} 
+                    alt="Project Preview (Light)" 
+                    className="max-h-40 rounded-md object-cover border" 
+                  />
+                </div>
+              )}
+            </div>
           </div>
         </div>
 
