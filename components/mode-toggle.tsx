@@ -27,7 +27,7 @@ export function ModeToggle() {
     </Button>
     </TooltipTrigger>
     <TooltipContent className="mb-1.5">
-      <p>Toggle Theme</p>
+      <p>Toggle Flashbang</p>
     </TooltipContent> 
     </Tooltip>
   );
