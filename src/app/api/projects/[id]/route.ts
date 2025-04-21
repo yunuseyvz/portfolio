@@ -1,29 +1,41 @@
 import { NextResponse } from "next/server";
-import { getProject, updateProject, deleteProject } from "@/lib/db";
+import { getProject, updateProject, deleteProject, getProjectBySlug } from "@/lib/db";
 import { auth } from "@/auth";
 import { revalidateProjects } from "@/lib/server-actions";
 
 export async function GET(request: Request, props: { params: Promise<{ id: string }> }) {
   try {
-    const id = parseInt((await props.params).id, 10);
+    const idOrSlug = (await props.params).id;
     
-    if (isNaN(id)) {
-      return NextResponse.json(
-        { error: "Invalid project ID" },
-        { status: 400 }
-      );
+    // First try to parse as an ID
+    const id = parseInt(idOrSlug, 10);
+    
+    // If it's a valid number, get project by ID
+    if (!isNaN(id)) {
+      const project = await getProject(id);
+      
+      if (!project) {
+        return NextResponse.json(
+          { error: "Project not found" },
+          { status: 404 }
+        );
+      }
+      
+      return NextResponse.json(project);
+    } 
+    // Otherwise, treat it as a slug
+    else {
+      const project = await getProjectBySlug(idOrSlug);
+      
+      if (!project) {
+        return NextResponse.json(
+          { error: "Project not found" },
+          { status: 404 }
+        );
+      }
+      
+      return NextResponse.json(project);
     }
-    
-    const project = await getProject(id);
-    
-    if (!project) {
-      return NextResponse.json(
-        { error: "Project not found" },
-        { status: 404 }
-      );
-    }
-    
-    return NextResponse.json(project);
   } catch (error) {
     console.error("Error fetching project:", error);
     return NextResponse.json(
@@ -65,7 +77,8 @@ export async function PUT(request: Request, props: { params: Promise<{ id: strin
     }
     
     // Revalidate the projects page when a project is updated
-    revalidateProjects();
+    // Pass the specific project ID and slug to revalidate both the main listing and the individual project page
+    revalidateProjects(updatedProject.id, updatedProject.slug);
     
     return NextResponse.json(updatedProject);
   } catch (error) {
@@ -107,7 +120,7 @@ export async function DELETE(request: Request, props: { params: Promise<{ id: st
       );
     }
     
-    // Revalidate the projects page when a project is deleted
+    // Revalidate after deleting
     revalidateProjects();
     
     return NextResponse.json({ success: true });

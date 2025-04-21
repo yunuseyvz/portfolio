@@ -6,6 +6,7 @@
  */
 
 import { Pool } from 'pg';
+import { generateSlug } from './utils';
 
 /**
  * PostgreSQL connection pool
@@ -40,8 +41,8 @@ export interface Project {
   title: string;
   /** Detailed project description */
   description: string;
-  /** URL-friendly slug (optional) */
-  slug?: string;
+  /** URL-friendly slug derived from title */
+  slug: string;
   /** Year the project was completed or worked on */
   year?: number;
   /** Array of technologies or skills used in the project */
@@ -50,6 +51,8 @@ export interface Project {
   image?: string;
   /** Path to the project image for light mode */
   image_light?: string;
+  /** HTML content for the project page */
+  content?: string;
   /** Array of related links (source, demo, etc.) */
   links?: ProjectLink[];
   /** Whether the project is currently active/ongoing */
@@ -92,20 +95,51 @@ export async function getProject(id: number): Promise<Project | null> {
 }
 
 /**
- * Creates a new project in the database
+ * Retrieves a single project by its slug
  * 
- * @param {Omit<Project, 'id' | 'created_at' | 'updated_at'>} project - The project data to insert
- * @returns {Promise<Project>} The newly created project with generated ID and timestamps
+ * @param {string} slug - The URL-friendly slug of the project
+ * @returns {Promise<Project | null>} The project or null if not found
  */
-export async function createProject(project: Omit<Project, 'id' | 'created_at' | 'updated_at'>): Promise<Project> {
+export async function getProjectBySlug(slug: string): Promise<Project | null> {
   const client = await pool.connect();
   try {
-    const { title, description, year, image, image_light, tags, links, active } = project;
+    const result = await client.query('SELECT * FROM projects WHERE slug = $1', [slug]);
+    return result.rows[0] || null;
+  } finally {
+    client.release();
+  }
+}
+
+/**
+ * Creates a new project in the database
+ * 
+ * @param {Omit<Project, 'id' | 'created_at' | 'updated_at' | 'slug'>} project - The project data to insert
+ * @returns {Promise<Project>} The newly created project with generated ID and timestamps
+ */
+export async function createProject(project: Omit<Project, 'id' | 'created_at' | 'updated_at' | 'slug'>): Promise<Project> {
+  const client = await pool.connect();
+  try {
+    const { title, description, year, image, image_light, tags, links, active, content } = project;
+    
+    // Generate a slug from the title
+    const slug = generateSlug(title);
+    
     const result = await client.query(
-      `INSERT INTO projects (title, description, year, image, image_light, tags, links, active) 
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8) 
+      `INSERT INTO projects (title, description, year, image, image_light, tags, links, active, slug, content) 
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) 
        RETURNING *`,
-      [title, description, year, image, image_light, tags, links ? JSON.stringify(links) : null, active ?? false]
+      [
+        title, 
+        description, 
+        year, 
+        image, 
+        image_light, 
+        tags, 
+        links ? JSON.stringify(links) : null, 
+        active ?? false,
+        slug,
+        content || null
+      ]
     );
     return result.rows[0];
   } finally {
@@ -134,9 +168,14 @@ export async function updateProject(id: number, projectData: Partial<Project>): 
     let paramCounter = 1;
 
     // Add each field that needs to be updated
-    if ('title' in projectData) {
+    if ('title' in projectData && projectData.title) {
       updates.push(`title = $${paramCounter}`);
       values.push(projectData.title);
+      paramCounter++;
+      
+      // If title changes, update the slug as well (ensure title is defined)
+      updates.push(`slug = $${paramCounter}`);
+      values.push(generateSlug(projectData.title));
       paramCounter++;
     }
     if ('description' in projectData) {
@@ -174,24 +213,35 @@ export async function updateProject(id: number, projectData: Partial<Project>): 
       values.push(projectData.active);
       paramCounter++;
     }
+    if ('content' in projectData) {
+      updates.push(`content = $${paramCounter}`);
+      values.push(projectData.content);
+      paramCounter++;
+    }
+    // Allow explicit setting of slug if provided
+    if ('slug' in projectData) {
+      updates.push(`slug = $${paramCounter}`);
+      values.push(projectData.slug);
+      paramCounter++;
+    }
     
     // Always update the updated_at timestamp
     updates.push(`updated_at = NOW()`);
     
     // Add id as the last parameter
     values.push(id);
-    
+
     // If there's nothing to update, return the existing project
-    if (updates.length === 1) {
+    if (updates.length === 0) {
       return existingProject;
     }
-    
+
     // Execute the update query
     const result = await client.query(
       `UPDATE projects SET ${updates.join(', ')} WHERE id = $${paramCounter} RETURNING *`,
       values
     );
-    
+
     return result.rows[0];
   } finally {
     client.release();
@@ -202,13 +252,13 @@ export async function updateProject(id: number, projectData: Partial<Project>): 
  * Deletes a project from the database
  * 
  * @param {number} id - The unique identifier of the project to delete
- * @returns {Promise<boolean>} True if the project was successfully deleted, false otherwise
+ * @returns {Promise<boolean>} True if the project was deleted, false if not found
  */
 export async function deleteProject(id: number): Promise<boolean> {
   const client = await pool.connect();
   try {
     const result = await client.query('DELETE FROM projects WHERE id = $1 RETURNING id', [id]);
-    return result.rowCount !== null && result.rowCount > 0;
+    return (result.rowCount ?? 0) > 0;
   } finally {
     client.release();
   }

@@ -23,7 +23,7 @@ export default async function Projects() {
                   Check out my recent projects
                 </h2>
                 <p className="text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                  Here are a few projects I have worked on during my studies and in my free time.
+                  Here are some of the projects I have worked on recently. Click on the cards to view more details about each project. 
                 </p>
               </div>
             </div>

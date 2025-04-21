@@ -3,7 +3,7 @@ import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { ProjectLink } from "@/lib/db";
-import { Globe, Github, Video, Award, PartyPopper, ExternalLink, GamepadIcon, Figma, Book } from "lucide-react";
+import { Globe, Github, Video, Award, PartyPopper, ExternalLink, GamepadIcon, Figma, Book, Info, ArrowRight } from "lucide-react";
 import { JSX } from "react";
 import { motion } from "framer-motion";
 
@@ -34,6 +34,10 @@ interface ProjectCardProps {
   links?: ProjectLink[];
   /** Additional CSS classes to apply to the card */
   className?: string;
+  /** Project ID for linking to project detail page */
+  id?: number;
+  /** Project slug for SEO-friendly URLs */
+  slug?: string;
 }
 
 /**
@@ -41,7 +45,7 @@ interface ProjectCardProps {
  * 
  * Displays a card for a portfolio project with image, description, tags,
  * and links. Includes animation effects on hover and supports both light
- * and dark mode images.
+ * and dark mode images. Cards are clickable to navigate to project detail pages.
  *
  * @param {ProjectCardProps} props - The component props
  * @returns {JSX.Element} The rendered project card
@@ -58,6 +62,8 @@ export function ProjectCard({
   video,
   links,
   className,
+  id,
+  slug,
 }: ProjectCardProps) {
   
   /**
@@ -97,11 +103,17 @@ export function ProjectCard({
   // Check if project has any links to display
   const hasLinks = link || (links && links.length > 0 && links.some(l => l.href));
 
-  return (
+  // Determine the card's destination URL
+  // Prefer slug over ID for better SEO
+  const projectUrl = slug ? `/projects/${slug}` : id ? `/projects/${id}` : href;
+
+  // The card content
+  const cardContent = (
     <motion.div
       className={cn(
         "flex flex-col overflow-hidden rounded-lg hover:shadow-lg transition-all duration-300 ease-out h-full relative border-0",
         "bg-white/80 dark:bg-black/80 backdrop-filter backdrop-blur-md border border-gray-200 dark:border-gray-800 hover:border-gray-300 dark:hover:border-gray-700 transition-colors",
+        "cursor-pointer",
         className
       )}
       whileHover={{ 
@@ -132,15 +144,21 @@ export function ProjectCard({
             height={300}
             className="object-cover w-full h-full dark:hidden block"
           />
+          
         </div>
       )}
 
       {/* Title and Description Section */}
       <div className="flex flex-col flex-grow p-4 relative z-10">
         <div className="space-y-1.5">
-          <h3 className="font-medium text-base">{title}</h3>
+          <div className="flex items-center justify-between">
+            <h3 className="font-medium text-base">{title}</h3>
+            {projectUrl && !image && (
+              <Info className="size-4 text-muted-foreground" />
+            )}
+          </div>
           <div className="font-sans text-xs text-muted-foreground dark:text-muted-foreground text-gray-600">{dates}</div>
-          <p className="prose max-w-full text-pretty font-sans text-xs text-gray-700 dark:text-muted-foreground">
+          <p className="prose max-w-full text-nowrap font-sans text-xs text-gray-700 dark:text-muted-foreground">
             {description}
           </p>
         </div>
@@ -170,6 +188,7 @@ export function ProjectCard({
                   href={customLink.href} 
                   target="_blank"  
                   rel="noopener noreferrer"
+                  onClick={(e) => e.stopPropagation()} // Prevent card click when clicking links
                 >
                   <Badge 
                     variant="outline" 
@@ -183,7 +202,21 @@ export function ProjectCard({
             )}
           </div>
         )}
+        
+       
       </div>
     </motion.div>
   );
+
+  // If we have a projectUrl, make the entire card clickable
+  if (projectUrl) {
+    return (
+      <Link href={projectUrl} className="block h-full">
+        {cardContent}
+      </Link>
+    );
+  }
+
+  // Otherwise just render the card itself
+  return cardContent;
 }

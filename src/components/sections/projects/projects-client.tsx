@@ -5,11 +5,9 @@ import { MdDelete, MdSearch } from "react-icons/md";
 import { FiClock, FiCheckCircle, FiSearch } from "react-icons/fi";
 import BlurFade from "@/components/ui/blur-fade";
 import { ProjectCard } from "@/components/sections/projects/project-card";
-import { Project } from "@/lib/db";
+import { ProjectLink } from "@/lib/db";
 import { Timeline } from "@/components/ui/timeline";
 import { Input } from "@/components/ui/input";
-import { motion } from "framer-motion";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 
@@ -22,7 +20,18 @@ const BLUR_FADE_DELAY = 0.04;
  */
 interface ProjectsClientComponentProps {
   /** Initial projects data fetched from server */
-  initialProjects: Project[];
+  initialProjects: Array<{
+    id: number;
+    title: string;
+    description: string;
+    year?: number;
+    tags: string[];
+    image?: string;
+    image_light?: string;
+    links?: ProjectLink[];
+    active?: boolean;
+    slug?: string;
+  }>;
 }
 
 /**
@@ -93,6 +102,8 @@ export default function ProjectsClientComponent({ initialProjects }: ProjectsCli
           {projectsByYear[year].map((project, id) => (
             <BlurFade key={project.id || id} delay={BLUR_FADE_DELAY * 4 + id * 0.05}>
               <ProjectCard
+                id={project.id}
+                slug={project.slug}
                 title={project.title}
                 description={project.description}
                 dates={project.year ? `${project.year}` : ""}
@@ -201,6 +212,8 @@ export default function ProjectsClientComponent({ initialProjects }: ProjectsCli
                       {ongoingProjects.map((project, id) => (
                         <BlurFade key={project.id || id} className="mb-4" delay={BLUR_FADE_DELAY * 4 + id * 0.05}>
                           <ProjectCard
+                            id={project.id}
+                            slug={project.slug}
                             title={project.title}
                             description={project.description}
                             dates={project.year ? `${project.year} - Present` : "Ongoing"}
@@ -240,9 +253,10 @@ export default function ProjectsClientComponent({ initialProjects }: ProjectsCli
                 delay={BLUR_FADE_DELAY * 4}
               >
                 {ongoingProjects.map((project, id) => (
-
                   <ProjectCard
                     key={project.id || id}
+                    id={project.id}
+                    slug={project.slug}
                     title={project.title}
                     description={project.description}
                     dates={project.year ? `${project.year} - Present` : "Ongoing"}
@@ -252,9 +266,8 @@ export default function ProjectsClientComponent({ initialProjects }: ProjectsCli
                     links={project.links}
                     className="border border-gray-200 dark:border-gray-800 hover:border-gray-300 dark:hover:border-gray-700 transition-colors"
                   />
-
                 ))}
-              </BlurFade >
+              </BlurFade>
             )}
 
             {/* Display only completed projects in timeline when that tab is selected */}
@@ -264,7 +277,6 @@ export default function ProjectsClientComponent({ initialProjects }: ProjectsCli
                 delay={BLUR_FADE_DELAY * 4}
               >
                 <Timeline data={yearTimelineData} />
-
               </BlurFade>
             )}
           </>

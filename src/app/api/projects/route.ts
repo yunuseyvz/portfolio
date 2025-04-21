@@ -32,7 +32,8 @@ export async function POST(req: Request) {
     const newProject = await createProject(projectData);
     
     // Revalidate the projects page to reflect the new project
-    revalidateProjects();
+    // Pass both the new project's ID and slug to revalidate all relevant pages
+    revalidateProjects(newProject.id, newProject.slug);
     
     return NextResponse.json(newProject, { status: 201 });
   } catch (error) {
