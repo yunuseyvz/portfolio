@@ -1,6 +1,6 @@
 import { getProjects } from "@/lib/db";
 import BlurFade from "@/components/ui/blur-fade";
-import ProjectsClientComponent from "@/components/projects-client";
+import ProjectsClientComponent from "@/components/sections/projects/projects-client";
 
 // Revalidate only on demand
 // This is a static page, so we don't need to revalidate on every request

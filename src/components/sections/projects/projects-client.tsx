@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { MdArrowDownward, MdArrowUpward, MdDelete } from "react-icons/md";
 import BlurFade from "@/components/ui/blur-fade";
-import { ProjectCard } from "@/components/project-card";
+import { ProjectCard } from "@/components/sections/projects/project-card";
 import { Project } from "@/lib/db";
 import { Timeline } from "@/components/ui/timeline";
 import { Input } from "@/components/ui/input";

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import ProjectList from "@/components/admin-section/project-list";
+import ProjectList from "@/components/sections/admin/project-list";
 import BlurFade from "@/components/ui/blur-fade";
 import { PlusCircle, Search } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";

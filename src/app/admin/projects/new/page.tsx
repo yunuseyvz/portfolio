@@ -1,4 +1,4 @@
-import ProjectForm from '@/components/admin-section/project-form';
+import ProjectForm from '@/components/sections/admin/project-form';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 
