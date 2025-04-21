@@ -9,7 +9,7 @@ import { ArrowLeft, ExternalLink, Github } from "lucide-react";
 import BlurFade from "@/components/ui/blur-fade";
 
 type Props = {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 };
 
 // Animation delay increment for staggered animations
@@ -23,19 +23,20 @@ export async function generateStaticParams() {
   }));
 }
 
-export default async function ProjectPage({ params }: Props) {
+export default async function ProjectPage(props: Props) {
+  const params = await props.params;
   const { slug } = params;
-  
+
   // Try to parse as a number (ID) first
   const id = parseInt(slug, 10);
   let project;
-  
+
   if (!isNaN(id)) {
     project = await getProject(id);
   } else {
     project = await getProjectBySlug(slug);
   }
-  
+
   if (!project) {
     notFound();
   }
@@ -43,7 +44,7 @@ export default async function ProjectPage({ params }: Props) {
   const statusBadgeClasses = project.active 
     ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400"
     : "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400";
-  
+
   const statusText = project.active ? "Active" : "Completed";
 
   return (
