@@ -17,18 +17,38 @@ import { Edit2, Trash2, Eye } from 'lucide-react';
 import BlurFade from '@/components/ui/blur-fade';
 import { Badge } from '@/components/ui/badge';
 
+/**
+ * Props for the ProjectList component
+ * @interface ProjectListProps
+ */
 interface ProjectListProps {
+  /** Array of projects to display in the admin list */
   projects: Project[];
 }
 
+/** Animation delay for staggered fade-in effect */
 const BLUR_FADE_DELAY = 0.03;
 
+/**
+ * ProjectList component
+ * 
+ * Admin component that displays a list of projects with edit and delete actions.
+ * Handles client-side deletion with confirmation and optimistic UI updates.
+ * 
+ * @param {ProjectListProps} props - The component props
+ * @returns {JSX.Element} The rendered admin project list
+ */
 export default function ProjectList({ projects: initialProjects }: ProjectListProps) {
   const [projects, setProjects] = useState(initialProjects);
-  const [isDeleting, setIsDeleting] = useState<string | null>(null);
+  const [isDeleting, setIsDeleting] = useState<number | null>(null);
   const router = useRouter();
 
-  const handleDelete = async (id: string) => {
+  /**
+   * Handles project deletion with confirmation
+   * 
+   * @param {number} id - The ID of the project to delete
+   */
+  const handleDelete = async (id: number) => {
     if (confirm('Are you sure you want to delete this project?')) {
       setIsDeleting(id);
       

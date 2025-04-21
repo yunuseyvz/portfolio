@@ -10,10 +10,19 @@ import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
 import { X, Plus, Globe, Github, Video, Award, PartyPopper, ExternalLink, GamepadIcon, Figma, Book } from 'lucide-react';
 
+/**
+ * Props for the ProjectForm component
+ * @interface ProjectFormProps
+ */
 interface ProjectFormProps {
+  /** Optional project data for editing an existing project */
   project?: Project;
 }
 
+/**
+ * Available icon options for project links
+ * Each option includes a value (stored in database), display label, and icon element
+ */
 const ICON_OPTIONS = [
   { value: 'globe', label: 'Globe', icon: <Globe className="h-5 w-5" /> },
   { value: 'github', label: 'GitHub', icon: <Github className="h-5 w-5" /> },
@@ -26,6 +35,14 @@ const ICON_OPTIONS = [
   { value: 'book', label: 'Book', icon: <Book className="h-5 w-5" /> },
 ];
 
+/**
+ * Icon selector component for choosing link icons
+ * 
+ * @param {Object} props - Component props
+ * @param {string} props.selectedIcon - Currently selected icon value
+ * @param {Function} props.onChange - Callback function when icon selection changes
+ * @returns {JSX.Element} Grid of selectable icons
+ */
 function IconSelector({ selectedIcon, onChange }: { selectedIcon: string, onChange: (value: string) => void }) {
   return (
     <div className="flex flex-wrap gap-2">
@@ -48,6 +65,21 @@ function IconSelector({ selectedIcon, onChange }: { selectedIcon: string, onChan
   );
 }
 
+/**
+ * ProjectForm component
+ * 
+ * Form for creating new projects or editing existing ones in the admin interface.
+ * Handles form submission, validation, and API requests to save project data.
+ * 
+ * Features:
+ * - Creation and editing of project details
+ * - Dynamic management of project links with icon selection
+ * - Form validation and submission handling
+ * - Responsive layout
+ *
+ * @param {ProjectFormProps} props - The component props
+ * @returns {JSX.Element} The project form
+ */
 export default function ProjectForm({ project }: ProjectFormProps) {
   const isEditing = !!project;
   const router = useRouter();
