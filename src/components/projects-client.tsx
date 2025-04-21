@@ -8,17 +8,38 @@ import { Project } from "@/lib/db";
 import { Timeline } from "@/components/ui/timeline";
 import { Input } from "@/components/ui/input";
 
+/** Animation delay increment for staggered animations */
 const BLUR_FADE_DELAY = 0.04;
 
+/**
+ * Props for the ProjectsClientComponent
+ * @interface ProjectsClientComponentProps
+ */
 interface ProjectsClientComponentProps {
+  /** Initial projects data fetched from server */
   initialProjects: Project[];
 }
 
+/**
+ * ProjectsClientComponent
+ * 
+ * Client-side component for displaying and filtering projects.
+ * Features include:
+ * - Sorting projects by year (ascending/descending)
+ * - Text-based filtering of projects by title, description, or tags
+ * - Grouping projects by ongoing status and year
+ *
+ * @param {ProjectsClientComponentProps} props - The component props
+ * @returns {JSX.Element} The rendered projects section
+ */
 export default function ProjectsClientComponent({ initialProjects }: ProjectsClientComponentProps) {
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
   const [filterText, setFilterText] = useState("");
 
-  // Filter
+  /**
+   * Filter projects based on search text
+   * Matches against project title, description, and tags
+   */
   const filteredProjects = initialProjects.filter(project => {
     const searchTerm = filterText.toLowerCase();
     return (
@@ -28,16 +49,22 @@ export default function ProjectsClientComponent({ initialProjects }: ProjectsCli
     );
   });
 
+  /**
+   * Sort projects based on the selected sort order
+   */
   const sortedProjects = [...filteredProjects].sort((a, b) => {
     const yearA = a.year || 0;
     const yearB = b.year || 0;
     return sortOrder === "desc" ? yearB - yearA : yearA - yearB;
   });
 
-  // Use active flag to determine ongoing projects
+  // Separate projects into ongoing and completed categories
   const ongoingProjects = sortedProjects.filter(project => project.active);
   const completedProjects = sortedProjects.filter(project => !project.active);
 
+  /**
+   * Group completed projects by year
+   */
   const projectsByYear = completedProjects.reduce<Record<string, typeof sortedProjects>>((acc, project) => {
     const year = project.year?.toString() || "Unknown";
     if (!acc[year]) {

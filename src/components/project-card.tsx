@@ -7,20 +7,45 @@ import { Globe, Github, Video, Award, PartyPopper, ExternalLink, GamepadIcon, Fi
 import { JSX } from "react";
 import { motion } from "framer-motion";
 
+/**
+ * Props for the ProjectCard component.
+ * @interface ProjectCardProps
+ */
 interface ProjectCardProps {
+  /** Title of the project */
   title: string;
+  /** Optional URL that the card links to */
   href?: string;
+  /** Project description */
   description: string;
+  /** Time period of the project (e.g., "2023") */
   dates: string;
+  /** List of technologies or skills used in the project */
   tags?: string[];
+  /** Legacy link field (use links array instead) */
   link?: string;
+  /** Path to the project image for dark mode */
   image?: string;
+  /** Path to the project image for light mode */
   imageLight?: string;
+  /** Optional URL to a video about the project */
   video?: string;
+  /** Array of links related to the project (source, demo, etc.) */
   links?: ProjectLink[];
+  /** Additional CSS classes to apply to the card */
   className?: string;
 }
 
+/**
+ * ProjectCard component
+ * 
+ * Displays a card for a portfolio project with image, description, tags,
+ * and links. Includes animation effects on hover and supports both light
+ * and dark mode images.
+ *
+ * @param {ProjectCardProps} props - The component props
+ * @returns {JSX.Element} The rendered project card
+ */
 export function ProjectCard({
   title,
   href,
@@ -35,7 +60,11 @@ export function ProjectCard({
   className,
 }: ProjectCardProps) {
   
-  // Function to render the appropriate icon based on the icon name
+  /**
+   * Renders the appropriate icon based on the icon name
+   * @param {string} iconName - Name of the icon to render
+   * @returns {JSX.Element} The rendered icon component
+   */
   const renderIcon = (iconName?: string | any) => {
     // For debugging
     if (!iconName || typeof iconName !== 'string') {

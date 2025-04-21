@@ -8,4 +8,7 @@ import { revalidatePath } from "next/cache";
  */
 export async function revalidateProjects() {
   revalidatePath('/projects');
+  console.log("Revalidating projects page...");
+  // Optionally, you can also revalidate the homepage or any other pages that depend on projects data
+    // revalidatePath('/');
 }

@@ -1,34 +1,70 @@
+/**
+ * Database module for portfolio project
+ * 
+ * Provides interfaces and functions for PostgreSQL database interactions
+ * related to project management in the portfolio website.
+ */
+
 import { Pool } from 'pg';
 
-// Create PostgreSQL pool
+/**
+ * PostgreSQL connection pool
+ * Uses the DATABASE_URL environment variable for connection details
+ */
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
 });
 
-// Link interface for project links
+/**
+ * Represents a link associated with a project
+ * @interface ProjectLink
+ */
 export interface ProjectLink {
+  /** Display text/label for the link */
   type: string;
+  /** URL that the link points to */
   href: string;
-  icon?: string; // Optional icon for the link
+  /** Optional icon identifier to display with the link */
+  icon?: string;
 }
 
-// Project type definition matching our PostgreSQL schema
+/**
+ * Represents a portfolio project
+ * Structure mirrors the PostgreSQL database schema
+ * @interface Project
+ */
 export interface Project {
+  /** Unique identifier for the project */
   id: number;
+  /** Project title */
   title: string;
+  /** Detailed project description */
   description: string;
+  /** URL-friendly slug (optional) */
   slug?: string;
+  /** Year the project was completed or worked on */
   year?: number;
+  /** Array of technologies or skills used in the project */
   tags: string[];
+  /** Path to the project image for dark mode */
   image?: string;
+  /** Path to the project image for light mode */
   image_light?: string;
+  /** Array of related links (source, demo, etc.) */
   links?: ProjectLink[];
+  /** Whether the project is currently active/ongoing */
   active?: boolean;
+  /** Timestamp when the project was created in the database */
   created_at?: Date;
+  /** Timestamp when the project was last updated in the database */
   updated_at?: Date;
 }
 
-// Get all projects
+/**
+ * Retrieves all projects from the database
+ * 
+ * @returns {Promise<Project[]>} Array of projects sorted by year in descending order
+ */
 export async function getProjects(): Promise<Project[]> {
   const client = await pool.connect();
   try {
@@ -39,7 +75,12 @@ export async function getProjects(): Promise<Project[]> {
   }
 }
 
-// Get a single project by ID
+/**
+ * Retrieves a single project by its ID
+ * 
+ * @param {number} id - The unique identifier of the project
+ * @returns {Promise<Project | null>} The project or null if not found
+ */
 export async function getProject(id: number): Promise<Project | null> {
   const client = await pool.connect();
   try {
@@ -50,7 +91,12 @@ export async function getProject(id: number): Promise<Project | null> {
   }
 }
 
-// Create a new project
+/**
+ * Creates a new project in the database
+ * 
+ * @param {Omit<Project, 'id' | 'created_at' | 'updated_at'>} project - The project data to insert
+ * @returns {Promise<Project>} The newly created project with generated ID and timestamps
+ */
 export async function createProject(project: Omit<Project, 'id' | 'created_at' | 'updated_at'>): Promise<Project> {
   const client = await pool.connect();
   try {
@@ -67,7 +113,14 @@ export async function createProject(project: Omit<Project, 'id' | 'created_at' |
   }
 }
 
-// Update an existing project
+/**
+ * Updates an existing project in the database
+ * Only updates fields that are provided in the projectData parameter
+ * 
+ * @param {number} id - The unique identifier of the project to update
+ * @param {Partial<Project>} projectData - Partial project data with fields to update
+ * @returns {Promise<Project | null>} The updated project or null if not found
+ */
 export async function updateProject(id: number, projectData: Partial<Project>): Promise<Project | null> {
   const client = await pool.connect();
   try {
@@ -145,7 +198,12 @@ export async function updateProject(id: number, projectData: Partial<Project>): 
   }
 }
 
-// Delete a project
+/**
+ * Deletes a project from the database
+ * 
+ * @param {number} id - The unique identifier of the project to delete
+ * @returns {Promise<boolean>} True if the project was successfully deleted, false otherwise
+ */
 export async function deleteProject(id: number): Promise<boolean> {
   const client = await pool.connect();
   try {
