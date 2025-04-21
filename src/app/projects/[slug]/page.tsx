@@ -4,10 +4,11 @@ import { Metadata } from "next";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, ExternalLink, Github } from "lucide-react";
+import { ArrowLeft, ExternalLink, Github, Globe, Video, Award, PartyPopper, GamepadIcon, Figma, Book, Info } from "lucide-react";
 import BlurFade from "@/components/ui/blur-fade";
 import { ImageGallery } from "./image-gallery";
 import { HeroImage } from "./hero-image";
+import { JSX } from "react";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -22,6 +23,36 @@ export async function generateStaticParams() {
   return projects.map((project) => ({
     slug: project.slug || project.id.toString(),
   }));
+}
+
+// Function to render the appropriate icon based on the icon name
+function renderIcon(iconName?: string) {
+  // For debugging
+  if (!iconName || typeof iconName !== 'string') {
+    return <Globe className="h-4 w-4" />;
+  }
+  
+  // Map of icon names to components
+  const iconMap: Record<string, JSX.Element> = {
+    'globe': <Globe className="h-4 w-4" />,
+    'github': <Github className="h-4 w-4" />,
+    'video': <Video className="h-4 w-4" />,
+    'award': <Award className="h-4 w-4" />,
+    'partypopper': <PartyPopper className="h-4 w-4" />,
+    'externallink': <ExternalLink className="h-4 w-4" />,
+    'gamepad': <GamepadIcon className="h-4 w-4" />,
+    'figma': <Figma className="h-4 w-4" />,
+    'book': <Book className="h-4 w-4" />,
+  };
+  
+  try {
+    // Safe way to access the icon with type checking
+    const iconKey = typeof iconName === 'string' ? iconName.toLowerCase() : '';
+    return iconMap[iconKey] || <Globe className="h-4 w-4" />;
+  } catch (error) {
+    // Fallback to default if any error occurs
+    return <Globe className="h-4 w-4" />;
+  }
 }
 
 export default async function ProjectPage(props: Props) {
@@ -112,11 +143,7 @@ export default async function ProjectPage(props: Props) {
                       <BlurFade key={index} delay={BLUR_FADE_DELAY * 5 + index * 0.05}>
                         <Link href={link.href} target="_blank" rel="noopener noreferrer">
                           <Button size="sm" variant="outline" className="space-x-2">
-                            {link.type === 'Github' ? (
-                              <Github className="h-4 w-4" />
-                            ) : (
-                              <ExternalLink className="h-4 w-4" />
-                            )}
+                            {renderIcon(link.icon)}
                             <span>{link.type}</span>
                           </Button>
                         </Link>
