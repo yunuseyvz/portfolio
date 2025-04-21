@@ -48,7 +48,7 @@
    BLOB_READ_WRITE_TOKEN
 
    # Authentication
-   NEXTAUTH_SECRET=
+   NEXTAUTH_SECRET
    NEXTAUTH_URL
    ADMIN_EMAIL
    ```
