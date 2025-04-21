@@ -100,13 +100,13 @@ export function ProjectCard({
   return (
     <motion.div
       className={cn(
-        "flex flex-col overflow-hidden border rounded-lg hover:shadow-lg transition-all duration-300 ease-out h-full relative",
-        "backdrop-blur-xl bg-white/30 dark:bg-black/30",
+        "flex flex-col overflow-hidden rounded-lg hover:shadow-lg transition-all duration-300 ease-out h-full relative border-0",
+        "bg-white/80 dark:bg-black/80 backdrop-filter backdrop-blur-md border border-gray-200 dark:border-gray-800 hover:border-gray-300 dark:hover:border-gray-700 transition-colors",
         className
       )}
       whileHover={{ 
-        scale: 1.03,
-        y: -5,
+        scale: 1.02,
+        y: 0,
         transition: { 
           type: "spring", 
           stiffness: 400, 
@@ -136,11 +136,11 @@ export function ProjectCard({
       )}
 
       {/* Title and Description Section */}
-      <div className="flex flex-col flex-grow p-5 relative z-10">
-        <div className="space-y-2">
+      <div className="flex flex-col flex-grow p-4 relative z-10">
+        <div className="space-y-1.5">
           <h3 className="font-medium text-base">{title}</h3>
-          <div className="font-sans text-xs text-muted-foreground">{dates}</div>
-          <p className="prose max-w-full text-pretty font-sans text-xs text-muted-foreground dark:prose-invert">
+          <div className="font-sans text-xs text-muted-foreground dark:text-muted-foreground text-gray-600">{dates}</div>
+          <p className="prose max-w-full text-pretty font-sans text-xs text-gray-700 dark:text-muted-foreground">
             {description}
           </p>
         </div>
@@ -148,10 +148,10 @@ export function ProjectCard({
 
       {/* Tags Section */}
       {tags && tags.length > 0 && (
-        <div className="p-5 pt-0 pb-3 relative z-10">
-          <div className="flex flex-wrap gap-2">
+        <div className="px-4 pt-0 pb-2 relative z-10">
+          <div className="flex flex-wrap gap-1.5">
             {tags.map((tag) => (
-              <Badge key={tag} variant="secondary" className="px-1.5 py-0.5 text-[11px] rounded-md">
+              <Badge key={tag} variant="secondary" className="px-1.5 py-2 text-[11px] h-5 rounded-md">
                 {tag}
               </Badge>
             ))}
@@ -160,9 +160,9 @@ export function ProjectCard({
       )}
 
       {/* Links Section - Always maintain consistent padding */}
-      <div className="p-5 pt-0 relative z-10">
+      <div className="px-4 pb-4 pt-0 relative z-10 mt-auto">
         {hasLinks && (
-          <div className="flex flex-wrap gap-2 mt-1">   
+          <div className="flex flex-wrap gap-1.5 mt-1">   
             {links?.map((customLink, idx) => 
               customLink.href && (
                 <Link 
@@ -173,7 +173,7 @@ export function ProjectCard({
                 >
                   <Badge 
                     variant="outline" 
-                    className="bg-black text-white dark:bg-white dark:text-black flex gap-2 px-2.5 py-1 text-[11px] rounded-md"
+                    className="bg-black text-white dark:bg-white dark:text-black flex gap-1.5 px-1.5 py-2 text-[11px] h-6 rounded-md"
                   >
                     {renderIcon(customLink.icon)}
                     {customLink.type}
@@ -183,7 +183,6 @@ export function ProjectCard({
             )}
           </div>
         )}
-        {!hasLinks && <div className="h-1"></div>}
       </div>
     </motion.div>
   );
