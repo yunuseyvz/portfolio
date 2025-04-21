@@ -117,7 +117,7 @@ export default async function ProjectPage(props: Props) {
               </div>
             </div>
             
-            <p className="text-base text-muted-foreground">{project.description}</p>
+            <p className="text-base text-muted-foreground text-pretty text-justify hyphens-auto">{project.description}</p>
             
             <div className="flex flex-wrap gap-8">
               {project.tags && project.tags.length > 0 && (
