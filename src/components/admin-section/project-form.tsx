@@ -2,14 +2,14 @@
 
 import { useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import { upload } from '@vercel/blob/client';
 import { Project, ProjectLink } from '@/lib/db';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
-import { X, Plus, Globe, Github, Video, Award, PartyPopper, ExternalLink, GamepadIcon, Figma, Book } from 'lucide-react';
+import { X, Plus, Globe, Github, Video, Award, PartyPopper, ExternalLink, GamepadIcon, Figma, Book, ImageDownIcon } from 'lucide-react';
+import Image from 'next/image';
 
 /**
  * Props for the ProjectForm component
@@ -288,7 +288,9 @@ export default function ProjectForm({ project }: ProjectFormProps) {
               </div>
               {formData.image && (
                 <div className="mt-2">
-                  <img 
+                  <Image
+                    width={500}
+                    height={300}
                     src={formData.image} 
                     alt="Project Preview" 
                     className="max-h-40 rounded-md object-cover border" 
@@ -371,7 +373,9 @@ export default function ProjectForm({ project }: ProjectFormProps) {
               </div>
               {formData.image_light && (
                 <div className="mt-2">
-                  <img 
+                  <Image
+                    width={500}
+                    height={300}
                     src={formData.image_light} 
                     alt="Project Preview (Light)" 
                     className="max-h-40 rounded-md object-cover border" 
