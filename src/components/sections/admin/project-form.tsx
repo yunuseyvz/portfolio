@@ -9,7 +9,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Badge } from '@/components/ui/badge';
-import { X, Plus, Globe, Github, Video, Award, PartyPopper, ExternalLink, GamepadIcon, Figma, Book, ImageDownIcon } from 'lucide-react';
+import { X, Plus, Globe, Github, Video, Award, PartyPopper, ExternalLink, GamepadIcon, Figma, Book, ImageDownIcon, Trash } from 'lucide-react';
 import Image from 'next/image';
 
 /**
@@ -86,9 +86,14 @@ export default function ProjectForm({ project }: ProjectFormProps) {
   const isEditing = !!project;
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isUploading, setIsUploading] = useState<{ main: boolean; light: boolean }>({ main: false, light: false });
+  const [isUploading, setIsUploading] = useState<{ main: boolean; light: boolean; showcase: boolean }>({ 
+    main: false, 
+    light: false, 
+    showcase: false 
+  });
   const fileInputRef = useRef<HTMLInputElement>(null);
   const fileInputLightRef = useRef<HTMLInputElement>(null);
+  const showcaseInputRef = useRef<HTMLInputElement>(null);
   const [formData, setFormData] = useState({
     title: project?.title || '',
     description: project?.description || '',
@@ -98,6 +103,7 @@ export default function ProjectForm({ project }: ProjectFormProps) {
     active: project?.active || false,
   });
   
+  const [showcaseImages, setShowcaseImages] = useState<string[]>(project?.images || []);
   const [tags, setTags] = useState<string[]>(project?.tags || []);
   const [tagInput, setTagInput] = useState('');
   
@@ -151,6 +157,10 @@ export default function ProjectForm({ project }: ProjectFormProps) {
   const removeLink = (indexToRemove: number) => {
     setLinks(links.filter((_, index) => index !== indexToRemove));
   };
+  
+  const removeShowcaseImage = (indexToRemove: number) => {
+    setShowcaseImages(showcaseImages.filter((_, index) => index !== indexToRemove));
+  };
 
   const updateLink = (index: number, field: keyof ProjectLink, value: string) => {
     const updatedLinks = [...links];
@@ -166,6 +176,7 @@ export default function ProjectForm({ project }: ProjectFormProps) {
       const projectData = {
         ...formData,
         tags,
+        images: showcaseImages,
         links: links.filter(link => link.type && link.href),
       };
 
@@ -196,6 +207,26 @@ export default function ProjectForm({ project }: ProjectFormProps) {
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  const uploadImage = async (file: File): Promise<string> => {
+    const timestamp = new Date().getTime();
+    const fileName = `${timestamp}-${file.name.replace(/\s+/g, '-')}`;
+    
+    const response = await fetch(
+      `/api/upload?filename=${encodeURIComponent(fileName)}`,
+      {
+        method: 'POST',
+        body: file,
+      }
+    );
+    
+    if (!response.ok) {
+      throw new Error('Upload failed');
+    }
+    
+    const newBlob = await response.json();
+    return newBlob.url;
   };
 
   return (
@@ -408,6 +439,79 @@ export default function ProjectForm({ project }: ProjectFormProps) {
               )}
             </div>
           </div>
+        </div>
+        
+        {/* Showcase Images Section */}
+        <div>
+          <div className="flex justify-between items-center mb-2">
+            <Label>Showcase Images</Label>
+            <div className="flex gap-2">
+              <input
+                type="file"
+                ref={showcaseInputRef}
+                onChange={async (e) => {
+                  const file = e.target.files?.[0];
+                  if (!file) return;
+                  
+                  try {
+                    setIsUploading(prev => ({ ...prev, showcase: true }));
+                    
+                    const url = await uploadImage(file);
+                    setShowcaseImages(prev => [...prev, url]);
+                  } catch (error) {
+                    console.error('Error uploading showcase image:', error);
+                    alert('Failed to upload image. Please try again.');
+                  } finally {
+                    setIsUploading(prev => ({ ...prev, showcase: false }));
+                  }
+                }}
+                accept="image/*"
+                className="hidden"
+              />
+              <Button 
+                type="button"
+                variant="outline"
+                onClick={() => showcaseInputRef.current?.click()}
+                disabled={isUploading.showcase}
+                className="text-sm"
+              >
+                <Plus className="h-4 w-4 mr-2" />
+                {isUploading.showcase ? 'Uploading...' : 'Add Showcase Image'}
+              </Button>
+            </div>
+          </div>
+          
+          {showcaseImages.length === 0 ? (
+            <p className="text-sm text-muted-foreground">
+              No showcase images added yet. These will appear as a gallery on the project page.
+            </p>
+          ) : (
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mt-3">
+              {showcaseImages.map((image, index) => (
+                <div key={index} className="relative group">
+                  <div className="absolute top-2 right-2 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <Button
+                      type="button"
+                      variant="destructive"
+                      size="icon"
+                      onClick={() => removeShowcaseImage(index)}
+                      className="h-8 w-8"
+                    >
+                      <Trash className="h-4 w-4" />
+                    </Button>
+                  </div>
+                  <div className="rounded-md overflow-hidden border aspect-video relative">
+                    <Image
+                      fill
+                      src={image}
+                      alt={`Project showcase image ${index + 1}`}
+                      className="object-cover"
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
         <div>

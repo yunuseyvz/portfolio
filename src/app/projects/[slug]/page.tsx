@@ -2,11 +2,12 @@ import { getProject, getProjects, getProjectBySlug } from "@/lib/db";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
 import { Badge } from "@/components/ui/badge";
-import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, ExternalLink, Github } from "lucide-react";
 import BlurFade from "@/components/ui/blur-fade";
+import { ImageGallery } from "./image-gallery";
+import { HeroImage } from "./hero-image";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -48,56 +49,48 @@ export default async function ProjectPage(props: Props) {
   const statusText = project.active ? "Active" : "Completed";
 
   return (
-    <main className="container py-12 max-w-5xl">
-      <BlurFade delay={BLUR_FADE_DELAY}>
-        <div className="mb-8">
+    <main className="py-12">
+      {/* Navigation */}
+      <div className="container max-w-5xl">
+        <BlurFade delay={BLUR_FADE_DELAY}>
           <Link href="/projects">
             <Button variant="ghost" size="sm" className="mb-4">
               <ArrowLeft className="mr-2 h-4 w-4" /> Back to Projects
             </Button>
           </Link>
-          
-          <div className="flex flex-col md:flex-row gap-6">
-            {/* Project Image */}
-            {project.image && (
-              <BlurFade className="w-full md:w-1/2" delay={BLUR_FADE_DELAY * 2}>
-                <div className="rounded-lg overflow-hidden shadow-md">
-                  <Image
-                    src={project.image}
-                    alt={project.title}
-                    width={600}
-                    height={400}
-                    className="object-cover w-full h-auto dark:block hidden"
-                  />
-                  <Image
-                    src={project.image_light || project.image}
-                    alt={project.title}
-                    width={600}
-                    height={400}
-                    className="object-cover w-full h-auto dark:hidden block"
-                  />
-                </div>
-              </BlurFade>
-            )}
-            
-            {/* Project Details */}
-            <BlurFade className="w-full md:w-1/2 space-y-4" delay={BLUR_FADE_DELAY * 3}>
-              <div className="space-y-1">
-                <h1 className="text-3xl font-bold leading-tight">{project.title}</h1>
-                <div className="flex items-center gap-2 mt-2">
-                  <Badge className={statusBadgeClasses}>{statusText}</Badge>
-                  {project.year && (
-                    <span className="text-sm text-muted-foreground">
-                      {project.active ? `${project.year} - Present` : project.year}
-                    </span>
-                  )}
-                </div>
+        </BlurFade>
+      </div>
+      
+      {project.image && (
+        <HeroImage 
+          image={project.image} 
+          imageLight={project.image_light} 
+          title={project.title}
+          delay={BLUR_FADE_DELAY * 2}
+        />
+      )}
+      
+      <div className="container max-w-5xl">
+        <BlurFade delay={BLUR_FADE_DELAY * 3}>
+          {/* Project Details */}
+          <div className="space-y-6">
+            <div className="space-y-1">
+              <h1 className="text-3xl font-bold leading-tight">{project.title}</h1>
+              <div className="flex items-center gap-2 mt-2">
+                <Badge className={statusBadgeClasses}>{statusText}</Badge>
+                {project.year && (
+                  <span className="text-sm text-muted-foreground">
+                    {project.active ? `${project.year} - Present` : project.year}
+                  </span>
+                )}
               </div>
-              
-              <p className="text-base text-muted-foreground">{project.description}</p>
-              
+            </div>
+            
+            <p className="text-base text-muted-foreground">{project.description}</p>
+            
+            <div className="flex flex-wrap gap-8">
               {project.tags && project.tags.length > 0 && (
-                <BlurFade className="pt-4" delay={BLUR_FADE_DELAY * 4}>
+                <BlurFade className="flex-1 min-w-[200px]" delay={BLUR_FADE_DELAY * 4}>
                   <h2 className="text-sm font-medium mb-2">Technologies</h2>
                   <div className="flex flex-wrap gap-1.5">
                     {project.tags.map((tag, index) => (
@@ -112,7 +105,7 @@ export default async function ProjectPage(props: Props) {
               )}
               
               {project.links && project.links.length > 0 && (
-                <BlurFade className="pt-4" delay={BLUR_FADE_DELAY * 5}>
+                <BlurFade className="flex-1 min-w-[200px]" delay={BLUR_FADE_DELAY * 5}>
                   <h2 className="text-sm font-medium mb-2">Links</h2>
                   <div className="flex flex-wrap gap-2">
                     {project.links.map((link, index) => (
@@ -132,19 +125,28 @@ export default async function ProjectPage(props: Props) {
                   </div>
                 </BlurFade>
               )}
+            </div>
+          </div>
+          
+          {/* Project Showcase Images with Image Gallery */}
+          {project.images && project.images.length > 0 && (
+            <BlurFade className="mt-12" delay={BLUR_FADE_DELAY * 6}>
+              <h2 className="text-xl font-semibold mb-4">Image Showcase</h2>
+              <ImageGallery images={project.images} title={project.title} />
             </BlurFade>
-          </div>
-        </div>
-      </BlurFade>
-      
-      {/* Project Content - Can be expanded with more details */}
-      {project.content && (
-        <BlurFade className="mt-10" delay={BLUR_FADE_DELAY * 6}>
-          <div className="prose dark:prose-invert max-w-none">
-            <div dangerouslySetInnerHTML={{ __html: project.content }} />
-          </div>
+          )}
+          
+          {/* Project Content - Can be expanded with more details */}
+          {project.content && (
+            <BlurFade className="mt-12" delay={BLUR_FADE_DELAY * (project.images && project.images.length > 0 ? 7 : 6)}>
+              <h2 className="text-xl font-semibold mb-4">Details</h2>
+              <div className="prose dark:prose-invert max-w-none">
+                <div dangerouslySetInnerHTML={{ __html: project.content }} />
+              </div>
+            </BlurFade>
+          )}
         </BlurFade>
-      )}
+      </div>
     </main>
   );
 }

@@ -51,6 +51,8 @@ export interface Project {
   image?: string;
   /** Path to the project image for light mode */
   image_light?: string;
+  /** Array of additional project showcase images */
+  images?: string[];
   /** HTML content for the project page */
   content?: string;
   /** Array of related links (source, demo, etc.) */
@@ -119,21 +121,22 @@ export async function getProjectBySlug(slug: string): Promise<Project | null> {
 export async function createProject(project: Omit<Project, 'id' | 'created_at' | 'updated_at' | 'slug'>): Promise<Project> {
   const client = await pool.connect();
   try {
-    const { title, description, year, image, image_light, tags, links, active, content } = project;
+    const { title, description, year, image, image_light, images, tags, links, active, content } = project;
     
     // Generate a slug from the title
     const slug = generateSlug(title);
     
     const result = await client.query(
-      `INSERT INTO projects (title, description, year, image, image_light, tags, links, active, slug, content) 
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) 
+      `INSERT INTO projects (title, description, year, image, image_light, images, tags, links, active, slug, content) 
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) 
        RETURNING *`,
       [
         title, 
         description, 
         year, 
         image, 
-        image_light, 
+        image_light,
+        images || [],
         tags, 
         links ? JSON.stringify(links) : null, 
         active ?? false,
@@ -196,6 +199,11 @@ export async function updateProject(id: number, projectData: Partial<Project>): 
     if ('image_light' in projectData) {
       updates.push(`image_light = $${paramCounter}`);
       values.push(projectData.image_light);
+      paramCounter++;
+    }
+    if ('images' in projectData) {
+      updates.push(`images = $${paramCounter}`);
+      values.push(projectData.images || []);
       paramCounter++;
     }
     if ('tags' in projectData) {
