@@ -8,6 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
+import { Badge } from '@/components/ui/badge';
 import { X, Plus, Globe, Github, Video, Award, PartyPopper, ExternalLink, GamepadIcon, Figma, Book, ImageDownIcon } from 'lucide-react';
 import Image from 'next/image';
 
@@ -94,10 +95,12 @@ export default function ProjectForm({ project }: ProjectFormProps) {
     year: project?.year || new Date().getFullYear(),
     image: project?.image || '',
     image_light: project?.image_light || '',
-    tags: project?.tags?.join(', ') || '',
     active: project?.active || false,
   });
-
+  
+  const [tags, setTags] = useState<string[]>(project?.tags || []);
+  const [tagInput, setTagInput] = useState('');
+  
   const [links, setLinks] = useState<ProjectLink[]>(project?.links || []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -113,6 +116,32 @@ export default function ProjectForm({ project }: ProjectFormProps) {
 
   const handleCheckboxChange = (name: string, checked: boolean) => {
     setFormData((prev) => ({ ...prev, [name]: checked }));
+  };
+
+  const addTag = () => {
+    if (!tagInput.trim()) return;
+    
+    // Split on commas for multiple tags at once
+    const newTags = tagInput
+      .split(',')
+      .map(tag => tag.trim())
+      .filter(tag => tag && !tags.includes(tag));
+    
+    if (newTags.length > 0) {
+      setTags(prevTags => [...prevTags, ...newTags]);
+      setTagInput('');
+    }
+  };
+  
+  const removeTag = (tagToRemove: string) => {
+    setTags(tags.filter(tag => tag !== tagToRemove));
+  };
+  
+  const handleTagKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' || e.key === ',') {
+      e.preventDefault();
+      addTag();
+    }
   };
 
   const addLink = () => {
@@ -134,11 +163,6 @@ export default function ProjectForm({ project }: ProjectFormProps) {
     setIsSubmitting(true);
 
     try {
-      const tags = formData.tags
-        .split(',')
-        .map(tag => tag.trim())
-        .filter(Boolean);
-
       const projectData = {
         ...formData,
         tags,
@@ -388,13 +412,33 @@ export default function ProjectForm({ project }: ProjectFormProps) {
 
         <div>
           <Label htmlFor="tags">Tags/Technologies</Label>
-          <Input
-            id="tags"
-            name="tags"
-            value={formData.tags}
-            onChange={handleChange}
-            placeholder="React, TypeScript, Next.js (comma separated)"
-          />
+          <div className="space-y-2">
+            <div className="flex flex-wrap gap-2">
+              {tags.map((tag) => (
+                <Badge key={tag} variant="secondary" className="flex items-center gap-1">
+                  {tag}
+                  <button
+                    type="button"
+                    onClick={() => removeTag(tag)}
+                    className="text-muted-foreground hover:text-foreground"
+                  >
+                    <X className="h-3 w-3" />
+                  </button>
+                </Badge>
+              ))}
+            </div>
+            <Input
+              id="tags"
+              name="tags"
+              value={tagInput}
+              onChange={(e) => setTagInput(e.target.value)}
+              onKeyDown={handleTagKeyDown}
+              placeholder="React, TypeScript, Next.js (comma separated)"
+            />
+            <Button type="button" size="sm" onClick={addTag}>
+              Add Tag
+            </Button>
+          </div>
           <p className="mt-1.5 text-sm text-muted-foreground">
             Enter tags separated by commas
           </p>
