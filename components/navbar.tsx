@@ -10,6 +10,7 @@ import {
 import { DATA } from "../data/resume";
 import { cn } from "../lib/utils";
 import Link from "next/link";
+import { LockKeyhole } from "lucide-react";
 
 export default function Navbar() {
   return (
@@ -21,7 +22,6 @@ export default function Navbar() {
             <Tooltip>
               <TooltipTrigger asChild>
                 <Link
-                  prefetch={false}
                   href={item.href}
                   className={cn(
                     buttonVariants({ variant: "ghost", size: "icon" }),
@@ -37,6 +37,25 @@ export default function Navbar() {
             </Tooltip>
           </DockIcon>
         ))}
+        <DockIcon>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Link
+                  prefetch={false}
+                  href="/admin"
+                  className={cn(
+                    buttonVariants({ variant: "ghost", size: "icon" }),
+                    "size-12"
+                  )}
+                >
+                  <LockKeyhole className="size-4" />
+                </Link>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Secret Area</p>
+              </TooltipContent>
+            </Tooltip>
+          </DockIcon>
         <Separator orientation="vertical" className="h-full" />
         {Object.entries(DATA.contact.social)
           .filter(([_, social]) => social.navbar)
