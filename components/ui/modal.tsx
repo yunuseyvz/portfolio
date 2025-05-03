@@ -109,6 +109,14 @@ export function ImageModal({
   hasNext?: boolean;
   hasPrevious?: boolean;
 }) {
+  // Track image loading state
+  const [isLoading, setIsLoading] = React.useState(true);
+
+  // Reset loading state when image changes
+  React.useEffect(() => {
+    setIsLoading(true);
+  }, [image]);
+
   // Handle keyboard navigation
   React.useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -141,6 +149,16 @@ export function ImageModal({
           </button>
         )}
         
+        {/* Loading spinner */}
+        {isLoading && (
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="h-10 w-10 animate-spin rounded-full border-4 border-primary/20 border-t-primary" 
+                 role="status" 
+                 aria-label="Loading image">
+            </div>
+          </div>
+        )}
+        
         <AnimatePresence mode="wait">
           <motion.img 
             key={image}
@@ -151,6 +169,7 @@ export function ImageModal({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
+            onLoad={() => setIsLoading(false)}
           />
         </AnimatePresence>
 
