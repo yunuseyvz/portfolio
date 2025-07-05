@@ -58,6 +58,17 @@ export const DATA = {
   },
   work: [
     {
+      company: "Rohde & Schwarz GmbH & Co. KG",
+      href: "https://www.rohde-schwarz.com/",
+      badges: [],
+      location: "Munich, Germany",
+      title: "Working Student in Software Development",
+      logoUrl: "/rs.png",
+      period: "since 2025",
+      description:
+        "Fullstack development of a customer-oriented automation system for end-to-end testing in the mobile communications domain.",
+    },
+    {
       company: "MTU Aero Engines AG",
       href: "https://www.mtu.de/de/",
       badges: [],
