@@ -6,6 +6,10 @@ const nextConfig = {
         protocol: "https",
         hostname: "482vinrqhnhtlafe.public.blob.vercel-storage.com",
       },
+      {
+        protocol: "https",
+        hostname: "supabase.yuemya.de",
+      },
     ],
   },
 };
