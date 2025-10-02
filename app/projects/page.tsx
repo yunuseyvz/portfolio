@@ -2,9 +2,7 @@ import { getProjects } from "../../lib/db";
 import BlurFade from "../../components/ui/blur-fade";
 import ProjectsClientComponent from "../../components/sections/projects/projects-client";
 
-// Revalidate only on demand
-// This is a static page, so we don't need to revalidate on every request
-export const revalidate = false; 
+export const revalidate = 60; 
 
 export default async function Projects() {
   const projects = await getProjects();
