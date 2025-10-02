@@ -37,25 +37,7 @@ export default function Navbar() {
             </Tooltip>
           </DockIcon>
         ))}
-        <DockIcon>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Link
-                  prefetch={false}
-                  href="/admin"
-                  className={cn(
-                    buttonVariants({ variant: "ghost", size: "icon" }),
-                    "size-12"
-                  )}
-                >
-                  <LockKeyhole className="size-4" />
-                </Link>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>Secret Area</p>
-              </TooltipContent>
-            </Tooltip>
-          </DockIcon>
+     
         <Separator orientation="vertical" className="h-full" />
         {Object.entries(DATA.contact.social)
           .filter(([_, social]) => social.navbar)
