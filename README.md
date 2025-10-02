@@ -4,17 +4,9 @@
 
 # 🌟 Portfolio
 
-🚀 Built with [Next.js](https://nextjs.org/) and deployed on [Vercel](https://vercel.com/).
+🚀 Built with [Next.js](https://nextjs.org/) and self-hosted on [Hetzner](www.hetzner.com) + [Coolify](https://coolify.io/).
 
 💡 Based on an awesome template by [dillionverma](https://github.com/dillionverma).
-
-## ✨ Features
-
-- 💻 **Modern Tech Stack**: Next.js 15, React, Typescript, TailwindCSS, Shadcn/UI, Framer Motion and more💥
-- 📱 **Fully Responsive**: Works flawlessly across all devices 📲
-- ⚡ **Optimized**: For smooth performance on Next.js and Vercel 🌐
-- 🔄 **Dynamic Data**: Content is dynamically fetched from a PostgreSQL database
-- 🔒 **Admin Panel**: Secure admin interface with authentication for content management
 
 ## 🚀 Getting Started Locally
 

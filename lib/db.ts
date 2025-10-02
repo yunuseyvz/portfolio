@@ -1,20 +1,12 @@
 /**
  * Database module for portfolio project
  * 
- * Provides interfaces and functions for PostgreSQL database interactions
+ * Provides interfaces and functions for Supabase database interactions
  * related to project management in the portfolio website.
  */
 
-import { Pool } from 'pg';
+import { supabaseAdmin } from './supabase/client';
 import { generateSlug } from './utils';
-
-/**
- * PostgreSQL connection pool
- * Uses the DATABASE_URL environment variable for connection details
- */
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-});
 
 /**
  * Represents a link associated with a project
@@ -71,13 +63,16 @@ export interface Project {
  * @returns {Promise<Project[]>} Array of projects sorted by year in descending order
  */
 export async function getProjects(): Promise<Project[]> {
-  const client = await pool.connect();
-  try {
-    const result = await client.query('SELECT * FROM projects ORDER BY year DESC');
-    return result.rows;
-  } finally {
-    client.release();
+  const { data, error } = await supabaseAdmin
+    .from('projects')
+    .select('*')
+    .order('year', { ascending: false });
+
+  if (error) {
+    throw new Error(`Failed to fetch projects: ${error.message}`);
   }
+
+  return data || [];
 }
 
 /**
@@ -87,13 +82,21 @@ export async function getProjects(): Promise<Project[]> {
  * @returns {Promise<Project | null>} The project or null if not found
  */
 export async function getProject(id: number): Promise<Project | null> {
-  const client = await pool.connect();
-  try {
-    const result = await client.query('SELECT * FROM projects WHERE id = $1', [id]);
-    return result.rows[0] || null;
-  } finally {
-    client.release();
+  const { data, error } = await supabaseAdmin
+    .from('projects')
+    .select('*')
+    .eq('id', id)
+    .single();
+
+  if (error) {
+    if (error.code === 'PGRST116') {
+      // No rows found
+      return null;
+    }
+    throw new Error(`Failed to fetch project: ${error.message}`);
   }
+
+  return data;
 }
 
 /**
@@ -103,13 +106,21 @@ export async function getProject(id: number): Promise<Project | null> {
  * @returns {Promise<Project | null>} The project or null if not found
  */
 export async function getProjectBySlug(slug: string): Promise<Project | null> {
-  const client = await pool.connect();
-  try {
-    const result = await client.query('SELECT * FROM projects WHERE slug = $1', [slug]);
-    return result.rows[0] || null;
-  } finally {
-    client.release();
+  const { data, error } = await supabaseAdmin
+    .from('projects')
+    .select('*')
+    .eq('slug', slug)
+    .single();
+
+  if (error) {
+    if (error.code === 'PGRST116') {
+      // No rows found
+      return null;
+    }
+    throw new Error(`Failed to fetch project by slug: ${error.message}`);
   }
+
+  return data;
 }
 
 /**
@@ -119,35 +130,34 @@ export async function getProjectBySlug(slug: string): Promise<Project | null> {
  * @returns {Promise<Project>} The newly created project with generated ID and timestamps
  */
 export async function createProject(project: Omit<Project, 'id' | 'created_at' | 'updated_at' | 'slug'>): Promise<Project> {
-  const client = await pool.connect();
-  try {
-    const { title, description, year, image, image_light, images, tags, links, active, content } = project;
-    
-    // Generate a slug from the title
-    const slug = generateSlug(title);
-    
-    const result = await client.query(
-      `INSERT INTO projects (title, description, year, image, image_light, images, tags, links, active, slug, content) 
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) 
-       RETURNING *`,
-      [
-        title, 
-        description, 
-        year, 
-        image, 
-        image_light,
-        images || [],
-        tags, 
-        links ? JSON.stringify(links) : null, 
-        active ?? false,
-        slug,
-        content || null
-      ]
-    );
-    return result.rows[0];
-  } finally {
-    client.release();
+  const { title, description, year, image, image_light, images, tags, links, active, content } = project;
+  
+  // Generate a slug from the title
+  const slug = generateSlug(title);
+  
+  const { data, error } = await supabaseAdmin
+    .from('projects')
+    .insert({
+      title,
+      description,
+      year,
+      image,
+      image_light,
+      images: images || [],
+      tags,
+      links,
+      active: active ?? false,
+      slug,
+      content: content || null
+    })
+    .select()
+    .single();
+
+  if (error) {
+    throw new Error(`Failed to create project: ${error.message}`);
   }
+
+  return data;
 }
 
 /**
@@ -159,101 +169,72 @@ export async function createProject(project: Omit<Project, 'id' | 'created_at' |
  * @returns {Promise<Project | null>} The updated project or null if not found
  */
 export async function updateProject(id: number, projectData: Partial<Project>): Promise<Project | null> {
-  const client = await pool.connect();
-  try {
-    // First get the existing project
-    const existingProject = await getProject(id);
-    if (!existingProject) return null;
+  // First check if the project exists
+  const existingProject = await getProject(id);
+  if (!existingProject) return null;
 
-    // Build update query dynamically based on provided fields
-    const updates: string[] = [];
-    const values: any[] = [];
-    let paramCounter = 1;
+  // Build update object based on provided fields
+  const updateData: any = {};
 
-    // Add each field that needs to be updated
-    if ('title' in projectData && projectData.title) {
-      updates.push(`title = $${paramCounter}`);
-      values.push(projectData.title);
-      paramCounter++;
-      
-      // If title changes, update the slug as well (ensure title is defined)
-      updates.push(`slug = $${paramCounter}`);
-      values.push(generateSlug(projectData.title));
-      paramCounter++;
-    }
-    if ('description' in projectData) {
-      updates.push(`description = $${paramCounter}`);
-      values.push(projectData.description);
-      paramCounter++;
-    }
-    if ('year' in projectData) {
-      updates.push(`year = $${paramCounter}`);
-      values.push(projectData.year);
-      paramCounter++;
-    }
-    if ('image' in projectData) {
-      updates.push(`image = $${paramCounter}`);
-      values.push(projectData.image);
-      paramCounter++;
-    }
-    if ('image_light' in projectData) {
-      updates.push(`image_light = $${paramCounter}`);
-      values.push(projectData.image_light);
-      paramCounter++;
-    }
-    if ('images' in projectData) {
-      updates.push(`images = $${paramCounter}`);
-      values.push(projectData.images || []);
-      paramCounter++;
-    }
-    if ('tags' in projectData) {
-      updates.push(`tags = $${paramCounter}`);
-      values.push(projectData.tags);
-      paramCounter++;
-    }
-    if ('links' in projectData) {
-      updates.push(`links = $${paramCounter}`);
-      values.push(JSON.stringify(projectData.links));
-      paramCounter++;
-    }
-    if ('active' in projectData) {
-      updates.push(`active = $${paramCounter}`);
-      values.push(projectData.active);
-      paramCounter++;
-    }
-    if ('content' in projectData) {
-      updates.push(`content = $${paramCounter}`);
-      values.push(projectData.content);
-      paramCounter++;
-    }
-    // Allow explicit setting of slug if provided
-    if ('slug' in projectData) {
-      updates.push(`slug = $${paramCounter}`);
-      values.push(projectData.slug);
-      paramCounter++;
-    }
-    
-    // Always update the updated_at timestamp
-    updates.push(`updated_at = NOW()`);
-    
-    // Add id as the last parameter
-    values.push(id);
-
-    // If there's nothing to update, return the existing project
-    if (updates.length === 0) {
-      return existingProject;
-    }
-
-    // Execute the update query
-    const result = await client.query(
-      `UPDATE projects SET ${updates.join(', ')} WHERE id = $${paramCounter} RETURNING *`,
-      values
-    );
-
-    return result.rows[0];
-  } finally {
-    client.release();
+  // Add each field that needs to be updated
+  if ('title' in projectData && projectData.title) {
+    updateData.title = projectData.title;
+    // If title changes, update the slug as well (ensure title is defined)
+    updateData.slug = generateSlug(projectData.title);
   }
+  if ('description' in projectData) {
+    updateData.description = projectData.description;
+  }
+  if ('year' in projectData) {
+    updateData.year = projectData.year;
+  }
+  if ('image' in projectData) {
+    updateData.image = projectData.image;
+  }
+  if ('image_light' in projectData) {
+    updateData.image_light = projectData.image_light;
+  }
+  if ('images' in projectData) {
+    updateData.images = projectData.images || [];
+  }
+  if ('tags' in projectData) {
+    updateData.tags = projectData.tags;
+  }
+  if ('links' in projectData) {
+    updateData.links = projectData.links;
+  }
+  if ('active' in projectData) {
+    updateData.active = projectData.active;
+  }
+  if ('content' in projectData) {
+    updateData.content = projectData.content;
+  }
+  // Allow explicit setting of slug if provided
+  if ('slug' in projectData) {
+    updateData.slug = projectData.slug;
+  }
+
+  // Always update the updated_at timestamp
+  updateData.updated_at = new Date().toISOString();
+
+  // If there's nothing to update, return the existing project
+  if (Object.keys(updateData).length === 1) { // Only updated_at
+    return existingProject;
+  }
+
+  // Execute the update query
+  const { data, error } = await supabaseAdmin
+    .from('projects')
+    .update(updateData)
+    .eq('id', id)
+    .select()
+    .single();
+
+  if (error) {
+    throw new Error(`Failed to update project: ${error.message}`);
+  }
+
+  return data;
 }
 
 /**
@@ -263,11 +244,14 @@ export async function updateProject(id: number, projectData: Partial<Project>): 
  * @returns {Promise<boolean>} True if the project was deleted, false if not found
  */
 export async function deleteProject(id: number): Promise<boolean> {
-  const client = await pool.connect();
-  try {
-    const result = await client.query('DELETE FROM projects WHERE id = $1 RETURNING id', [id]);
-    return (result.rowCount ?? 0) > 0;
-  } finally {
-    client.release();
+  const { error } = await supabaseAdmin
+    .from('projects')
+    .delete()
+    .eq('id', id);
+
+  if (error) {
+    throw new Error(`Failed to delete project: ${error.message}`);
   }
+
+  return true;
 }
