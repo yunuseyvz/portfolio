@@ -16,15 +16,15 @@ const nextConfig = {
     return [
       {
         source: "/game",
-        destination: "https://lastchicken.vercel.app/"
+        destination: "http://cocs0g04scsoo8g44o8kg40w.157.90.226.112.sslip.io/"
       },
       {
         source: "/TemplateData/:path*",
-        destination: "https://lastchicken.vercel.app/TemplateData/:path*"
+        destination: "http://cocs0g04scsoo8g44o8kg40w.157.90.226.112.sslip.io/TemplateData/:path*"
       },
       {
         source: "/Build/:path*",
-        destination: "https://lastchicken.vercel.app/Build/:path*"
+        destination: "http://cocs0g04scsoo8g44o8kg40w.157.90.226.112.sslip.io/Build/:path*"
       },
       {
         source: "/cv",
