@@ -32,11 +32,11 @@ const nextConfig = {
       },
       {
         source: "/bachelorthesis",
-        destination: "https://supabase.yuemya.de/storage/v1/object/public/portfolio/projects/bachelorthesis-6l8tvuSS0YkNXorjmkbF8quiugjLpI.pdf"
+        destination: "/bachelorthesis-6l8tvuSS0YkNXorjmkbF8quiugjLpI.pdf"
       },
       {
         source: "/certificate-of-excellence",
-        destination: "https://supabase.yuemya.de/storage/v1/object/public/portfolio/projects/excellence-HfSaGvfqqb1rhWqnc1BLXNmjxOZZW8.jpg"
+        destination: "/excellence-HfSaGvfqqb1rhWqnc1BLXNmjxOZZW8.jpg"
       }
     ];
   }
