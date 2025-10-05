@@ -47,10 +47,6 @@ const nextConfig = {
         source: "/cv",
         destination: "/api/generate-cv"
       },
-      {
-        source: "/bachelorthesis",
-        destination: "https://raw.githubusercontent.com/yunuseyvz/bachelorthesis_phishing/refs/heads/main/thesis_files/final_thesis.pdf"
-      },
     ];
   }
 };
