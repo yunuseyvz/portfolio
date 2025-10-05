@@ -1,11 +1,9 @@
-import { getProjects } from "../../lib/db";
+import { getProjects } from "../../data/projects";
 import BlurFade from "../../components/ui/blur-fade";
 import ProjectsClientComponent from "../../components/sections/projects/projects-client";
 
-export const revalidate = 60; 
-
-export default async function Projects() {
-  const projects = await getProjects();
+export default function Projects() {
+  const projects = getProjects();
   
   return (
     <main className="flex flex-col min-h-[100dvh] space-y-10 mb-16">

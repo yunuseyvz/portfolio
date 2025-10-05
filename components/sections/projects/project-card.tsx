@@ -1,10 +1,8 @@
-import Link from "next/link";
 import Image from "next/image";
 import { Badge } from "../../ui/badge";
 import { cn } from "../../../lib/utils";
-import { ProjectLink } from "../../../lib/db";
-import { Globe, Github, Video, Award, PartyPopper, ExternalLink, GamepadIcon, Figma, Book, Info, ArrowRight } from "lucide-react";
-import { JSX } from "react";
+import { ProjectLink } from "../../../data/projects";
+import { Info } from "lucide-react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 
@@ -67,40 +65,6 @@ export function ProjectCard({
   slug,
 }: ProjectCardProps) {
   const router = useRouter();
-  
-  /**
-   * Renders the appropriate icon based on the icon name
-   * @param {string} iconName - Name of the icon to render
-   * @returns {JSX.Element} The rendered icon component
-   */
-  const renderIcon = (iconName?: string | any) => {
-    // For debugging
-    if (!iconName || typeof iconName !== 'string') {
-      return <Globe className="size-4" />;
-    }
-    
-    // Map of icon names to components
-    const iconMap: Record<string, JSX.Element> = {
-      'globe': <Globe className="size-4" />,
-      'github': <Github className="size-4" />,
-      'video': <Video className="size-4" />,
-      'award': <Award className="size-4" />,
-      'partypopper': <PartyPopper className="size-4" />,
-      'externallink': <ExternalLink className="size-4" />,
-      'gamepad': <GamepadIcon className="size-4" />,
-      'figma': <Figma className="size-4" />,
-      'book': <Book className="size-4" />,
-    };
-    
-    try {
-      // Safe way to access the icon with type checking
-      const iconKey = typeof iconName === 'string' ? iconName.toLowerCase() : '';
-      return iconMap[iconKey] || <Globe className="size-3" />;
-    } catch (error) {
-      // Fallback to default if any error occurs
-      return <Globe className="size-3" />;
-    }
-  };
 
   // Check if project has any links to display
   const hasLinks = link || (links && links.length > 0 && links.some(l => l.href));
@@ -209,7 +173,7 @@ export function ProjectCard({
                     variant="outline" 
                     className="bg-black text-white dark:bg-white dark:text-black flex gap-1.5 px-1.5 py-2 text-[11px] h-6 rounded-md"
                   >
-                    {renderIcon(customLink.icon)}
+                    {customLink.icon}
                     {customLink.type}
                   </Badge>
                 </div>

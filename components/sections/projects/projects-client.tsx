@@ -5,7 +5,7 @@ import { MdDelete, MdSearch } from "react-icons/md";
 import { FiClock, FiCheckCircle, FiSearch } from "react-icons/fi";
 import BlurFade from "../../ui/blur-fade";
 import { ProjectCard } from "./project-card";
-import { ProjectLink } from "../../../lib/db";
+import { ProjectLink } from "../../../data/projects";
 import { Timeline } from "../../ui/timeline";
 import { Input } from "../../ui/input";
 import { Badge } from "../../ui/badge";
