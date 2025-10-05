@@ -44,6 +44,10 @@ const nextConfig = {
         destination: "http://cocs0g04scsoo8g44o8kg40w.157.90.226.112.sslip.io/Build/:path*"
       },
       {
+        source: "/bachelorthesis",
+        destination: "https://supabase.dolphinmarket.de/storage/v1/object/public/portfolio/bachelorthesis.pdf?t=2025-10-05T13%3A11%3A57.608Z"
+      },
+      {
         source: "/cv",
         destination: "/api/generate-cv"
       },

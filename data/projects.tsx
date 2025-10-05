@@ -116,7 +116,7 @@ export const PROJECTS: Project[] = [
         type: "Source"
       },
       {
-        href: "https://raw.githubusercontent.com/yunuseyvz/bachelorthesis_phishing/refs/heads/main/thesis_files/final_thesis.pdf",
+        href: "/bachelorthesis",
         icon: <Book className="h-4 w-4" />,
         type: "Read"
       }
