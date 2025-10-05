@@ -30,14 +30,6 @@ const nextConfig = {
         source: "/cv",
         destination: "/api/generate-cv"
       },
-      {
-        source: "/bachelorthesis",
-        destination: "/bachelorthesis-6l8tvuSS0YkNXorjmkbF8quiugjLpI.pdf"
-      },
-      {
-        source: "/certificate-of-excellence",
-        destination: "/excellence-HfSaGvfqqb1rhWqnc1BLXNmjxOZZW8.jpg"
-      }
     ];
   }
 };

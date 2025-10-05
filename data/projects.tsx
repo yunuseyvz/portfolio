@@ -39,7 +39,7 @@ export const PROJECTS: Project[] = [
         type: "View"
       },
       {
-        href: "https://yuemya.de/certificate-of-excellence/",
+        href: "/projects/excellence.jpg",
         icon: <Award className="h-4 w-4" />,
         type: "Certificate"
       }
@@ -116,7 +116,7 @@ export const PROJECTS: Project[] = [
         type: "Source"
       },
       {
-        href: "https://yuemya.de/bachelorthesis/",
+        href: "/projects/bachelorthesis.pdf",
         icon: <Book className="h-4 w-4" />,
         type: "Read"
       }
