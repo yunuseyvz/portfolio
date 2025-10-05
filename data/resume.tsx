@@ -108,7 +108,7 @@ export const DATA = {
       logoUrl: "/lmu.svg",
       period: "2019 - 2024",
       description: "Thesis Topic: Evaluating the Effectiveness of Phishing Warnings in Email Clients",
-      thesis: "/projects/bachelorthesis.pdf",
+      thesis: "/bachelorthesis",
     },
   ], 
 } as const;

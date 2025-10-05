@@ -116,7 +116,7 @@ export const PROJECTS: Project[] = [
         type: "Source"
       },
       {
-        href: "/projects/bachelorthesis.pdf",
+        href: "/bachelorthesis",
         icon: <Book className="h-4 w-4" />,
         type: "Read"
       }
