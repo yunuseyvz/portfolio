@@ -129,7 +129,7 @@ export function ProjectCard({
       )}
 
       {/* Title and Description Section */}
-      <div className="flex flex-col flex-grow p-4 relative z-10">
+      <div className="flex flex-col grow p-4 relative z-10">
         <div className="space-y-1.5">
           <div className="flex items-center justify-between">
             <h3 className="font-medium text-base">{title}</h3>

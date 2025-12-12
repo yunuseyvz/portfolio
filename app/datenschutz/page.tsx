@@ -15,7 +15,7 @@ const datenschutzData = {
 
 export default function Datenschutz() {
   return (
-    <main className="flex flex-col min-h-[100dvh] space-y-10 mb-16">     
+    <main className="flex flex-col min-h-dvh space-y-10 mb-16">     
       <section id="hero">
         <div className="mx-auto w-full max-w-2xl space-y-8">
           <div className="gap-2 flex justify-between">

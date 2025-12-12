@@ -33,7 +33,7 @@ export function HeroImage({ image, imageLight, title, delay }: HeroImageProps) {
               alt={title}
               width={1200}
               height={600}
-              className="object-cover w-full h-auto aspect-[21/9] dark:block hidden transition-transform duration-300 group-hover:scale-[1.02]"
+              className="object-cover w-full h-auto aspect-21/9 dark:block hidden transition-transform duration-300 group-hover:scale-[1.02]"
             />
             {/* Light mode image -- doesn't work?? */}
             <Image
@@ -41,7 +41,7 @@ export function HeroImage({ image, imageLight, title, delay }: HeroImageProps) {
               alt={title}
               width={1200}
               height={600}
-              className="object-cover w-full h-auto aspect-[21/9] dark:hidden block transition-transform duration-300 group-hover:scale-[1.02]"
+              className="object-cover w-full h-auto aspect-21/9 dark:hidden block transition-transform duration-300 group-hover:scale-[1.02]"
             />
             
             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex items-center justify-center">

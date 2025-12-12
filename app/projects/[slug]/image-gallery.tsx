@@ -42,7 +42,7 @@ export function ImageGallery({ images, title }: ImageGalleryProps) {
                     <BlurFade
                         key={image}
                         delay={BLUR_FADE_DELAY * 6 + index * 0.05}
-                        className={cn("group relative overflow-hidden rounded-lg shadow hover:shadow-md transition-all")}
+                        className={cn("group relative overflow-hidden rounded-lg shadow-sm hover:shadow-md transition-all")}
                     >
                         <div
                             className="aspect-video cursor-pointer relative"

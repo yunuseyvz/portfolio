@@ -152,7 +152,7 @@ export default function ProjectsClientComponent({ initialProjects }: ProjectsCli
                   onClick={() => setActiveTab("all")}
                   className={cn(
                     "flex-1 px-4 py-1.5 text-xs font-medium rounded-full transition-all",
-                    activeTab === "all" ? "bg-background shadow text-foreground" : "text-muted-foreground"
+                    activeTab === "all" ? "bg-background shadow-sm text-foreground" : "text-muted-foreground"
                   )}
                 >
                   All
@@ -161,7 +161,7 @@ export default function ProjectsClientComponent({ initialProjects }: ProjectsCli
                   onClick={() => setActiveTab("ongoing")}
                   className={cn(
                     "flex-1 px-4 py-1.5 text-xs font-medium rounded-full transition-all flex items-center justify-center gap-1.5",
-                    activeTab === "ongoing" ? "bg-background shadow text-foreground" : "text-muted-foreground"
+                    activeTab === "ongoing" ? "bg-background shadow-sm text-foreground" : "text-muted-foreground"
                   )}
                 >
                   <FiClock className="w-3 h-3" /> Ongoing
@@ -170,7 +170,7 @@ export default function ProjectsClientComponent({ initialProjects }: ProjectsCli
                   onClick={() => setActiveTab("completed")}
                   className={cn(
                     "flex-1 px-4 py-1.5 text-xs font-medium rounded-full transition-all flex items-center justify-center gap-1.5",
-                    activeTab === "completed" ? "bg-background shadow text-foreground" : "text-muted-foreground"
+                    activeTab === "completed" ? "bg-background shadow-sm text-foreground" : "text-muted-foreground"
                   )}
                 >
                   <FiCheckCircle className="w-3 h-3" /> Completed

@@ -6,7 +6,7 @@ export default function Projects() {
   const projects = getProjects();
   
   return (
-    <main className="flex flex-col min-h-[100dvh] space-y-10 mb-16">
+    <main className="flex flex-col min-h-dvh space-y-10 mb-16">
       <section id="projects">
         <div className="mx-auto w-full max-w-2xl space-y-8">
           <BlurFade delay={0.04}>
