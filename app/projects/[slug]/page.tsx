@@ -43,19 +43,19 @@ export default function ProjectPage(props: Props) {
   }
 
   const statusBadgeClasses = project.active 
-    ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400"
-    : "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400";
+    ? "bg-accent/10 text-accent border-accent/30"
+    : "bg-secondary text-secondary-foreground";
 
   const statusText = project.active ? "Active" : "Completed";
 
   return (
-    <main className="py-12">
+    <main className="py-8">
       {/* Navigation */}
       <div className="container max-w-5xl">
         <BlurFade delay={BLUR_FADE_DELAY}>
           <Link href="/projects">
-            <Button variant="ghost" size="sm" className="mb-4">
-              <ArrowLeft className="mr-2 h-4 w-4" /> Back to Projects
+            <Button variant="ghost" size="sm" className="mb-6 gap-2 text-muted-foreground hover:text-foreground">
+              <ArrowLeft className="h-4 w-4" /> Back to Projects
             </Button>
           </Link>
         </BlurFade>
@@ -73,29 +73,29 @@ export default function ProjectPage(props: Props) {
       <div className="container max-w-5xl">
         <BlurFade delay={BLUR_FADE_DELAY * 3}>
           {/* Project Details */}
-          <div className="space-y-6">
-            <div className="space-y-1">
-              <h1 className="text-3xl font-bold leading-tight">{project.title}</h1>
-              <div className="flex items-center gap-2 mt-2">
-                <Badge className={statusBadgeClasses}>{statusText}</Badge>
+          <div className="space-y-8">
+            <div className="space-y-3">
+              <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight">{project.title}</h1>
+              <div className="flex items-center gap-3">
+                <Badge variant="outline" className={statusBadgeClasses}>{statusText}</Badge>
                 {project.year && (
-                  <span className="text-sm text-muted-foreground">
+                  <span className="text-sm text-muted-foreground font-medium">
                     {project.active ? `${project.year} - Present` : project.year}
                   </span>
                 )}
               </div>
             </div>
             
-            <p className="text-base text-muted-foreground text-pretty text-justify hyphens-auto">{project.description}</p>
+            <p className="text-lg font-body text-muted-foreground leading-relaxed text-pretty">{project.description}</p>
             
-            <div className="flex flex-wrap gap-8">
+            <div className="flex flex-wrap gap-10">
               {project.tags && project.tags.length > 0 && (
                 <BlurFade className="flex-1 min-w-[200px]" delay={BLUR_FADE_DELAY * 4}>
-                  <h2 className="text-sm font-medium mb-2">Technologies</h2>
-                  <div className="flex flex-wrap gap-1.5">
+                  <h2 className="text-xs font-medium uppercase tracking-widest text-accent mb-3">Technologies</h2>
+                  <div className="flex flex-wrap gap-2">
                     {project.tags.map((tag, index) => (
                       <BlurFade key={tag} delay={BLUR_FADE_DELAY * 4 + index * 0.05}>
-                        <Badge variant="secondary" className="px-2 py-1">
+                        <Badge variant="secondary" className="px-3 py-1">
                           {tag}
                         </Badge>
                       </BlurFade>
@@ -106,12 +106,12 @@ export default function ProjectPage(props: Props) {
               
               {project.links && project.links.length > 0 && (
                 <BlurFade className="flex-1 min-w-[200px]" delay={BLUR_FADE_DELAY * 5}>
-                  <h2 className="text-sm font-medium mb-2">Links</h2>
+                  <h2 className="text-xs font-medium uppercase tracking-widest text-accent mb-3">Links</h2>
                   <div className="flex flex-wrap gap-2">
                     {project.links.map((link, index) => (
                       <BlurFade key={index} delay={BLUR_FADE_DELAY * 5 + index * 0.05}>
                         <Link href={link.href} target="_blank" rel="noopener noreferrer">
-                          <Button size="sm" variant="outline" className="space-x-2">
+                          <Button size="sm" variant="outline" className="gap-2">
                             {link.icon}
                             <span>{link.type}</span>
                           </Button>
@@ -126,17 +126,17 @@ export default function ProjectPage(props: Props) {
           
           {/* Project Showcase Images with Image Gallery */}
           {project.images && project.images.length > 0 && (
-            <BlurFade className="mt-12" delay={BLUR_FADE_DELAY * 6}>
-              <h2 className="text-xl font-semibold mb-4">Image Showcase</h2>
+            <BlurFade className="mt-14" delay={BLUR_FADE_DELAY * 6}>
+              <h2 className="text-xs font-medium uppercase tracking-widest text-accent mb-6">Image Showcase</h2>
               <ImageGallery images={project.images} title={project.title} />
             </BlurFade>
           )}
           
           {/* Project Content - Can be expanded with more details */}
           {project.content && (
-            <BlurFade className="mt-12" delay={BLUR_FADE_DELAY * (project.images && project.images.length > 0 ? 7 : 6)}>
-              <h2 className="text-xl font-semibold mb-4">Details</h2>
-              <div className="prose dark:prose-invert max-w-none">
+            <BlurFade className="mt-14" delay={BLUR_FADE_DELAY * (project.images && project.images.length > 0 ? 7 : 6)}>
+              <h2 className="text-xs font-medium uppercase tracking-widest text-accent mb-6">Details</h2>
+              <div className="prose dark:prose-invert max-w-none font-body">
                 <div dangerouslySetInnerHTML={{ __html: project.content }} />
               </div>
             </BlurFade>

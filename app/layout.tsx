@@ -4,14 +4,20 @@ import { TooltipProvider } from "../components/ui/tooltip";
 import { DATA } from "../data/resume";
 import { cn } from "../lib/utils";
 import type { Metadata } from "next";
-import { Inter as FontSans } from "next/font/google";
+import { Manrope, DM_Sans } from "next/font/google";
 import Particles from "../components/ui/particles";
 import "./globals.css";
 
-
-const fontSans = FontSans({
+const fontDisplay = Manrope({
   subsets: ["latin"],
-  variable: "--font-sans",
+  variable: "--font-display",
+  weight: ["300", "400", "500", "600", "700", "800"],
+});
+
+const fontBody = DM_Sans({
+  subsets: ["latin"],
+  variable: "--font-body",
+  weight: ["400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -60,8 +66,9 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body
         className={cn(
-          "min-h-screen bg-background font-sans antialiased max-w-2xl mx-auto py-12 sm:py-24 px-6",
-          fontSans.variable
+          "min-h-screen bg-background font-display antialiased max-w-2xl mx-auto py-12 sm:py-24 px-6",
+          fontDisplay.variable,
+          fontBody.variable
         )}
       >
         <ThemeProvider attribute="class" defaultTheme="dark">

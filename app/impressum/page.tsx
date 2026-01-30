@@ -15,14 +15,14 @@ const impressumData = {
 
 export default function Impressum() {
   return (
-    <main className="flex flex-col min-h-dvh space-y-10 mb-16">     
+    <main className="flex flex-col min-h-dvh space-y-12 mb-16">     
       <section id="hero">
         <div className="mx-auto w-full max-w-2xl space-y-8">
           <div className="gap-2 flex justify-between">
-            <div className="flex-col flex flex-1 space-y-1.5">
+            <div className="flex-col flex flex-1 space-y-3">
               <BlurFadeText
                 delay={BLUR_FADE_DELAY}
-                className="text-3xl font-bold tracking-tighter sm:text-xl xl:text-4xl/none"
+                className="text-3xl font-semibold tracking-tight sm:text-4xl"
                 yOffset={8}
                 text="Impressum gemäß §5 TMG"
               />
@@ -32,10 +32,10 @@ export default function Impressum() {
       </section>
       <section id="contact">
         <BlurFade delay={BLUR_FADE_DELAY * 3}>
-          <h2 className="text-xl font-bold mb-4">Kontakt</h2>
+          <h2 className="text-xs font-medium uppercase tracking-widest text-accent mb-4">Kontakt</h2>
         </BlurFade>
         <BlurFade delay={BLUR_FADE_DELAY * 4}>
-          <Markdown className="prose max-w-full text-pretty font-sans text-sm text-muted-foreground dark:prose-invert">
+          <Markdown className="prose max-w-full text-pretty font-body text-base text-muted-foreground dark:prose-invert leading-relaxed">
             {`
 **Name:** ${impressumData.name}
 
@@ -50,10 +50,10 @@ export default function Impressum() {
       </section>
       <section id="disclaimer">
         <BlurFade delay={BLUR_FADE_DELAY * 5}>
-          <h2 className="text-xl font-bold mb-4">Haftungsausschluss</h2>
+          <h2 className="text-xs font-medium uppercase tracking-widest text-accent mb-4">Haftungsausschluss</h2>
         </BlurFade>
         <BlurFade delay={BLUR_FADE_DELAY * 6}>
-          <Markdown className="prose max-w-full text-pretty font-sans text-sm text-muted-foreground dark:prose-invert">
+          <Markdown className="prose max-w-full text-pretty font-body text-base text-muted-foreground dark:prose-invert leading-relaxed">
             {`
 **Haftung für Inhalte**
 

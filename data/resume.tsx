@@ -8,9 +8,9 @@ export const DATA = {
   location: "Munich, Germany",
   locationLink: "https://www.google.com/maps/place/munich",
   description:
-    "HCI student passionate about frontend development, UI design, and building seamless user experiences.",
+    "student & software developer",
   summary:
-   "My name is Yunus Emre Yavuz, and I am student with a strong focus on frontend development and UI design. Currently, I am pursuing a Master's degree in Human Computer Interaction at LMU Munich. Check out my projects and feel free to reach out!",
+   "Currently working as a software developer while pursuing my Master's in Human Computer Interaction at LMU Munich. I'm interested in the intersection between design and software development, and enjoy exploring new technologies and tools in my spare time.",
   avatarUrl: "/me.jpg",
   skills: [
     "React",
@@ -18,6 +18,7 @@ export const DATA = {
     "Javascript/Typescript",
     "HTML/CSS",
     "Node.js",
+    "Redux",
     "REST APIs",
     "Git",
     "CI/CD",

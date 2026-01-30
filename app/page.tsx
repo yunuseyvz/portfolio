@@ -12,28 +12,28 @@ const BLUR_FADE_DELAY = 0.04;
 
 export default function Page() {
   return (
-    <main className="flex flex-col min-h-dvh space-y-10 mb-10">     
+    <main className="flex flex-col min-h-dvh space-y-14 mb-10">     
       <section id="hero">
         <div className="mx-auto w-full max-w-2xl space-y-8">
-          <div className="gap-2 flex justify-between">
-            <div className="flex-col flex flex-1 space-y-1.5">
+          <div className="gap-6 flex justify-between items-center">
+            <div className="flex-col flex flex-1 space-y-3">
               <BlurFadeText
                 delay={BLUR_FADE_DELAY}
-                className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none"
+                className="text-3xl font-semibold tracking-tight sm:text-5xl xl:text-6xl/none"
                 yOffset={8}
                 text={`Hi, I'm ${DATA.name.split(" ")[0]} 👋`}
               />
               <BlurFadeText
-                className="max-w-[600px] md:text-xl"
+                className="max-w-[600px] text-muted-foreground font-body text-lg md:text-xl leading-relaxed"
                 delay={BLUR_FADE_DELAY}
                 text={DATA.description}
               />
             </div>
             <BlurFade delay={BLUR_FADE_DELAY}>
               <CoolMode>
-                <Avatar className="size-36 border">
+                <Avatar className="size-32 sm:size-36 border-2 border-accent/20 shadow-xl shadow-accent/5 ring-4 ring-background">
                   <AvatarImage alt={DATA.name} src={DATA.avatarUrl} />
-                  <AvatarFallback>{DATA.initials}</AvatarFallback>
+                  <AvatarFallback className="text-2xl font-semibold">{DATA.initials}</AvatarFallback>
                 </Avatar>
               </CoolMode>
             </BlurFade>
@@ -42,18 +42,18 @@ export default function Page() {
       </section>
       <section id="about">
         <BlurFade delay={BLUR_FADE_DELAY * 3}>
-          <h2 className="text-xl font-bold">About</h2>
+          <h2 className="text-sm font-medium uppercase tracking-widest text-accent mb-4">About</h2>
         </BlurFade>
         <BlurFade delay={BLUR_FADE_DELAY * 4}>
-          <Markdown className="prose max-w-full text-pretty font-sans text-sm text-muted-foreground dark:prose-invert">
+          <Markdown className="prose max-w-full text-pretty font-body text-base leading-relaxed text-muted-foreground dark:prose-invert">
             {DATA.summary}
           </Markdown>
         </BlurFade>
       </section>
       <section id="education">
-        <div className="flex min-h-0 flex-col gap-y-3">
+        <div className="flex min-h-0 flex-col gap-y-4">
           <BlurFade delay={BLUR_FADE_DELAY * 5}>
-            <h2 className="text-xl font-bold">Education</h2>
+            <h2 className="text-sm font-medium uppercase tracking-widest text-accent mb-2">Education</h2>
           </BlurFade>
           {DATA.education.map((education, id) => (
             <BlurFade
@@ -76,9 +76,9 @@ export default function Page() {
         </div>
       </section>
       <section id="work">
-        <div className="flex min-h-0 flex-col gap-y-3">
+        <div className="flex min-h-0 flex-col gap-y-4">
           <BlurFade delay={BLUR_FADE_DELAY * 7}>
-            <h2 className="text-xl font-bold">Work Experience</h2>
+            <h2 className="text-sm font-medium uppercase tracking-widest text-accent mb-2">Work Experience</h2>
           </BlurFade>
           {DATA.work.map((work, id) => (
             <BlurFade
@@ -102,21 +102,21 @@ export default function Page() {
         </div>
       </section>
       <section id="skills">
-        <div className="flex min-h-0 flex-col gap-y-3">
+        <div className="flex min-h-0 flex-col gap-y-4">
           <BlurFade delay={BLUR_FADE_DELAY * 9}>
-            <h2 className="text-xl font-bold">Skills & Tools</h2>
+            <h2 className="text-sm font-medium uppercase tracking-widest text-accent mb-2">Skills & Tools</h2>
           </BlurFade>
-          <div className="flex flex-wrap gap-1">
+          <div className="flex flex-wrap gap-2">
             {DATA.skills.map((skill, id) => (
               <BlurFade key={skill} delay={BLUR_FADE_DELAY * 10 + id * 0.05}>
-                <Badge key={skill}>{skill}</Badge>
+                <Badge key={skill} variant="secondary">{skill}</Badge>
               </BlurFade>
             ))}
           </div>
         </div>
       </section>
       <section id="cv">
-        <div className="flex justify-center items-center">
+        <div className="flex justify-center items-center pt-4">
           <BlurFade delay={BLUR_FADE_DELAY * 11}>
             <GenerateCVButton />
           </BlurFade>

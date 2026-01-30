@@ -15,14 +15,14 @@ const datenschutzData = {
 
 export default function Datenschutz() {
   return (
-    <main className="flex flex-col min-h-dvh space-y-10 mb-16">     
+    <main className="flex flex-col min-h-dvh space-y-12 mb-16">     
       <section id="hero">
         <div className="mx-auto w-full max-w-2xl space-y-8">
           <div className="gap-2 flex justify-between">
-            <div className="flex-col flex flex-1 space-y-1.5">
+            <div className="flex-col flex flex-1 space-y-3">
               <BlurFadeText
                 delay={BLUR_FADE_DELAY}
-                className="text-3xl font-bold tracking-tighter sm:text-xl xl:text-4xl/none"
+                className="text-3xl font-semibold tracking-tight sm:text-4xl"
                 yOffset={8}
                 text="Datenschutzhinweise"
               />
@@ -32,7 +32,7 @@ export default function Datenschutz() {
       </section>
       <section id="dsgvo">
         <BlurFade delay={BLUR_FADE_DELAY * 6}>
-          <Markdown className="prose max-w-full text-pretty font-sans text-sm text-muted-foreground dark:prose-invert">
+          <Markdown className="prose max-w-full text-pretty font-body text-base text-muted-foreground dark:prose-invert leading-relaxed">
             {`
 
 ## Verantwortlicher

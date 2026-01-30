@@ -44,28 +44,28 @@ export const ResumeCard = ({
   };
 
   return (
-      <Card className="flex hover:cursor-pointer" onClick={handleClick}>
+      <Card className="flex p-4 hover:cursor-pointer group/card" onClick={handleClick}>
         <div className="flex-none">
-          <Avatar className="border size-12 m-auto bg-muted-background dark:bg-foreground">
+          <Avatar className="border border-border/50 size-12 m-auto bg-background dark:bg-foreground/10 shadow-sm">
             <AvatarImage
               src={logoUrl}
               alt={altText}
               className="object-contain"
             />
-            <AvatarFallback>{altText[0]}</AvatarFallback>
+            <AvatarFallback className="text-xs font-medium">{altText[0]}</AvatarFallback>
           </Avatar>
         </div>
         <div className="grow ml-4 items-center flex-col group">
           <CardHeader>
             <div className="flex items-center justify-between gap-x-2 text-base">
-              <h3 className="inline-flex items-center justify-center font-semibold leading-none text-xs sm:text-sm">
+              <h3 className="inline-flex items-center justify-center font-medium leading-none text-sm">
                 {title}
                 {badges && (
-                  <span className="inline-flex gap-x-1">
+                  <span className="inline-flex gap-x-1 ml-2">
                     {badges.map((badge, index) => (
                       <Badge
-                        variant="secondary"
-                        className="align-middle text-xs"
+                        variant="outline"
+                        className="align-middle text-[10px] px-2 py-0.5"
                         key={index}
                       >
                         {badge}
@@ -75,16 +75,16 @@ export const ResumeCard = ({
                 )}
                 <ChevronRightIcon
                   className={cn(
-                    "size-4 translate-x-0 transform opacity-0 transition-all duration-300 ease-out group-hover:translate-x-1 group-hover:opacity-100",
+                    "size-4 ml-1 text-accent translate-x-0 transform opacity-0 transition-all duration-300 ease-out group-hover/card:translate-x-1 group-hover/card:opacity-100",
                     isExpanded ? "rotate-90" : "rotate-0"
                   )}
                 />
               </h3>
-              <div className="text-xs sm:text-sm tabular-nums text-muted-foreground text-right">
+              <div className="text-xs tabular-nums text-muted-foreground text-right font-medium">
                 {period}
               </div>
             </div>
-            {subtitle && <div className="font-sans text-xs">{subtitle}</div>}
+            {subtitle && <div className="font-body text-sm text-muted-foreground mt-1">{subtitle}</div>}
           </CardHeader>
           {description && (
             <motion.div
@@ -97,13 +97,13 @@ export const ResumeCard = ({
                 duration: 0.7,
                 ease: [0.16, 1, 0.3, 1],
               }}
-              className="mt-2 text-xs sm:text-sm"
+              className="mt-3 text-sm font-body text-muted-foreground leading-relaxed"
             >
               {description}
               {thesis && (
-                <div className="mt-2" suppressHydrationWarning>
+                <div className="mt-3" suppressHydrationWarning>
                   <Link href={thesis} passHref prefetch={false}>
-                    <Badge variant="secondary" className="text-[12px]">
+                    <Badge variant="default" className="text-[11px]">
                       Read Thesis
                     </Badge>
                   </Link>

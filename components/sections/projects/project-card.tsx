@@ -90,55 +90,55 @@ export function ProjectCard({
   const cardContent = (
     <motion.div
       className={cn(
-        "flex flex-col overflow-hidden rounded-lg hover:shadow-lg transition-all duration-300 ease-out h-full relative border-0",
-        "bg-white/80 dark:bg-black/80 backdrop-filter backdrop-blur-md border border-gray-200 dark:border-gray-800 hover:border-gray-300 dark:hover:border-gray-700 transition-colors",
+        "flex flex-col overflow-hidden rounded-xl transition-all duration-300 ease-out h-full relative group/project",
+        "bg-card/60 backdrop-blur-sm border border-border/40 hover:border-accent/30 hover:shadow-xl hover:shadow-accent/5",
         projectUrl ? "cursor-pointer" : "",
         className
       )}
       whileHover={{ 
         scale: 1.02,
-        y: 0,
+        y: -2,
         transition: { 
           type: "spring", 
           stiffness: 400, 
-          damping: 10,
-          bounce: 0.5
+          damping: 15,
+          bounce: 0.3
         }
       }}
       initial={{ scale: 1 }}
       onClick={projectUrl ? handleCardClick : undefined}
     >    
       {image && (
-        <div className="relative overflow-hidden w-full h-42 rounded-t-lg">
+        <div className="relative overflow-hidden w-full h-44 rounded-t-xl">
           <Image
             src={image}
             alt={title}
             width={500}
             height={300}
-            className="object-cover w-full h-full dark:block hidden"
+            className="object-cover w-full h-full dark:block hidden transition-transform duration-500 group-hover/project:scale-105"
           />
           <Image
             src={imageLight || image}
             alt={title}
             width={500}
             height={300}
-            className="object-cover w-full h-full dark:hidden block"
+            className="object-cover w-full h-full dark:hidden block transition-transform duration-500 group-hover/project:scale-105"
           />
-          
+          <div className="absolute inset-0 bg-gradient-to-t from-card/80 to-transparent opacity-0 group-hover/project:opacity-100 transition-opacity duration-300" />
         </div>
       )}
 
       {/* Title and Description Section */}
-      <div className="flex flex-col grow p-4 relative z-10">
-        <div className="space-y-1.5">
+      <div className="flex flex-col grow p-5 relative z-10">
+        <div className="space-y-2">
           <div className="flex items-center justify-between">
-            <h3 className="font-medium text-base">{title}</h3>
+            <h3 className="font-medium text-base group-hover/project:text-accent transition-colors">{title}</h3>
             {projectUrl && !image && (
-              <Info className="size-4 text-muted-foreground" />
+              <Info className="size-4 text-muted-foreground group-hover/project:text-accent transition-colors" />
             )}
           </div>
-          <div className="font-sans text-xs text-muted-foreground dark:text-muted-foreground text-gray-600">{dates}</div>
-          <p className="prose max-w-full font-sans text-xs text-gray-700 dark:text-muted-foreground line-clamp-2">
+          <div className="font-display text-xs text-muted-foreground uppercase tracking-wide">{dates}</div>
+          <p className="font-body text-sm text-muted-foreground leading-relaxed line-clamp-2">
             {description}
           </p>
         </div>
@@ -146,10 +146,10 @@ export function ProjectCard({
 
       {/* Tags Section */}
       {tags && tags.length > 0 && (
-        <div className="px-4 pt-0 pb-2 relative z-10">
+        <div className="px-5 pt-0 pb-3 relative z-10">
           <div className="flex flex-wrap gap-1.5">
             {tags.map((tag) => (
-              <Badge key={tag} variant="secondary" className="px-1.5 py-2 text-[11px] h-5 rounded-md">
+              <Badge key={tag} variant="secondary" className="px-2 py-1 text-[10px] h-auto rounded-full">
                 {tag}
               </Badge>
             ))}
@@ -158,9 +158,9 @@ export function ProjectCard({
       )}
 
       {/* Links Section - Always maintain consistent padding */}
-      <div className="px-4 pb-4 pt-0 relative z-10 mt-auto">
+      <div className="px-5 pb-5 pt-0 relative z-10 mt-auto">
         {hasLinks && (
-          <div className="flex flex-wrap gap-1.5 mt-1">   
+          <div className="flex flex-wrap gap-2 mt-2">   
             {links?.map((customLink, idx) => 
               customLink.href && (
                 // Use div instead of Link to prevent nesting <a> within <a>
@@ -170,8 +170,8 @@ export function ProjectCard({
                   className="cursor-pointer"
                 >
                   <Badge 
-                    variant="outline" 
-                    className="bg-black text-white dark:bg-white dark:text-black flex gap-1.5 px-1.5 py-2 text-[11px] h-6 rounded-md"
+                    variant="default" 
+                    className="flex gap-1.5 px-3 py-1.5 text-[11px] h-auto rounded-full"
                   >
                     {customLink.icon}
                     {customLink.type}

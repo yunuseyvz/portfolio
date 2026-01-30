@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react';
-import { Badge } from "../../ui/badge";
+import { Button } from "../../ui/button";
 import { FaDownload } from 'react-icons/fa';
 import {
     Tooltip,
@@ -48,26 +48,28 @@ export const GenerateCVButton = () => {
     <TooltipProvider>
       <Tooltip delayDuration={0.5}>
         <TooltipTrigger asChild>
-          <Badge 
-            variant="secondary" 
-            className="text-[12px] flex items-center space-x-2 cursor-pointer"
+          <Button 
+            variant="default" 
+            size="lg"
+            className="gap-2 font-medium"
             onClick={handleGenerateCV}
+            disabled={isLoading}
           >
             {isLoading ? (
               <>
-                <div className="animate-spin h-3 w-3 border-2 border-current border-t-transparent rounded-full" />
-                <span className="hover:cursor-not-allowed">Generating CV...</span>
+                <div className="animate-spin h-4 w-4 border-2 border-current border-t-transparent rounded-full" />
+                <span>Generating CV...</span>
               </>
             ) : (
               <>
-                <FaDownload /> 
+                <FaDownload className="size-4" /> 
                 <span>Download CV</span>
               </>
             )}
-          </Badge>
+          </Button>
         </TooltipTrigger>
-        <TooltipContent>
-          <p>Compile my CV from LaTeX code</p>
+        <TooltipContent className="font-display text-xs">
+          <p>Compile CV</p>
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>
