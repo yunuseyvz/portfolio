@@ -59,7 +59,7 @@ export const DATA = {
   },
   work: [
     {
-      company: "Rohde & Schwarz GmbH & Co. KG",
+      company: "Rohde & Schwarz",
       href: "https://www.rohde-schwarz.com/",
       badges: [],
       location: "Munich, Germany",
@@ -70,7 +70,7 @@ export const DATA = {
         "Fullstack development of a customer-oriented automation system for end-to-end testing in the mobile communications domain.",
     },
     {
-      company: "MTU Aero Engines AG",
+      company: "MTU Aero Engines",
       href: "https://www.mtu.de/de/",
       badges: [],
       location: "Munich, Germany",
@@ -81,7 +81,7 @@ export const DATA = {
         "Provided assistance in Software Asset Management by organizing, cataloging, and maintaining the company’s software inventory, including licenses, subscriptions, and usage data",
     },
     {
-      company: "Münchener Hypothekenbank eG",
+      company: "Münchener Hypothekenbank",
       badges: [],
       href: "https://www.mhb.de/de",
       location: "Munich, Germany",
