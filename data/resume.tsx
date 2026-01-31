@@ -1,5 +1,5 @@
 import { Icons } from "../components/icons";
-import { BookIcon, CodeIcon, HomeIcon, LockKeyholeIcon, MailIcon, PartyPopper, VenetianMask } from "lucide-react";
+import { BookIcon, CodeIcon, HomeIcon, LockKeyholeIcon, MailIcon, PartyPopper, VenetianMask, ServerIcon, DatabaseIcon, Container, NetworkIcon, TerminalIcon, GitBranchIcon, Code2Icon, BracesIcon } from "lucide-react";
 
 export const DATA = {
   name: "Yunus Emre Yavuz",
@@ -12,25 +12,38 @@ export const DATA = {
   summary:
    "Currently working as a software developer while pursuing my Master's in Human Computer Interaction at LMU Munich. I'm interested in the intersection between design and software development, and enjoy exploring new technologies and tools in my spare time.",
   avatarUrl: "/me.jpg",
-  skills: [
-    "React",
-    "Next.js",
-    "Javascript/Typescript",
-    "HTML/CSS",
-    "Node.js",
-    "Redux",
-    "REST APIs",
-    "Git",
-    "CI/CD",
-    "Tailwind CSS",
-    "Figma",
-    "Unity",	
-    "C#",
-    "Python",
-    "Java",
-    "C++",
-    "PostgreSQL",
-  ],
+  skills: {
+    "Frontend Development": [
+      { name: "React", icon: Icons.react },
+      { name: "Next.js", icon: Icons.nextjs },
+      { name: "HTML/CSS", icon: Code2Icon },
+      { name: "Tailwind CSS", icon: Icons.tailwindcss },
+      { name: "Redux", icon: BracesIcon },
+    ],
+    "Backend Development": [
+      { name: "Node.js", icon: ServerIcon },
+      { name: "REST APIs", icon: NetworkIcon },
+      { name: "PostgreSQL", icon: DatabaseIcon },
+    ],
+    "DevOps & Infrastructure": [
+      { name: "Docker", icon: Container },
+      { name: "VPS Management", icon: ServerIcon },
+      { name: "CI/CD", icon: GitBranchIcon },
+      { name: "Nginx", icon: ServerIcon }
+    ],
+    "Programming Languages": [
+      { name: "TypeScript", icon: Icons.typescript },
+      { name: "Python", icon: TerminalIcon },
+      { name: "C#", icon: CodeIcon },
+      { name: "Java", icon: CodeIcon },
+      { name: "C/C++", icon: CodeIcon }
+    ],
+    "Tools & Technologies": [
+      { name: "Git", icon: GitBranchIcon },
+      { name: "Figma", icon: Icons.figma },
+      { name: "Unity", icon: Icons.game }
+    ]
+  },
   navbar: [
     { href: "/", icon: HomeIcon, label: "Home" },
     { href: "/projects", icon: CodeIcon, label: "Projects" },
