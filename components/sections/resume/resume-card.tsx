@@ -5,7 +5,7 @@ import { Badge } from "../../ui/badge";
 import { Card, CardHeader } from "../../ui/card";
 import { cn } from "../../../lib/utils";
 import { motion } from "framer-motion";
-import { ChevronRightIcon } from "lucide-react";
+import { ChevronRightIcon, ExternalLink } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 
@@ -20,6 +20,8 @@ interface ResumeCardProps {
   period: string;
   description?: string;
   thesis?: string;
+  skills?: readonly string[];
+  coursework?: readonly string[];
 }
 
 export const ResumeCard = ({
@@ -33,6 +35,8 @@ export const ResumeCard = ({
   location,
   description,
   thesis,
+  skills,
+  coursework,
 }: ResumeCardProps) => {
   const [isExpanded, setIsExpanded] = React.useState(false);
 
@@ -100,13 +104,36 @@ export const ResumeCard = ({
               className="mt-3 text-sm font-body text-muted-foreground leading-relaxed"
             >
               {description}
+              {skills && skills.length > 0 && (
+                <div className="mt-3">
+                  <div className="flex flex-wrap gap-1.5">
+                    {skills.map((skill, index) => (
+                      <Badge key={index} variant="secondary" className="text-xs px-2.5 py-1">
+                        {skill}
+                      </Badge>
+                    ))}
+                  </div>
+                </div>
+              )}
               {thesis && (
                 <div className="mt-3" suppressHydrationWarning>
                   <Link href={thesis} passHref prefetch={false}>
-                    <Badge variant="default" className="text-[11px]">
+                    <Badge variant="default" className="text-xs px-3 py-1.5 cursor-pointer hover:opacity-80 transition-opacity inline-flex items-center gap-1.5">
                       Read Thesis
+                      <ExternalLink className="size-3" />
                     </Badge>
                   </Link>
+                </div>
+              )}
+              {coursework && coursework.length > 0 && (
+                <div className="mt-3">
+                  <div className="flex flex-wrap gap-1.5">
+                    {coursework.map((course, index) => (
+                      <Badge key={index} variant="secondary" className="text-xs px-2.5 py-1">
+                        {course}
+                      </Badge>
+                    ))}
+                  </div>
                 </div>
               )}
             </motion.div>

@@ -81,6 +81,7 @@ export const DATA = {
       period: "since 2025",
       description:
         "Fullstack development of a customer-oriented automation system for end-to-end testing in the mobile communications domain.",
+      skills: ["React", "Next.js", "TypeScript", "Node.js", "Docker", "Automation"],
     },
     {
       company: "MTU Aero Engines",
@@ -91,8 +92,7 @@ export const DATA = {
       logoUrl: "/mtu.svg",
       period: "2022 - 2024",
       description:
-        "Provided assistance in Software Asset Management by organizing, cataloging, and maintaining the company’s software inventory, including licenses, subscriptions, and usage data",
-    },
+        "Provided assistance in Software Asset Management by organizing, cataloging, and maintaining the company’s software inventory, including licenses, subscriptions, and usage data",      skills: ["Software Asset Management", "Data Management", "Compliance"],    },
     {
       company: "Münchener Hypothekenbank",
       badges: [],
@@ -103,6 +103,7 @@ export const DATA = {
       period: "2019 - 2020",
       description:
         "Reviewed documents, requested missing documentation, maintained data in SAP, and corresponded with customers, notaries, and banks.",
+      skills: ["SAP", "Document Management", "Client Communication"],
     },
   ],
   education: [
@@ -114,6 +115,7 @@ export const DATA = {
       period: "since 2024",
       description: "Pursuing a Master's degree in Human Computer Interaction.",
       thesis: "",
+      coursework: ["Advanced Web Tech", "Design Workshops", "Intelligent User Interfaces"],
     },
     {
       school: "LMU Munich",
@@ -123,6 +125,7 @@ export const DATA = {
       period: "2019 - 2024",
       description: "Thesis Topic: Evaluating the Effectiveness of Phishing Warnings in Email Clients",
       thesis: "/bachelorthesis",
+      coursework: ["Software Engineering", "Algorithms & Data Structures", "Database Systems", "Computer Graphics", "User Experience Design"],
     },
   ], 
 } as const;

@@ -70,6 +70,7 @@ export default function Page() {
                 period={education.period}
                 description={education.description}
                 thesis={education.thesis}
+                coursework={education.coursework}
               />
             </BlurFade>
           ))}
@@ -96,6 +97,7 @@ export default function Page() {
                 period={work.period}
                 description={work.description}
                 location={work.location}
+                skills={work.skills}
               />
             </BlurFade>
           ))}
