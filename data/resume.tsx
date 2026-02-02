@@ -1,3 +1,4 @@
+import { FaJava } from "react-icons/fa";
 import { Icons } from "../components/icons";
 import { BookIcon, CodeIcon, HomeIcon, LockKeyholeIcon, MailIcon, PartyPopper, VenetianMask, ServerIcon, DatabaseIcon, Container, NetworkIcon, TerminalIcon, GitBranchIcon, Code2Icon, BracesIcon } from "lucide-react";
 
@@ -16,32 +17,34 @@ export const DATA = {
     "Frontend Development": [
       { name: "React", icon: Icons.react },
       { name: "Next.js", icon: Icons.nextjs },
-      { name: "HTML/CSS", icon: Code2Icon },
+      { name: "HTML/CSS", icon: Icons.htmlcss },
       { name: "Tailwind CSS", icon: Icons.tailwindcss },
-      { name: "Redux", icon: BracesIcon },
+      { name: "Redux", icon: Icons.redux },
     ],
     "Backend Development": [
-      { name: "Node.js", icon: ServerIcon },
+      { name: "Node.js", icon: Icons.nodejs },
       { name: "REST APIs", icon: NetworkIcon },
-      { name: "PostgreSQL", icon: DatabaseIcon },
+      { name: "PostgreSQL", icon: Icons.postgresql },
+      { name: "Supabase", icon: Icons.supabase },
+      { name: "Auth.js", icon: LockKeyholeIcon },
     ],
     "DevOps & Infrastructure": [
-      { name: "Docker", icon: Container },
+      { name: "Docker", icon: Icons.docker },
       { name: "VPS Management", icon: ServerIcon },
       { name: "CI/CD", icon: GitBranchIcon },
-      { name: "Nginx", icon: ServerIcon }
+      { name: "Nginx", icon: Icons.nginx }
     ],
     "Programming Languages": [
       { name: "TypeScript", icon: Icons.typescript },
-      { name: "Python", icon: TerminalIcon },
-      { name: "C#", icon: CodeIcon },
-      { name: "Java", icon: CodeIcon },
-      { name: "C/C++", icon: CodeIcon }
+      { name: "Python", icon: Icons.python },
+      { name: "C#", icon: Icons.csharp },
+      { name: "Java", icon: Icons.java },
+      { name: "C/C++", icon: Icons.cplusplus }
     ],
     "Tools & Technologies": [
-      { name: "Git", icon: GitBranchIcon },
+      { name: "Git", icon: Icons.git },
       { name: "Figma", icon: Icons.figma },
-      { name: "Unity", icon: Icons.game }
+      { name: "Unity", icon: Icons.unity }
     ]
   },
   navbar: [
