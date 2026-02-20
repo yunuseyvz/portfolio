@@ -24,6 +24,30 @@ export interface Project {
 
 export const PROJECTS: Project[] = [
   {
+    id: 1,
+    title: "Mila AR - AR Language Tutor",
+    description: "Mila AR is a multilingual AR language tutor for Meta Quest, developed as part of Praktikum Augmented Reality at LMU Munich (WS25/26). It combines Speech-to-Text (STT), LLM-based dialogue, Text-to-Speech (TTS), and Vision/Object Detection for room-aware language learning. Features include free conversation practice with vision triggers, object tagging in your environment with AR highlights, a Word Boxes spelling game with grab and snap interaction, and role-play scenarios for real-life conversation training.",
+    year: 2026,
+    slug: "mila-ar-ar-language-tutor",
+    image: "/projects/mila_ar.jpg",
+    image_light: "/projects/mila_ar.jpg",
+    tags: ["Unity", "C#", "LLM", "STT", "TTS", "Computer Vision", "AR", "Meta Quest" ],
+    links: [
+      {
+        href: "https://github.com/yunuseyvz/mila_par2526",
+        icon: <Github className="h-4 w-4" />,
+        type: "Source"
+      }
+    ],
+    images: [
+      "/projects/mila_ar1.png",
+      "/projects/mila_ar2.png",
+      "/projects/mila_ar3.png",
+      "/projects/mila_ar4.png"
+    ],
+    active: false
+  },
+  {
     id: 2,
     title: "StravaViz - An Information Visualization Project",
     description: "For a university course, we developed an interactive information visualization project using Next.js. The project visualizes fitness data from our professor's Strava App.",
