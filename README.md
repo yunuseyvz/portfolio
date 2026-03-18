@@ -25,7 +25,7 @@
 3. Install dependencies:
 
    ```bash
-   pnpm install
+   npm install
    ```
 
 4. Set up environment variables:
@@ -48,7 +48,7 @@
 5. Start the local Server:
 
    ```bash
-   pnpm dev
+   npm run dev
    ```
 
 6. Open the [Config file](./src/data/resume.tsx) and make changes
