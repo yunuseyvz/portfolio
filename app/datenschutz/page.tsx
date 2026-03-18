@@ -32,8 +32,9 @@ export default function Datenschutz() {
       </section>
       <section id="dsgvo">
         <BlurFade delay={BLUR_FADE_DELAY * 6}>
-          <Markdown className="prose max-w-full text-pretty font-body text-base text-muted-foreground dark:prose-invert leading-relaxed">
-            {`
+          <div className="prose max-w-full text-pretty font-body text-base text-muted-foreground dark:prose-invert leading-relaxed">
+            <Markdown>
+              {`
 
 ## Verantwortlicher
 
@@ -177,7 +178,8 @@ Erstellt mit kostenlosem Datenschutz-Generator.de von Dr. Thomas Schwenke
 
 Stand: 07.01.2025
             `}
-          </Markdown>
+            </Markdown>
+          </div>
         </BlurFade>
       </section>
     </main>

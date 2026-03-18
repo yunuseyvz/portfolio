@@ -35,8 +35,9 @@ export default function Impressum() {
           <h2 className="text-xs font-medium uppercase tracking-widest text-accent mb-4">Kontakt</h2>
         </BlurFade>
         <BlurFade delay={BLUR_FADE_DELAY * 4}>
-          <Markdown className="prose max-w-full text-pretty font-body text-base text-muted-foreground dark:prose-invert leading-relaxed">
-            {`
+          <div className="prose max-w-full text-pretty font-body text-base text-muted-foreground dark:prose-invert leading-relaxed">
+            <Markdown>
+              {`
 **Name:** ${impressumData.name}
 
 **Adresse:** ${impressumData.address}
@@ -45,7 +46,8 @@ export default function Impressum() {
 
 **Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV:** ${impressumData.responsiblePerson}
             `}
-          </Markdown>
+            </Markdown>
+          </div>
         </BlurFade>
       </section>
       <section id="disclaimer">
@@ -53,8 +55,9 @@ export default function Impressum() {
           <h2 className="text-xs font-medium uppercase tracking-widest text-accent mb-4">Haftungsausschluss</h2>
         </BlurFade>
         <BlurFade delay={BLUR_FADE_DELAY * 6}>
-          <Markdown className="prose max-w-full text-pretty font-body text-base text-muted-foreground dark:prose-invert leading-relaxed">
-            {`
+          <div className="prose max-w-full text-pretty font-body text-base text-muted-foreground dark:prose-invert leading-relaxed">
+            <Markdown>
+              {`
 **Haftung für Inhalte**
 
 Als Diensteanbieter sind wir gemäß § 7 Abs.1 TMG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 TMG sind wir als Diensteanbieter jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen oder nach Umständen zu forschen, die auf eine rechtswidrige Tätigkeit hinweisen.
@@ -73,7 +76,8 @@ Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unt
 
 Soweit die Inhalte auf dieser Seite nicht vom Betreiber erstellt wurden, werden die Urheberrechte Dritter beachtet. Insbesondere werden Inhalte Dritter als solche gekennzeichnet. Sollten Sie trotzdem auf eine Urheberrechtsverletzung aufmerksam werden, bitten wir um einen entsprechenden Hinweis. Bei Bekanntwerden von Rechtsverletzungen werden wir derartige Inhalte umgehend entfernen.
             `}
-          </Markdown>
+            </Markdown>
+          </div>
         </BlurFade>
       </section>
     </main>
