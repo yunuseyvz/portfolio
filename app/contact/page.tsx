@@ -2,7 +2,6 @@ import BlurFade from "../../components/ui/blur-fade-nojs";
 import { DATA } from "../../data/resume";
 import Link from "next/link";
 import { Icons } from "../../components/icons";
-import { Badge } from "../../components/ui/badge";
 
 const BLUR_FADE_DELAY = 0.04;
 
@@ -48,7 +47,7 @@ export default function Contact() {
                   </a>
                 </BlurFade>
               </div>
-              <BlurFade delay={BLUR_FADE_DELAY * 5}>
+              {/* <BlurFade delay={BLUR_FADE_DELAY * 5}>
                 <div className="flex justify-center gap-3 pt-8">
                   <Link href="/impressum" passHref>
                     <Badge variant="outline" className="text-xs px-4 py-2">
@@ -61,7 +60,7 @@ export default function Contact() {
                     </Badge>
                   </Link>
                 </div>
-              </BlurFade>
+              </BlurFade> */}
             </div>
           </BlurFade>
         </div>
