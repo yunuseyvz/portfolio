@@ -5,7 +5,6 @@ import { Avatar, AvatarFallback, AvatarImage } from "../components/ui/avatar";
 import { Badge } from "../components/ui/badge";
 import { DATA } from "../data/resume";
 import Markdown from "react-markdown";
-import { CoolMode } from "../components/ui/cool-mode";
 import { GenerateCVButton } from "../components/sections/resume/generate-cv-button";
 
 const BLUR_FADE_DELAY = 0.04;
@@ -30,12 +29,10 @@ export default function Page() {
               />
             </div>
             <BlurFade delay={BLUR_FADE_DELAY}>
-              <CoolMode>
                 <Avatar className="size-32 sm:size-36 border-2 border-accent/20 shadow-xl shadow-accent/5 ring-4 ring-background">
                   <AvatarImage alt={DATA.name} src={DATA.avatarUrl} />
                   <AvatarFallback className="text-2xl font-semibold">{DATA.initials}</AvatarFallback>
                 </Avatar>
-              </CoolMode>
             </BlurFade>
           </div>
         </div>
@@ -106,7 +103,7 @@ export default function Page() {
       <section id="skills">
         <div className="flex min-h-0 flex-col gap-y-4">
           <BlurFade delay={BLUR_FADE_DELAY * 9}>
-            <h2 className="text-sm font-medium uppercase tracking-widest text-accent mb-2">Skills & Tools</h2>
+            <h2 className="text-sm font-medium uppercase tracking-widest text-accent mb-2">Skills & Tools I am familiar with</h2>
           </BlurFade>
           <div className="flex flex-col gap-4">
             {Object.entries(DATA.skills).map(([category, skills], categoryId) => (

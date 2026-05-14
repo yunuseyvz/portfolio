@@ -1,6 +1,6 @@
 import { FaJava } from "react-icons/fa";
 import { Icons } from "../components/icons";
-import { BookIcon, CodeIcon, HomeIcon, LockKeyholeIcon, MailIcon, PartyPopper, VenetianMask, ServerIcon, DatabaseIcon, Container, NetworkIcon, TerminalIcon, GitBranchIcon, Code2Icon, BracesIcon } from "lucide-react";
+import { BookIcon, CodeIcon, HomeIcon, LockKeyholeIcon, MailIcon, PartyPopper, VenetianMask, ServerIcon, DatabaseIcon, Container, NetworkIcon, TerminalIcon, GitBranchIcon, Code2Icon, BracesIcon, Brain, Bot, Cpu, Sparkles, Zap, Plug, Eye, ScanEye } from "lucide-react";
 
 export const DATA = {
   name: "Yunus Emre Yavuz",
@@ -30,6 +30,7 @@ export const DATA = {
     ],
     "DevOps & Infrastructure": [
       { name: "Docker", icon: Icons.docker },
+      { name: "Self-Hosting", icon: Container },
       { name: "VPS Management", icon: ServerIcon },
       { name: "CI/CD", icon: GitBranchIcon },
       { name: "Nginx", icon: Icons.nginx }
@@ -41,8 +42,15 @@ export const DATA = {
       { name: "Java", icon: Icons.java },
       { name: "C/C++", icon: Icons.cplusplus }
     ],
+    "Large Language Models": [
+      { name: "LLM APIs", icon: Zap },
+      { name: "Local LLMs", icon: Cpu },
+      { name: "MCPs", icon: Plug }
+    ],
     "Tools & Technologies": [
       { name: "Git", icon: Icons.git },
+      { name: "Cursor", icon: Code2Icon },
+      { name: "Copilot", icon: TerminalIcon },
       { name: "Figma", icon: Icons.figma },
       { name: "Unity", icon: Icons.unity }
     ]
