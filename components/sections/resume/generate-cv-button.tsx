@@ -68,9 +68,6 @@ export const GenerateCVButton = () => {
             )}
           </Button>
         </TooltipTrigger>
-        <TooltipContent className="font-display text-xs">
-          <p>Compile CV</p>
-        </TooltipContent>
       </Tooltip>
     </TooltipProvider>
   );

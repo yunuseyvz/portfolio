@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import { useTheme } from "next-themes";
+import { useTheme } from "../theme-provider";
 
 interface MousePosition {
   x: number;
@@ -67,7 +67,7 @@ const Particles: React.FC<ParticlesProps> = ({
   vx = 0,
   vy = 0,
 }) => {
-  const { theme } = useTheme();
+  const { resolvedTheme } = useTheme();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const canvasContainerRef = useRef<HTMLDivElement>(null);
   const context = useRef<CanvasRenderingContext2D | null>(null);
@@ -76,7 +76,7 @@ const Particles: React.FC<ParticlesProps> = ({
   const mouse = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
   const canvasSize = useRef<{ w: number; h: number }>({ w: 0, h: 0 });
   const dpr = typeof window !== "undefined" ? window.devicePixelRatio : 1;
-  const colorRef = useRef<string>(theme === "dark" ? "#ffffff" : "#000000");
+  const colorRef = useRef<string>(resolvedTheme === "light" ? "#000000" : "#ffffff");
 
   useEffect(() => {
     if (canvasRef.current) {
@@ -100,8 +100,8 @@ const Particles: React.FC<ParticlesProps> = ({
   }, [refresh]);
 
   useEffect(() => {
-    colorRef.current = theme === "dark" ? "#ffffff" : "#000000";
-  }, [theme]);
+    colorRef.current = resolvedTheme === "light" ? "#000000" : "#ffffff";
+  }, [resolvedTheme]);
 
   const initCanvas = () => {
     resizeCanvas();

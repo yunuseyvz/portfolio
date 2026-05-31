@@ -1,141 +1,145 @@
+import {
+  GraduationCap,
+  Briefcase,
+  Wrench,
+  User,
+  FolderGit2,
+  Mail,
+} from "lucide-react";
 import BlurFade from "../components/ui/blur-fade";
-import BlurFadeText from "../components/ui/blur-fade-text";
-import { ResumeCard } from "../components/sections/resume/resume-card";
-import { Avatar, AvatarFallback, AvatarImage } from "../components/ui/avatar";
-import { Badge } from "../components/ui/badge";
 import { DATA } from "../data/resume";
-import Markdown from "react-markdown";
-import { GenerateCVButton } from "../components/sections/resume/generate-cv-button";
+import { getFeaturedProjects } from "../data/projects";
+import { DualityHero } from "../components/sections/home/duality-hero";
+import { Chapter } from "../components/sections/home/chapter";
+import { ScrollRevealText } from "../components/sections/home/scroll-reveal-text";
+import { JourneyTimeline, JourneyEntry } from "../components/sections/home/journey-timeline";
+import { SkillsGrid } from "../components/sections/home/skills-grid";
+import { ProjectsShowcase } from "../components/sections/home/projects-showcase";
+import { ContactSection } from "../components/sections/home/contact-section";
+import {
+  ScrollProgress,
+  SectionNav,
+  NavSection,
+} from "../components/sections/home/scroll-progress";
 
 const BLUR_FADE_DELAY = 0.04;
 
+const SECTIONS: NavSection[] = [
+  { id: "hero", label: "Intro" },
+  { id: "about", label: "About" },
+  { id: "education", label: "Education" },
+  { id: "work", label: "Work" },
+  { id: "skills", label: "Skills" },
+  { id: "projects", label: "Projects" },
+  { id: "cv", label: "Contact" },
+];
+
 export default function Page() {
+  const educationEntries: JourneyEntry[] = DATA.education.map((e) => ({
+    title: e.school,
+    subtitle: e.degree,
+    period: e.period,
+    description: e.description,
+    logoUrl: e.logoUrl,
+    altText: e.school,
+    tags: e.coursework,
+  }));
+
+  const workEntries: JourneyEntry[] = DATA.work.map((w) => ({
+    title: w.company,
+    subtitle: w.title,
+    period: w.period,
+    description: w.description,
+    logoUrl: w.logoUrl,
+    altText: w.company,
+    tags: w.skills,
+  }));
+
+  const projects = getFeaturedProjects();
+
   return (
-    <main className="flex flex-col min-h-dvh space-y-14 mb-10">     
-      <section id="hero">
-        <div className="mx-auto w-full max-w-2xl space-y-8">
-          <div className="gap-6 flex justify-between items-center">
-            <div className="flex-col flex flex-1 space-y-3">
-              <BlurFadeText
-                delay={BLUR_FADE_DELAY}
-                className="text-3xl font-semibold tracking-tight sm:text-5xl xl:text-6xl/none"
-                yOffset={8}
-                text={`Hi, I'm ${DATA.name.split(" ")[0]} 👋`}
-              />
-              <BlurFadeText
-                className="max-w-[600px] text-muted-foreground font-body text-lg md:text-xl leading-relaxed"
-                delay={BLUR_FADE_DELAY}
-                text={DATA.description}
-              />
-            </div>
-            <BlurFade delay={BLUR_FADE_DELAY}>
-                <Avatar className="size-32 sm:size-36 border-2 border-accent/20 shadow-xl shadow-accent/5 ring-4 ring-background">
-                  <AvatarImage alt={DATA.name} src={DATA.avatarUrl} />
-                  <AvatarFallback className="text-2xl font-semibold">{DATA.initials}</AvatarFallback>
-                </Avatar>
-            </BlurFade>
-          </div>
-        </div>
-      </section>
-      <section id="about">
-        <BlurFade delay={BLUR_FADE_DELAY * 3}>
-          <h2 className="text-sm font-medium uppercase tracking-widest text-accent mb-4">About</h2>
+    <>
+      <ScrollProgress />
+      <SectionNav sections={SECTIONS} />
+
+      <main className="flex flex-col min-h-dvh space-y-24 mb-16">
+        <BlurFade delay={BLUR_FADE_DELAY}>
+          <DualityHero />
         </BlurFade>
-        <BlurFade delay={BLUR_FADE_DELAY * 4}>
-          <div className="prose max-w-full text-pretty font-body text-base leading-relaxed text-muted-foreground dark:prose-invert">
-            <Markdown>{DATA.summary}</Markdown>
-          </div>
-        </BlurFade>
-      </section>
-      <section id="education">
-        <div className="flex min-h-0 flex-col gap-y-4">
-          <BlurFade delay={BLUR_FADE_DELAY * 5}>
-            <h2 className="text-sm font-medium uppercase tracking-widest text-accent mb-2">Education</h2>
+
+        {/* ── 01 · About ──────────────────────────────────────────── */}
+        <section id="about" className="scroll-mt-24 space-y-6">
+          <BlurFade delay={BLUR_FADE_DELAY}>
+            <Chapter index="01" icon={<User className="size-4" />} title="About" hint="// whoami" />
           </BlurFade>
-          {DATA.education.map((education, id) => (
-            <BlurFade
-              key={education.school}
-              delay={BLUR_FADE_DELAY * 6 + id * 0.05}
-            >
-              <ResumeCard
-                key={education.school}
-                href={education.href}
-                logoUrl={education.logoUrl}
-                altText={education.school}
-                title={education.school}
-                subtitle={education.degree}
-                period={education.period}
-                description={education.description}
-                thesis={education.thesis}
-                coursework={education.coursework}
-              />
-            </BlurFade>
-          ))}
-        </div>
-      </section>
-      <section id="work">
-        <div className="flex min-h-0 flex-col gap-y-4">
-          <BlurFade delay={BLUR_FADE_DELAY * 7}>
-            <h2 className="text-sm font-medium uppercase tracking-widest text-accent mb-2">Work Experience</h2>
+          <BlurFade delay={BLUR_FADE_DELAY * 2} inView>
+            <ScrollRevealText
+              text={DATA.summary}
+              className="font-body text-xl leading-relaxed text-foreground sm:text-2xl"
+            />
           </BlurFade>
-          {DATA.work.map((work, id) => (
-            <BlurFade
-              key={work.company}
-              delay={BLUR_FADE_DELAY * 8 + id * 0.05}
-            >
-              <ResumeCard
-                key={work.company}
-                logoUrl={work.logoUrl}
-                altText={work.company}
-                title={work.company}
-                subtitle={work.title}
-                href={work.href}
-                badges={work.badges}
-                period={work.period}
-                description={work.description}
-                location={work.location}
-                skills={work.skills}
-              />
-            </BlurFade>
-          ))}
-        </div>
-      </section>
-      <section id="skills">
-        <div className="flex min-h-0 flex-col gap-y-4">
-          <BlurFade delay={BLUR_FADE_DELAY * 9}>
-            <h2 className="text-sm font-medium uppercase tracking-widest text-accent mb-2">Skills & Tools I am familiar with</h2>
+        </section>
+
+        {/* ── 02 · Education ──────────────────────────────────────── */}
+        <section id="education" className="scroll-mt-24 space-y-8">
+          <BlurFade delay={BLUR_FADE_DELAY}>
+            <Chapter
+              index="02"
+              icon={<GraduationCap className="size-4" />}
+              title="Education"
+              hint="the foundation"
+            />
           </BlurFade>
-          <div className="flex flex-col gap-4">
-            {Object.entries(DATA.skills).map(([category, skills], categoryId) => (
-              <BlurFade key={category} delay={BLUR_FADE_DELAY * 10 + categoryId * 0.1}>
-                <div>
-                  <h3 className="text-xs font-medium text-muted-foreground mb-2 uppercase tracking-wide">{category}</h3>
-                  <div className="flex flex-wrap gap-2">
-                    {skills.map((skill, skillId) => {
-                      const Icon = skill.icon;
-                      return (
-                        <BlurFade key={skill.name} delay={BLUR_FADE_DELAY * 10 + categoryId * 0.1 + skillId * 0.02}>
-                          <Badge variant="secondary" className="flex items-center gap-1.5">
-                            <Icon className="size-3.5" />
-                            {skill.name}
-                          </Badge>
-                        </BlurFade>
-                      );
-                    })}
-                  </div>
-                </div>
-              </BlurFade>
-            ))}
-          </div>
-        </div>
-      </section>
-      <section id="cv">
-        <div className="flex justify-center items-center pt-4">
-          <BlurFade delay={BLUR_FADE_DELAY * 11}>
-            <GenerateCVButton />
+          <JourneyTimeline entries={educationEntries} />
+        </section>
+
+        {/* ── 03 · Work ───────────────────────────────────────────── */}
+        <section id="work" className="scroll-mt-24 space-y-8">
+          <BlurFade delay={BLUR_FADE_DELAY}>
+            <Chapter
+              index="03"
+              icon={<Briefcase className="size-4" />}
+              title="Work Experience"
+              hint="in the field"
+            />
           </BlurFade>
-        </div>
-      </section>
-    </main>
+          <JourneyTimeline entries={workEntries} />
+        </section>
+
+        {/* ── 04 · Skills ─────────────────────────────────────────── */}
+        <section id="skills" className="scroll-mt-24 space-y-8">
+          <BlurFade delay={BLUR_FADE_DELAY}>
+            <Chapter index="04" icon={<Wrench className="size-4" />} title="Skills & Tools" hint="// my toolbox" />
+          </BlurFade>
+          <SkillsGrid />
+        </section>
+
+        {/* ── 05 · Projects ───────────────────────────────────────── */}
+        <section id="projects" className="scroll-mt-24 space-y-8">
+          <BlurFade delay={BLUR_FADE_DELAY}>
+            <Chapter
+              index="05"
+              icon={<FolderGit2 className="size-4" />}
+              title="Selected Work"
+              hint="design · code"
+            />
+          </BlurFade>
+          <ProjectsShowcase projects={projects} />
+        </section>
+
+        {/* ── 06 · Contact ────────────────────────────────────────── */}
+        <section id="cv" className="scroll-mt-24 space-y-8">
+          <BlurFade delay={BLUR_FADE_DELAY}>
+            <Chapter
+              index="06"
+              icon={<Mail className="size-4" />}
+              title="Get in Touch"
+              hint="// say hello"
+            />
+          </BlurFade>
+          <ContactSection />
+        </section>
+      </main>
+    </>
   );
 }

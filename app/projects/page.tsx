@@ -4,27 +4,38 @@ import ProjectsClientComponent from "../../components/sections/projects/projects
 
 export default function Projects() {
   const projects = getProjects();
-  
+
   return (
     <main className="flex flex-col min-h-dvh space-y-12 mb-16">
-      <section id="projects">
-        <div className="mx-auto w-full max-w-2xl space-y-10">
+      <section id="projects" className="space-y-10">
+        <div className="mx-auto w-full max-w-2xl">
           <BlurFade delay={0.04}>
-            <div className="flex flex-col items-center justify-center space-y-6 text-center">
+            <div className="flex flex-col items-center justify-center space-y-5 text-center">
               <div className="space-y-4">
-                <div className="inline-block rounded-full bg-accent text-accent-foreground px-4 py-1.5 text-xs font-medium uppercase tracking-wider">
-                  My Projects
+                <div className="inline-flex items-center gap-2 rounded-full bg-accent/10 text-accent px-4 py-1.5 text-xs font-semibold uppercase tracking-wider border border-accent/20">
+                  <span className="relative flex h-2 w-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-accent"></span>
+                  </span>
+                  Portfolio
                 </div>
                 <h2 className="text-4xl font-semibold tracking-tight sm:text-5xl">
-                  Check out my recent projects
+                  Projects
                 </h2>
                 <p className="text-muted-foreground font-body text-lg leading-relaxed max-w-lg mx-auto">
-                  Here are some of the projects I have worked on recently. Click on the cards to view more details about each project. 
+                  A mix of{" "}
+                  <span className="font-body italic text-pink-600 dark:text-pink-400">design &amp; research</span>{" "}
+                  and{" "}
+                  <span className="font-mono text-cyan-600 dark:text-cyan-400">software</span>{" "}
+                  work, from university and on my own time.
                 </p>
               </div>
             </div>
           </BlurFade>
-          
+        </div>
+
+        {/* Worlds stack vertically within the page column */}
+        <div className="mx-auto w-full max-w-2xl">
           <ProjectsClientComponent initialProjects={projects} />
         </div>
       </section>

@@ -1,6 +1,6 @@
 import { FaJava } from "react-icons/fa";
 import { Icons } from "../components/icons";
-import { BookIcon, CodeIcon, HomeIcon, LockKeyholeIcon, MailIcon, PartyPopper, VenetianMask, ServerIcon, DatabaseIcon, Container, NetworkIcon, TerminalIcon, GitBranchIcon, Code2Icon, BracesIcon, Brain, Bot, Cpu, Sparkles, Zap, Plug, Eye, ScanEye } from "lucide-react";
+import { BookIcon, CodeIcon, HomeIcon, LockKeyholeIcon, PartyPopper, VenetianMask, ServerIcon, DatabaseIcon, Container, NetworkIcon, TerminalIcon, GitBranchIcon, Code2Icon, BracesIcon, Brain, Bot, Cpu, Sparkles, Zap, Plug, Eye, ScanEye } from "lucide-react";
 
 export const DATA = {
   name: "Yunus Emre Yavuz",
@@ -9,10 +9,37 @@ export const DATA = {
   location: "Munich, Germany",
   locationLink: "https://www.google.com/maps/place/munich",
   description:
-    "student & software developer",
+    "i design, i build, i ship",
   summary:
-   "Currently working as a software developer while pursuing my Master's in Human Computer Interaction at LMU Munich. I'm interested in the intersection between design and software development, and enjoy exploring new technologies and tools in my spare time.",
+   "Currently working as a software developer while pursuing my Master's in Human Computer Interaction at LMU Munich. I live in the overlap between two worlds — the human side of research and interaction design, and the machine side of writing and shipping software. I'm happiest turning fuzzy ideas into things people can actually use, and I spend my spare time exploring new tools, frameworks, and self-hosting rabbit holes.",
   avatarUrl: "/me.jpg",
+  // The two sides of HCI I work between — mirrored on the home page hero.
+  duality: {
+    human: {
+      id: "human",
+      kicker: "the human side",
+      label: "Design & Research",
+      tagline: "Understanding people, then designing interfaces they actually enjoy.",
+      verbs: ["research", "sketch", "prototype", "test"],
+      accent: "text-pink-600 dark:text-pink-400",
+      dot: "bg-pink-500 dark:bg-pink-400",
+      border: "border-pink-500/25 dark:border-pink-400/25",
+      surface: "bg-pink-500/[0.05] dark:bg-pink-400/[0.06]",
+      glow: "group-hover:shadow-pink-500/20",
+    },
+    computer: {
+      id: "computer",
+      kicker: "the machine side",
+      label: "Software Engineering",
+      tagline: "Turning those ideas into fast, self-hosted, shipped software.",
+      verbs: ["architect", "build", "deploy", "ship"],
+      accent: "text-cyan-600 dark:text-cyan-400",
+      dot: "bg-cyan-500 dark:bg-cyan-400",
+      border: "border-cyan-500/25 dark:border-cyan-400/25",
+      surface: "bg-cyan-500/[0.05] dark:bg-cyan-400/[0.06]",
+      glow: "group-hover:shadow-cyan-500/20",
+    },
+  },
   skills: {
     "Frontend Development": [
       { name: "React", icon: Icons.react },
@@ -58,7 +85,6 @@ export const DATA = {
   navbar: [
     { href: "/", icon: HomeIcon, label: "Home" },
     { href: "/projects", icon: CodeIcon, label: "Projects" },
-    { href: "/contact", icon: MailIcon, label: "Contact" },
   ],
   contact: {
     email: "yunus@yuemya.de",

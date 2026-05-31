@@ -3,84 +3,88 @@
 import { useState, useMemo } from "react";
 import { MdDelete, MdSearch } from "react-icons/md";
 import { FiSearch } from "react-icons/fi";
+import { Code2, PenTool, X } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
 import BlurFade from "../../ui/blur-fade";
 import { ProjectCard } from "./project-card";
-import { ProjectLink } from "../../../data/projects";
+import {
+  ProjectLink,
+  ProjectCategory,
+  Discipline,
+  DISCIPLINE_META,
+  getDiscipline,
+} from "../../../data/projects";
 import { Input } from "../../ui/input";
 import { cn } from "../../../lib/utils";
 
 const BLUR_FADE_DELAY = 0.04;
 
+type ProjectItem = {
+  id: number;
+  title: string;
+  description: string;
+  year?: number;
+  tags: string[];
+  image?: string;
+  image_light?: string;
+  links?: ProjectLink[];
+  active?: boolean;
+  slug?: string;
+  category: ProjectCategory;
+  subcategory: string;
+};
+
 interface ProjectsClientComponentProps {
-  initialProjects: Array<{
-    id: number;
-    title: string;
-    description: string;
-    year?: number;
-    tags: string[];
-    image?: string;
-    image_light?: string;
-    links?: ProjectLink[];
-    active?: boolean;
-    slug?: string;
-  }>;
+  initialProjects: ProjectItem[];
 }
+
+type FocusMode = "both" | Discipline;
+
+const DISCIPLINE_ICON: Record<Discipline, React.ReactNode> = {
+  design: <PenTool className="w-4 h-4" />,
+  engineering: <Code2 className="w-4 h-4" />,
+};
 
 export default function ProjectsClientComponent({ initialProjects }: ProjectsClientComponentProps) {
   const [filterText, setFilterText] = useState("");
-  const [activeTag, setActiveTag] = useState<string | null>(null);
-
-  // Collect all unique tags sorted by frequency
-  const allTags = useMemo(() => {
-    const freq: Record<string, number> = {};
-    initialProjects.forEach((p) => p.tags?.forEach((t) => { freq[t] = (freq[t] || 0) + 1; }));
-    return Object.entries(freq)
-      .sort((a, b) => b[1] - a[1])
-      .slice(0, 12)
-      .map(([tag]) => tag);
-  }, [initialProjects]);
+  const [focus, setFocus] = useState<FocusMode>("both");
 
   const filtered = useMemo(() => {
-    const term = filterText.toLowerCase();
-    return initialProjects.filter((p) => {
-      const matchesText =
-        !term ||
+    const term = filterText.toLowerCase().trim();
+    if (!term) return initialProjects;
+    return initialProjects.filter(
+      (p) =>
         p.title.toLowerCase().includes(term) ||
         p.description.toLowerCase().includes(term) ||
-        p.tags?.some((t) => t.toLowerCase().includes(term));
-      const matchesTag = !activeTag || p.tags?.includes(activeTag);
-      return matchesText && matchesTag;
-    });
-  }, [initialProjects, filterText, activeTag]);
+        p.tags?.some((t) => t.toLowerCase().includes(term)) ||
+        p.subcategory.toLowerCase().includes(term)
+    );
+  }, [initialProjects, filterText]);
 
-  const ongoing = filtered.filter((p) => p.active).sort((a, b) => (b.year ?? 0) - (a.year ?? 0));
-  const completed = filtered
-    .filter((p) => !p.active)
-    .sort((a, b) => (b.year ?? 0) - (a.year ?? 0));
+  // Split into the two worlds, sorted by year desc.
+  const byDiscipline = useMemo(() => {
+    const map: Record<Discipline, ProjectItem[]> = { design: [], engineering: [] };
+    filtered.forEach((p) => map[getDiscipline(p.subcategory)].push(p));
+    (Object.keys(map) as Discipline[]).forEach((d) =>
+      map[d].sort((a, b) => (b.year ?? 0) - (a.year ?? 0))
+    );
+    return map;
+  }, [filtered]);
 
-  // Group completed by year
-  const byYear = useMemo(() => {
-    const map: Record<string, typeof completed> = {};
-    completed.forEach((p) => {
-      const y = p.year?.toString() ?? "—";
-      (map[y] ??= []).push(p);
-    });
-    return Object.entries(map).sort((a, b) => parseInt(b[0]) - parseInt(a[0]));
-  }, [completed]);
-
-  const noResults = filtered.length === 0 && (filterText || activeTag);
+  const noResults = filtered.length === 0;
+  const visibleDisciplines: Discipline[] =
+    focus === "both" ? ["engineering", "design"] : [focus];
 
   return (
     <div className="space-y-8">
-      {/* ── Controls ─────────────────────────────────────────── */}
+      {/* ── Search & World Toggle ─────────────────────────────── */}
       <BlurFade delay={BLUR_FADE_DELAY}>
-        <div className="space-y-3">
-          {/* Search */}
+        <div className="space-y-4">
           <div className="relative">
             <MdSearch className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none" />
             <Input
               type="text"
-              placeholder="Search projects or technologies…"
+              placeholder="Search projects, technologies, or topics…"
               value={filterText}
               onChange={(e) => setFilterText(e.target.value)}
               className="pl-10 pr-10 h-10 rounded-xl border-border bg-muted/40 text-sm focus-visible:bg-background"
@@ -89,28 +93,39 @@ export default function ProjectsClientComponent({ initialProjects }: ProjectsCli
               <button
                 onClick={() => setFilterText("")}
                 className="absolute right-3.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                aria-label="Clear search"
               >
                 <MdDelete className="w-4 h-4" />
               </button>
             )}
           </div>
 
-          {/* Tag chips */}
-          <div className="flex flex-wrap gap-1.5">
-            {allTags.map((tag) => (
-              <button
-                key={tag}
-                onClick={() => setActiveTag(activeTag === tag ? null : tag)}
-                className={cn(
-                  "text-[11px] px-2.5 py-1 rounded-full border transition-all duration-150 font-medium",
-                  activeTag === tag
-                    ? "border-accent bg-accent/10 text-accent"
-                    : "border-border text-foreground/60 hover:border-accent/60 hover:text-foreground"
-                )}
-              >
-                {tag}
-              </button>
-            ))}
+          {/* World focus toggle */}
+          <div className="flex items-center gap-1.5">
+            <FocusButton
+              active={focus === "both"}
+              onClick={() => setFocus("both")}
+              className="border-border text-foreground/70 data-[active=true]:bg-foreground data-[active=true]:text-background data-[active=true]:border-foreground"
+            >
+              Both worlds
+            </FocusButton>
+            {(["engineering", "design"] as Discipline[]).map((d) => {
+              const meta = DISCIPLINE_META[d];
+              const isActive = focus === d;
+              return (
+                <FocusButton
+                  key={d}
+                  active={isActive}
+                  onClick={() => setFocus(isActive ? "both" : d)}
+                  className={cn(
+                    isActive ? cn(meta.surface, meta.accent, meta.border) : "border-border text-foreground/70 hover:text-foreground hover:border-foreground/20"
+                  )}
+                >
+                  {DISCIPLINE_ICON[d]}
+                  {meta.label}
+                </FocusButton>
+              );
+            })}
           </div>
         </div>
       </BlurFade>
@@ -125,80 +140,180 @@ export default function ProjectsClientComponent({ initialProjects }: ProjectsCli
         </BlurFade>
       )}
 
-      {/* ── Active / Ongoing projects ─────────────────────────── */}
-      {ongoing.length > 0 && (
-        <BlurFade delay={BLUR_FADE_DELAY * 2}>
-          <section className="space-y-3">
-            <div className="flex items-center gap-2">
-              <span className="text-xs font-semibold uppercase tracking-widest text-foreground/50">
-                Currently active
-              </span>
-            </div>
-            <div className="space-y-3">
-              {ongoing.map((project, i) => (
-                <BlurFade key={project.id ?? i} delay={BLUR_FADE_DELAY * 3 + i * 0.06}>
-                  <ProjectCard
-                    variant="featured"
-                    id={project.id}
-                    slug={project.slug}
-                    title={project.title}
-                    description={project.description}
-                    dates={project.year ? `${project.year}` : ""}
-                    tags={project.tags}
-                    image={project.image}
-                    imageLight={project.image_light}
-                    links={project.links}
-                  />
-                </BlurFade>
-              ))}
-            </div>
-          </section>
-        </BlurFade>
+      {/* ── The two worlds (stacked) ──────────────────────────── */}
+      {!noResults && (
+        <div className="space-y-6">
+          {visibleDisciplines.map((d, colIdx) => (
+            <DisciplineColumn
+              key={d}
+              discipline={d}
+              projects={byDiscipline[d]}
+              colIdx={colIdx}
+            />
+          ))}
+        </div>
       )}
+    </div>
+  );
+}
 
-      {/* ── Completed projects ────────────────────────────────── */}
-      {completed.length > 0 && (
-        <BlurFade delay={BLUR_FADE_DELAY * 4}>
-          <section className="space-y-1">
-            <div className="flex items-center gap-2 mb-4">
-              <span className="text-xs font-semibold uppercase tracking-widest text-foreground/50">
-                Project history
-              </span>
-              <span className="text-xs text-foreground/40">({completed.length})</span>
-            </div>
+/* ─────────────────────────────────────────────────────────────── */
 
-            {byYear.map(([year, projects], yi) => (
-              <div key={year}>
-                {/* Year divider */}
-                <div className="flex items-center gap-3 pt-5 pb-1">
-                  <span className="text-xs font-semibold text-foreground/40 tracking-wide">
-                    {year}
-                  </span>
-                  <div className="flex-1 h-px bg-border" />
-                </div>
+function FocusButton({
+  active,
+  onClick,
+  className,
+  children,
+}: {
+  active: boolean;
+  onClick: () => void;
+  className?: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <button
+      data-active={active}
+      onClick={onClick}
+      className={cn(
+        "flex items-center gap-1.5 text-[11px] px-3 py-1.5 rounded-full border transition-all duration-200 font-medium",
+        className
+      )}
+    >
+      {children}
+    </button>
+  );
+}
 
-                {/* Rows */}
-                {projects.map((project, i) => (
-                  <BlurFade key={project.id ?? i} delay={BLUR_FADE_DELAY * 4 + yi * 0.04 + i * 0.05}>
-                    <ProjectCard
-                      variant="list"
-                      id={project.id}
-                      slug={project.slug}
-                      title={project.title}
-                      description={project.description}
-                      dates={project.year?.toString() ?? ""}
-                      tags={project.tags}
-                      image={project.image}
-                      imageLight={project.image_light}
-                      links={project.links}
-                    />
-                  </BlurFade>
-                ))}
-              </div>
+function DisciplineColumn({
+  discipline,
+  projects,
+  colIdx,
+}: {
+  discipline: Discipline;
+  projects: ProjectItem[];
+  colIdx: number;
+}) {
+  const meta = DISCIPLINE_META[discipline];
+  const isDesign = discipline === "design";
+
+  return (
+    <motion.section
+      layout
+      className={cn(
+        "relative overflow-hidden rounded-3xl border",
+        meta.border,
+        meta.surface
+      )}
+    >
+      {/* texture stays subtle and clipped to the panel */}
+      <div
+        className={cn(
+          "absolute inset-0 pointer-events-none opacity-40",
+          isDesign ? "texture-paper" : "texture-grid"
+        )}
+      />
+
+      <div className="relative z-10 space-y-4 p-4 sm:p-5">
+        {/* ── World header ── */}
+        <BlurFade delay={BLUR_FADE_DELAY * 2 + colIdx * 0.05}>
+          {isDesign ? (
+            <DesignHeader meta={meta} count={projects.length} />
+          ) : (
+            <EngineeringHeader meta={meta} count={projects.length} />
+          )}
+        </BlurFade>
+
+        {projects.length === 0 ? (
+          <p className="text-xs text-muted-foreground py-6 text-center font-body italic">
+            Nothing here matches your search.
+          </p>
+        ) : (
+          <div className="grid gap-3 sm:grid-cols-2 auto-rows-fr">
+            {projects.map((project, i) => (
+              <BlurFade
+                key={project.id ?? i}
+                className="h-full"
+                delay={BLUR_FADE_DELAY * 3 + colIdx * 0.05 + i * 0.06}
+              >
+                <ProjectCard
+                  variant={discipline}
+                  id={project.id}
+                  slug={project.slug}
+                  title={project.title}
+                  description={project.description}
+                  dates={project.year?.toString() ?? ""}
+                  tags={project.tags}
+                  image={project.image}
+                  imageLight={project.image_light}
+                  links={project.links}
+                  active={project.active}
+                  category={project.category}
+                  subcategory={project.subcategory}
+                  discipline={discipline}
+                />
+              </BlurFade>
             ))}
-          </section>
-        </BlurFade>
-      )}
+          </div>
+        )}
+      </div>
+    </motion.section>
+  );
+}
+
+function DesignHeader({
+  meta,
+  count,
+}: {
+  meta: typeof DISCIPLINE_META[Discipline];
+  count: number;
+}) {
+  return (
+    <div className="flex items-start justify-between gap-3">
+      <div className="space-y-1">
+        <span className={cn("text-[10px] font-body italic tracking-wide", meta.accentSoft)}>
+          {meta.kicker}
+        </span>
+        <h3 className="flex items-center gap-2 text-xl font-body italic font-medium text-foreground">
+          <PenTool className={cn("w-4 h-4", meta.accent)} />
+          <span className="ink-underline">{meta.label}</span>
+        </h3>
+        <p className="text-xs text-muted-foreground font-body leading-relaxed max-w-xs">
+          {meta.tagline}
+        </p>
+      </div>
+      <span className={cn("shrink-0 text-[10px] font-mono px-2 py-1 rounded-full border", meta.border, meta.accent)}>
+        {count}
+      </span>
+    </div>
+  );
+}
+
+function EngineeringHeader({
+  meta,
+  count,
+}: {
+  meta: typeof DISCIPLINE_META[Discipline];
+  count: number;
+}) {
+  return (
+    <div className="space-y-2 font-mono">
+      <div className="flex items-center justify-between gap-3">
+        <span className={cn("text-[10px] tracking-wide", meta.accentSoft)}>
+          {"/* "}{meta.kicker}{" */"}
+        </span>
+        <span className={cn("shrink-0 text-[10px] px-2 py-1 rounded-full border", meta.border, meta.accent)}>
+          {count}
+        </span>
+      </div>
+      <h3 className="flex items-center gap-2 text-lg font-semibold text-foreground">
+        <Code2 className={cn("w-4 h-4", meta.accent)} />
+        {meta.label}
+      </h3>
+      <p className="text-xs text-muted-foreground leading-relaxed max-w-xs">
+        <span className={meta.accentSoft}>{meta.path} $ </span>
+        {meta.tagline}
+        <span className={cn("caret-blink ml-0.5", meta.accent)}>▌</span>
+      </p>
     </div>
   );
 }

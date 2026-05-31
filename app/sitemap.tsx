@@ -15,12 +15,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
             priority: 0.8,
         },
         {
-            url: 'https://yuemya.de/contact',
-            lastModified: new Date(),
-            changeFrequency: 'yearly',
-            priority: 0.5,
-        },
-        {
             url: 'https://yuemya.de/blog',
             lastModified: new Date(),
             changeFrequency: 'monthly',

@@ -4,7 +4,7 @@ import { TooltipProvider } from "../components/ui/tooltip";
 import { DATA } from "../data/resume";
 import { cn } from "../lib/utils";
 import type { Metadata } from "next";
-import { Manrope, DM_Sans } from "next/font/google";
+import { Manrope, DM_Sans, JetBrains_Mono } from "next/font/google";
 import Particles from "../components/ui/particles";
 import "./globals.css";
 
@@ -17,6 +17,12 @@ const fontDisplay = Manrope({
 const fontBody = DM_Sans({
   subsets: ["latin"],
   variable: "--font-body",
+  weight: ["400", "500", "600", "700"],
+});
+
+const fontMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-mono",
   weight: ["400", "500", "600", "700"],
 });
 
@@ -63,15 +69,17 @@ export default function RootLayout({
 }>) {
 
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" className="dark" style={{ colorScheme: "dark" }} data-scroll-behavior="smooth" suppressHydrationWarning>
       <body
+        suppressHydrationWarning
         className={cn(
           "min-h-screen bg-background font-display antialiased max-w-2xl mx-auto py-12 sm:py-24 px-6",
           fontDisplay.variable,
-          fontBody.variable
+          fontBody.variable,
+          fontMono.variable
         )}
       >
-        <ThemeProvider attribute="class" defaultTheme="dark">
+        <ThemeProvider attribute="class" forcedTheme="dark" defaultTheme="dark" enableSystem={false} disableTransitionOnChange>
           <div className="particles-container">
             <Particles />
           </div>
