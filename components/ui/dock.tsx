@@ -1,126 +1,155 @@
-"use client";
+"use client"
 
-import { cn } from "../../lib/utils";
-import { cva, type VariantProps } from "class-variance-authority";
+import React, { PropsWithChildren, useRef } from "react"
+import { cva, type VariantProps } from "class-variance-authority"
 import {
   motion,
+  MotionValue,
   useMotionValue,
   useSpring,
   useTransform,
-  type MotionValue,
-} from "framer-motion";
-import React, { createContext, useContext, useEffect, useRef, useState } from "react";
+} from "framer-motion"
+import type { MotionProps } from "framer-motion"
+
+import { cn } from "../../lib/utils"
 
 export interface DockProps extends VariantProps<typeof dockVariants> {
-  className?: string;
-  magnification?: number;
-  distance?: number;
-  children: React.ReactNode;
+  className?: string
+  iconSize?: number
+  iconMagnification?: number
+  disableMagnification?: boolean
+  iconDistance?: number
+  direction?: "top" | "middle" | "bottom"
+  children: React.ReactNode
 }
 
-const DEFAULT_MAGNIFICATION = 60;
-const DEFAULT_DISTANCE = 140;
+const DEFAULT_SIZE = 40
+const DEFAULT_MAGNIFICATION = 60
+const DEFAULT_DISTANCE = 140
+const DEFAULT_DISABLEMAGNIFICATION = false
 
 const dockVariants = cva(
-  "mx-auto w-max h-full p-2 flex items-end rounded-full border"
-);
-
-// Magnification state is shared via context so the Dock doesn't need to clone
-// props into its children. That avoids leaking invalid DOM attributes onto
-// non-icon children (e.g. <Separator/>), which previously broke hydration.
-interface DockContextValue {
-  mousex: MotionValue<number>;
-  magnification: number;
-  distance: number;
-}
-
-const DockContext = createContext<DockContextValue | null>(null);
+  "supports-backdrop-blur:bg-white/10 supports-backdrop-blur:dark:bg-black/10 mx-auto flex h-[58px] w-max items-center justify-center gap-2 rounded-2xl border p-2 backdrop-blur-md"
+)
 
 const Dock = React.forwardRef<HTMLDivElement, DockProps>(
   (
     {
       className,
       children,
-      magnification = DEFAULT_MAGNIFICATION,
-      distance = DEFAULT_DISTANCE,
+      iconSize = DEFAULT_SIZE,
+      iconMagnification = DEFAULT_MAGNIFICATION,
+      disableMagnification = DEFAULT_DISABLEMAGNIFICATION,
+      iconDistance = DEFAULT_DISTANCE,
+      direction = "middle",
       ...props
     },
     ref
   ) => {
-    const mousex = useMotionValue(Infinity);
+    const mouseX = useMotionValue(Infinity)
+
+    const renderChildren = () => {
+      return React.Children.map(children, (child) => {
+        if (
+          React.isValidElement<DockIconProps>(child) &&
+          child.type === DockIcon
+        ) {
+          return React.cloneElement(child, {
+            ...child.props,
+            mouseX: mouseX,
+            size: iconSize,
+            magnification: iconMagnification,
+            disableMagnification: disableMagnification,
+            distance: iconDistance,
+          })
+        }
+        return child
+      })
+    }
 
     return (
-      <DockContext.Provider value={{ mousex, magnification, distance }}>
-        <motion.div
-          ref={ref}
-          onMouseMove={(e) => mousex.set(e.pageX)}
-          onMouseLeave={() => mousex.set(Infinity)}
-          {...props}
-          className={cn(dockVariants({ className }))}
-        >
-          {children}
-        </motion.div>
-      </DockContext.Provider>
-    );
+      <motion.div
+        ref={ref}
+        onMouseMove={(e) => mouseX.set(e.pageX)}
+        onMouseLeave={() => mouseX.set(Infinity)}
+        {...props}
+        className={cn(dockVariants({ className }), {
+          "items-start": direction === "top",
+          "items-center": direction === "middle",
+          "items-end": direction === "bottom",
+        })}
+      >
+        {renderChildren()}
+      </motion.div>
+    )
   }
-);
+)
 
-Dock.displayName = "Dock";
+Dock.displayName = "Dock"
 
-export interface DockIconProps {
-  size?: number;
-  className?: string;
-  children?: React.ReactNode;
+export interface DockIconProps extends Omit<
+  MotionProps & React.HTMLAttributes<HTMLDivElement>,
+  "children"
+> {
+  size?: number
+  magnification?: number
+  disableMagnification?: boolean
+  distance?: number
+  mouseX?: MotionValue<number>
+  className?: string
+  children?: React.ReactNode
+  props?: PropsWithChildren
 }
 
-const DockIcon = ({ size, className, children }: DockIconProps) => {
-  const ref = useRef<HTMLDivElement>(null);
-  const ctx = useContext(DockContext);
+const DockIcon = ({
+  size = DEFAULT_SIZE,
+  magnification = DEFAULT_MAGNIFICATION,
+  disableMagnification,
+  distance = DEFAULT_DISTANCE,
+  mouseX,
+  className,
+  children,
+  ...props
+}: DockIconProps) => {
+  const ref = useRef<HTMLDivElement>(null)
+  const padding = Math.max(6, size * 0.2)
+  const defaultMouseX = useMotionValue(Infinity)
 
-  // Defer the magnification animation until after mount. The animated width
-  // (a framer-motion spring) is not deterministic between SSR and the first
-  // client render, so we render a plain fixed width first, then enable the
-  // spring. This keeps the hydrated DOM identical to the server output.
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
+  const distanceCalc = useTransform(mouseX ?? defaultMouseX, (val: number) => {
+    const bounds = ref.current?.getBoundingClientRect() ?? { x: 0, width: 0 }
+    return val - bounds.x - bounds.width / 2
+  })
 
-  // Fallback so the icon still works if rendered outside a <Dock>.
-  const fallbackMouse = useMotionValue(Infinity);
-  const mousex = ctx?.mousex ?? fallbackMouse;
-  const magnification = ctx?.magnification ?? DEFAULT_MAGNIFICATION;
-  const distance = ctx?.distance ?? DEFAULT_DISTANCE;
+  const targetSize = disableMagnification ? size : magnification
 
-  const distanceCalc = useTransform(mousex, (val: number) => {
-    const bounds = ref.current?.getBoundingClientRect() ?? { x: 0, width: 0 };
-    return val - bounds.x - bounds.width / 2;
-  });
-
-  const widthSync = useTransform(
+  const sizeTransform = useTransform(
     distanceCalc,
     [-distance, 0, distance],
-    [40, magnification, 40]
-  );
+    [size, targetSize, size]
+  )
 
-  const width = useSpring(widthSync, {
+  const scaleSize = useSpring(sizeTransform, {
     mass: 0.1,
     stiffness: 150,
     damping: 12,
-  });
+  })
 
   return (
     <motion.div
       ref={ref}
-      style={mounted ? { width } : undefined}
+      style={{ width: scaleSize, height: scaleSize, padding }}
       className={cn(
-        "flex aspect-square w-10 cursor-pointer items-center justify-center rounded-full",
+        "flex aspect-square cursor-pointer items-center justify-center rounded-full",
+        disableMagnification && "hover:bg-muted-foreground transition-colors",
         className
       )}
+      {...props}
     >
-      {children}
+      <div>{children}</div>
     </motion.div>
-  );
-};
+  )
+}
 
-DockIcon.displayName = "DockIcon";
+DockIcon.displayName = "DockIcon"
 
-export { Dock, DockIcon, dockVariants };
+export { Dock, DockIcon, dockVariants }

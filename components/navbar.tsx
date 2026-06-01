@@ -23,9 +23,12 @@ export default function Navbar() {
   if (!mounted) return null;
 
   return (
-    <div className="pointer-events-none fixed inset-x-0 bottom-0 z-30 mx-auto mb-4 flex origin-bottom h-full max-h-14">
-      <div className="fixed bottom-0 inset-x-0 h-16 w-full bg-background to-transparent backdrop-blur-lg [-webkit-mask-image:linear-gradient(to_top,black,transparent)] dark:bg-background"></div>
-      <Dock className="z-50 pointer-events-auto relative mx-auto flex min-h-full h-full items-center px-2 bg-card/90 backdrop-blur-xl rounded-full border border-border/50 [box-shadow:0_4px_30px_rgba(0,0,0,.08)] transform-gpu dark:border-border/30 dark:[box-shadow:0_4px_30px_rgba(0,0,0,.3)]">
+    <div className="pointer-events-none fixed inset-x-0 bottom-0 z-30 mx-auto mb-4 flex h-14 origin-bottom items-end justify-center">
+      <div
+        aria-hidden
+        className=""
+      />
+      <Dock className="z-50 pointer-events-auto relative mx-auto flex h-full items-center px-2 bg-card/90 backdrop-blur-xl rounded-full border border-border/50 [box-shadow:0_4px_30px_rgba(0,0,0,.08)] transform-gpu dark:border-border/30 dark:[box-shadow:0_4px_30px_rgba(0,0,0,.3)]">
         {DATA.navbar.map((item) => (
           <DockIcon key={item.href}>
             <Tooltip>
