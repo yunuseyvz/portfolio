@@ -312,7 +312,7 @@ export const PROJECTS: Project[] = [
     tags: ["User Study", "Quantitative Research", "Stroop Test", "Survey Design", "Statistics"],
     links: [
       { href: "https://github.com/yunuseyvz/wal_stroop", icon: <Github className="h-4 w-4" />, type: "Source" },
-      { href: "/wal_poster.pdf", icon: <FileText className="h-4 w-4" />, type: "Poster" },
+      { href: "/wal-poster", icon: <FileText className="h-4 w-4" />, type: "Poster" },
     ],
     images: [
       "/projects/wal1.png",
