@@ -1,4 +1,4 @@
-import { ExternalLink, Award, Github, GamepadIcon, Figma, Book } from "lucide-react";
+import { ExternalLink, Award, Github, GamepadIcon, Figma, Book, FileText } from "lucide-react";
 import { ReactNode } from "react";
 
 export interface ProjectLink {
@@ -298,6 +298,29 @@ export const PROJECTS: Project[] = [
     ],
     active: false,
     featured: true,
+    category: "university",
+    subcategory: "Research & Thesis",
+  },
+  {
+    id: 14,
+    title: "Experimental Study on Short-Form Content",
+    description:
+      "An experimental study investigating the relationship between daily short-form content consumption (TikTok, Instagram Reels, YouTube Shorts) and attention span. Combined a self-developed online Stroop Test (25 trials measuring reaction time and accuracy for congruent/incongruent stimuli) with a follow-up survey on self-perceived concentration, mental fatigue, and stimulus overload. Analysis of N = 34 participants showed a moderate negative correlation between daily usage and Stroop accuracy (ρ = –0.313, p = 0.072), though not statistically significant. Conducted for the Scientific Work & Teaching module at LMU Munich.",
+    year: 2025,
+    slug: "wal-experimental-study-short-form-content",
+    image: "/projects/wal.png",
+    tags: ["User Study", "Quantitative Research", "Stroop Test", "Survey Design", "Statistics"],
+    links: [
+      { href: "https://github.com/yunuseyvz/wal_stroop", icon: <Github className="h-4 w-4" />, type: "Source" },
+      { href: "/wal_poster.pdf", icon: <FileText className="h-4 w-4" />, type: "Poster" },
+    ],
+    images: [
+      "/projects/wal1.png",
+      "/projects/wal2.png",
+      "/projects/wal3.png",
+    ],
+    active: false,
+    featured: false,
     category: "university",
     subcategory: "Research & Thesis",
   },

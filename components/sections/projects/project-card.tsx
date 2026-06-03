@@ -83,7 +83,7 @@ export function ProjectCard({
         <div className="texture-paper absolute inset-0 opacity-25 pointer-events-none" />
 
         {image && (
-          <div className="relative z-10 mx-3 mt-3 overflow-hidden rounded-xl h-40 border border-pink-500/10 dark:border-pink-400/10 rotate-[-0.6deg] group-hover/card:rotate-0 transition-transform duration-500">
+          <div className="relative z-10 mx-3 mt-3 overflow-hidden rounded-xl h-40 border border-pink-500/10 dark:border-pink-400/10 group-hover/card:rotate-0 transition-transform duration-500">
             <Image
               src={image}
               alt={title}

@@ -68,8 +68,6 @@ export function ProjectCollage({ images, title, discipline }: ProjectCollageProp
         isDesign
           ? "border-pink-500/15 dark:border-pink-400/15"
           : "border-cyan-500/15 dark:border-cyan-400/15",
-        // playful tilt for the design world's feature tile
-        isDesign && index === 0 && "rotate-[-0.6deg] hover:rotate-0 transition-transform duration-500",
         className
       )}
     >
@@ -113,9 +111,7 @@ export function ProjectCollage({ images, title, discipline }: ProjectCollageProp
 
   if (count === 1) {
     layout = (
-      <div className="relative w-full aspect-video">
-        <Tile img={visible[0]} index={0} className="absolute inset-0" />
-      </div>
+      <Tile img={visible[0]} index={0} className="w-full aspect-video" />
     );
   } else if (count === 2) {
     layout = (
