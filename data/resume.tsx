@@ -1,6 +1,6 @@
 import { FaJava } from "react-icons/fa";
 import { Icons } from "../components/icons";
-import { BookIcon, CodeIcon, HomeIcon, LockKeyholeIcon, PartyPopper, VenetianMask, ServerIcon, DatabaseIcon, Container, NetworkIcon, TerminalIcon, GitBranchIcon, Code2Icon, BracesIcon, Brain, Bot, Cpu, Sparkles, Zap, Plug, Eye, ScanEye } from "lucide-react";
+import { BookIcon, CodeIcon, HomeIcon, LockKeyholeIcon, MailIcon, PartyPopper, VenetianMask, ServerIcon, DatabaseIcon, Container, NetworkIcon, TerminalIcon, GitBranchIcon, Code2Icon, BracesIcon, Brain, Bot, Cpu, Sparkles, Zap, Plug, Eye, ScanEye } from "lucide-react";
 
 export const DATA = {
   name: "Yunus Emre Yavuz",
@@ -9,7 +9,7 @@ export const DATA = {
   location: "Munich, Germany",
   locationLink: "https://www.google.com/maps/place/munich",
   description:
-    "i design, i build, i ship",
+    "student & software developer",
   summary:
    "Currently working as a software developer while pursuing my Master's in Human Computer Interaction at LMU Munich. I live in the overlap between two worlds — the human side of research and interaction design, and the machine side of writing and shipping software. I'm happiest turning fuzzy ideas into things people can actually use, and I spend my spare time exploring new tools, frameworks, and self-hosting rabbit holes.",
   avatarUrl: "/me.jpg",
@@ -85,6 +85,7 @@ export const DATA = {
   navbar: [
     { href: "/", icon: HomeIcon, label: "Home" },
     { href: "/projects", icon: CodeIcon, label: "Projects" },
+    { href: "/contact", icon: MailIcon, label: "Contact" },
   ],
   contact: {
     email: "yunus@yuemya.de",

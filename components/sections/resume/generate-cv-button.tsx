@@ -1,14 +1,7 @@
 'use client'
 
 import { useState } from 'react';
-import { Button } from "../../ui/button";
-import { FaDownload } from 'react-icons/fa';
-import {
-    Tooltip,
-    TooltipContent,
-    TooltipProvider,
-    TooltipTrigger,
-  } from "../../ui/tooltip";
+import { ArrowDown } from 'lucide-react';
 
 export const GenerateCVButton = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -17,17 +10,17 @@ export const GenerateCVButton = () => {
     setIsLoading(true);
     try {
       const response = await fetch('/api/generate-cv');
-      
+
       if (response.ok) {
         const blob = await response.blob();
-        
+
         const a = document.createElement('a');
         const url = window.URL.createObjectURL(blob);
 
         a.href = url;
         a.download = 'yunus-cv.pdf';
         a.target = '_blank';
-        
+
         document.body.appendChild(a);
         a.click();
         window.URL.revokeObjectURL(url);
@@ -45,30 +38,22 @@ export const GenerateCVButton = () => {
   };
 
   return (
-    <TooltipProvider>
-      <Tooltip delayDuration={0.5}>
-        <TooltipTrigger asChild>
-          <Button 
-            variant="default" 
-            size="lg"
-            className="gap-2 font-medium"
-            onClick={handleGenerateCV}
-            disabled={isLoading}
-          >
-            {isLoading ? (
-              <>
-                <div className="animate-spin h-4 w-4 border-2 border-current border-t-transparent rounded-full" />
-                <span>Generating CV...</span>
-              </>
-            ) : (
-              <>
-                <FaDownload className="size-4" /> 
-                <span>Download CV</span>
-              </>
-            )}
-          </Button>
-        </TooltipTrigger>
-      </Tooltip>
-    </TooltipProvider>
+    <button
+      onClick={handleGenerateCV}
+      disabled={isLoading}
+      className="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.15em] text-muted-foreground transition-colors hover:text-accent disabled:opacity-50"
+    >
+      {isLoading ? (
+        <>
+          <span className="size-3 animate-spin rounded-full border border-current border-t-transparent" />
+          <span>Compiling…</span>
+        </>
+      ) : (
+        <>
+          <ArrowDown className="size-3" />
+          <span>Download CV (PDF)</span>
+        </>
+      )}
+    </button>
   );
 };

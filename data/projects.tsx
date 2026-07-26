@@ -238,7 +238,6 @@ export const PROJECTS: Project[] = [
     images: [
       "/projects/1745260872166-stravaviz_home.png",
       "/projects/1745260879390-stravaviz_bar.png",
-      "/projects/1745260882596-stravaviz_pie.png",
     ],
     active: false,
     featured: false,
@@ -317,7 +316,6 @@ export const PROJECTS: Project[] = [
     images: [
       "/projects/wal1.png",
       "/projects/wal2.png",
-      "/projects/wal3.png",
     ],
     active: false,
     featured: false,

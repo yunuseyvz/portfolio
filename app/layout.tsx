@@ -1,36 +1,34 @@
 import Navbar from "../components/navbar";
-import { ThemeProvider } from "../components/theme-provider";
-import { TooltipProvider } from "../components/ui/tooltip";
+import Footer from "../components/footer";
 import { DATA } from "../data/resume";
 import { cn } from "../lib/utils";
 import type { Metadata } from "next";
-import { Manrope, DM_Sans, JetBrains_Mono } from "next/font/google";
-import Particles from "../components/ui/particles";
+import { Space_Grotesk, Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
-const fontDisplay = Manrope({
+const fontDisplay = Space_Grotesk({
   subsets: ["latin"],
   variable: "--font-display",
-  weight: ["300", "400", "500", "600", "700", "800"],
+  weight: ["400", "500", "600", "700"],
 });
 
-const fontBody = DM_Sans({
+const fontBody = Inter({
   subsets: ["latin"],
   variable: "--font-body",
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "500", "600"],
 });
 
 const fontMono = JetBrains_Mono({
   subsets: ["latin"],
   variable: "--font-mono",
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "500"],
 });
 
 export const metadata: Metadata = {
   metadataBase: new URL(DATA.url),
   title: {
-    default: `Portfolio | ${DATA.name}`,
-    template: `%s | ${DATA.name}`,
+    default: `${DATA.name}`,
+    template: `%s — ${DATA.name}`,
   },
   description: DATA.description,
   openGraph: {
@@ -56,10 +54,6 @@ export const metadata: Metadata = {
     title: `${DATA.name}`,
     card: "summary_large_image",
   },
-  verification: {
-    google: "",
-    yandex: "",
-  },
 };
 
 export default function RootLayout({
@@ -67,27 +61,21 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-
   return (
-    <html lang="en" className="dark" style={{ colorScheme: "dark" }} data-scroll-behavior="smooth" suppressHydrationWarning>
+    <html lang="en" className="dark" suppressHydrationWarning>
       <body
-        suppressHydrationWarning
         className={cn(
-          "min-h-screen bg-background font-display antialiased max-w-2xl mx-auto py-12 sm:py-24 px-6",
+          "min-h-dvh bg-background font-body text-foreground antialiased",
           fontDisplay.variable,
           fontBody.variable,
           fontMono.variable
         )}
       >
-        <ThemeProvider attribute="class" forcedTheme="dark" defaultTheme="dark" enableSystem={false} disableTransitionOnChange>
-          <div className="particles-container">
-            <Particles />
-          </div>
-          <TooltipProvider delayDuration={0}>
-            {children}
-            <Navbar />
-          </TooltipProvider>
-        </ThemeProvider>
+        <div className="mx-auto flex min-h-dvh w-full max-w-2xl flex-col px-6">
+          <Navbar />
+          {children}
+          <Footer />
+        </div>
       </body>
     </html>
   );
