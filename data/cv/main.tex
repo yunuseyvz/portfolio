@@ -1,0 +1,107 @@
+% ==========================================================================
+%  Developer CV -- Yunus Emre Yavuz
+% --------------------------------------------------------------------------
+%  Compile:   pdflatex main.tex   (run twice)
+%  Requires:  packages fontawesome5 + sourcesanspro (TeX Live / Overleaf)
+%
+%  HOW TO REUSE:
+%   1. Replace the personal data in the HEADER block below.
+%   2. Add/remove sections and entries -- all styling lives in cvstyle.sty.
+%   3. Change the accent color or margins in the overrides block below.
+% ==========================================================================
+\documentclass[10pt]{article}
+\usepackage{cvstyle}
+
+% ---- Optional look overrides ----------------------------------------------
+% \definecolor{accent}{HTML}{0E7490}  
+\definecolor{accent}{HTML}{150578}   
+% \definecolor{accent}{HTML}{44546A}   
+% \geometry{top=1.8cm,bottom=1.8cm,left=2cm,right=2cm}
+
+\begin{document}
+
+% ============================ HEADER =======================================
+\name{Yunus Emre Yavuz}
+\tagline{Software Engineer \& Human--Computer Interaction}
+\email{yunus@yuemya.de}
+\location{Munich, Germany}
+\website{yuemya.de}
+\github{yunuseyvz}
+\linkedin{yunuseyvz}
+\makecvheader
+
+% ============================ PROFILE ======================================
+\cvsection{Profile}
+Software Engineer and UI Developer bridging Human--Computer Interaction and
+full-stack development. Building user-facing products end to end, from rapid
+prototyping and usability studies to production web applications.
+
+% ============================ EXPERIENCE ===================================
+\cvsection{Experience}
+
+\cventry{Working Student Software Engineering}{Rohde \& Schwarz}{Munich, Germany}{06/2025 -- present}
+\cvtech{Next.js \textbullet\ React \textbullet\ TypeScript \textbullet\ Tailwind CSS \textbullet\ Docker}
+\begin{cvitems}
+  \item Building a customer-facing automation platform for a major global
+        technology company to evaluate UX under varying mobile network conditions.
+  \item Contributing to system design, frontend implementation, and end-to-end
+        mobile testing infrastructure.
+\end{cvitems}
+
+\cventry{Working Student IT Quality \& Governance}{MTU Aero Engines}{Munich, Germany}{01/2022 -- 12/2023}
+\begin{cvitems}
+  \item Streamlined IT quality and governance workflows in a regulated,
+        large-scale aerospace environment.
+  \item Coordinated with cross-functional teams to maintain compliance and
+        improve enterprise IT processes.
+\end{cvitems}
+
+% ============================ PROJECTS =====================================
+\cvsection{Selected Projects}
+
+\cvproject{amfelio.de -- Recruiting Platform}%
+  {Freelance Project \textbullet\ Next.js, PostgreSQL, self-hosted infrastructure}%
+  {2026}
+\begin{cvitems}
+  \item Developing a custom full-stack recruiting platform, managing
+        self-hosted frontend and backend services.
+  \item Building an admin dashboard for applicant management and tracking.
+  \item Implementing automated email notifications and secure data pipelines.
+\end{cvitems}
+
+\cvproject{Mila AR -- AR Language Tutor}%
+  {LMU Munich \textbullet\ Unity, C\#, LLMs, AR, multimodal systems}%
+  {2026}
+\begin{cvitems}
+  \item Developed a multimodal AR language-learning system combining speech,
+        LLM dialogue, and vision-based interaction.
+  \item Designed spatial learning experiences with real-time feedback and
+        interactive object recognition.
+\end{cvitems}
+
+\vspace{0.3em}
+\href{https://yuemya.de}{\textcolor{accent}{More on yuemya.de $\rightarrow$}}
+
+% ============================ EDUCATION ====================================
+\cvsection{Education}
+
+\cventry{M.Sc. Human--Computer Interaction}{LMU Munich}{Munich, Germany}{04/2025 -- present}
+
+\cventry{B.Sc. Media Informatics (Minor: HCI)}{LMU Munich}{Munich, Germany}{10/2019 -- 03/2025}
+\begin{cvitems}
+  \item \textbf{Thesis:} Mixed-methods study on phishing warning design
+        (eye tracking, usability testing, 16 participants); designed and
+        evaluated UI variants to improve user decision-making in
+        security-critical contexts.
+\end{cvitems}
+
+% ============================ SKILLS =======================================
+\cvsection{Skills}
+\cvskill{AI \& Systems}{LLM APIs, Conversational UX, Multimodal Systems,
+        Agentic Workflows, Cursor, Copilot}
+\cvskill{Engineering}{TypeScript, React, Next.js, Tailwind CSS,
+        Python, PostgreSQL, REST APIs, Docker, Git, CI/CD, Unity, C\#}
+\cvskill{Design \& UX}{Figma, Interaction Design, Rapid Prototyping, User Research,
+        Usability Testing}
+
+\end{document}

@@ -1,0 +1,153 @@
+% ==========================================================================
+%  cvstyle.sty  --  Modern, clean developer CV style
+% --------------------------------------------------------------------------
+%  Engine:  pdfLaTeX (no XeLaTeX/LuaLaTeX required)
+%  Usage:   \usepackage{cvstyle} in main.tex
+%  Customize colors/margins AFTER loading this package (see main.tex)
+% ==========================================================================
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{cvstyle}[2026/07/27 v1.3 Modern developer CV style]
+
+% ---------- Page layout ----------------------------------------------------
+\RequirePackage[a4paper,top=1.4cm,bottom=1.5cm,left=1.7cm,right=1.7cm]{geometry}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+\pagenumbering{gobble}                          % no page numbers
+
+% ---------- Fonts ----------------------------------------------------------
+% fontenc/inputenc are pdflatex-only; tectonic (XeTeX) is Unicode-native
+% and ignores them — loading T1 under XeTeX can error, so guard with iftex.
+\RequirePackage{iftex}
+\ifpdftex
+  \RequirePackage[T1]{fontenc}
+  \RequirePackage[utf8]{inputenc}
+\fi
+\RequirePackage[default,scaled=.97]{sourcesanspro}  % modern clean sans-serif
+\RequirePackage{microtype}
+
+% ---------- Color palette (override in main.tex) ---------------------------
+\RequirePackage{xcolor}
+\definecolor{accent}{HTML}{3D5A80}      % primary accent: headings, icons, rules (muted steel blue)
+\definecolor{muted}{HTML}{6B7280}       % dates, locations, secondary text
+\definecolor{darktext}{HTML}{1F2937}    % body text
+\AtBeginDocument{\color{darktext}}
+
+% ---------- Icons & links --------------------------------------------------
+\RequirePackage{fontawesome5}
+\RequirePackage[hidelinks]{hyperref}
+
+% ---------- Section headers ------------------------------------------------
+\RequirePackage{titlesec}
+\titleformat{\section}
+  {\large\bfseries\color{accent}}
+  {}{0pt}{}
+  [\vspace{-0.85em}{\color{accent!45}\rule{\textwidth}{0.7pt}}]
+\titlespacing*{\section}{0pt}{1.05em plus 0.2em minus 0.1em}{0.2em}
+
+% \cvsection{Title} -- styled, unnumbered, uppercase section heading
+% Sets \@firstentrytrue so the first \cventry/\cvproject/\cvpub after a
+% section skips its top gap -> the space under every section rule is
+% identical (0.2em), no matter what content follows.
+\newif\if@firstentry
+\newcommand{\cvsection}[1]{\section*{\MakeUppercase{#1}}\@firstentrytrue}
+
+% ---------- Personal data (setters used by \makecvheader) ------------------
+\def\@name{}      \newcommand{\name}[1]{\def\@name{#1}}
+\def\@tagline{}   \newcommand{\tagline}[1]{\def\@tagline{#1}}
+\def\@email{}     \newcommand{\email}[1]{\def\@email{#1}}
+\def\@phone{}     \newcommand{\phone}[1]{\def\@phone{#1}}
+\def\@location{}  \newcommand{\location}[1]{\def\@location{#1}}
+\def\@cvempty{}
+\newif\if@weblinks   % true once a web link (website/github/linkedin) is set
+\def\@website{}   \newcommand{\website}[1]{\def\@website{#1}\@weblinkstrue}   % without https://
+\def\@github{}    \newcommand{\github}[1]{\def\@github{#1}\@weblinkstrue}     % username only
+\def\@linkedin{}  \newcommand{\linkedin}[1]{\def\@linkedin{#1}\@weblinkstrue} % profile slug only
+
+% ---------- Header ----------------------------------------------------------
+%  Contact info is split into TWO rows so it can never overflow the margin:
+%  row 1 = direct contact (email / phone / location)
+%  row 2 = web links (website / github / linkedin) -- printed only if set
+\newif\if@contactstarted
+% stretchy separators: TeX may adjust them instead of overfilling the line
+\newcommand{\@contactsep}{%
+  \hspace{0.85em plus 0.4em minus 0.25em}{\color{muted}\textbar}%
+  \hspace{0.85em plus 0.4em minus 0.25em}}
+\newcommand{\@contactitem}[2]{%
+  \if@contactstarted\@contactsep\fi
+  {\color{accent}#1}\hspace{0.4em}#2\@contactstartedtrue
+}
+\newcommand{\makecvheader}{%
+  {\fontsize{25}{29}\selectfont\bfseries\@name\par}%
+  \ifx\@tagline\@cvempty\else
+    \vspace{0.30em}{\normalsize\color{accent}\@tagline\par}%
+  \fi
+  \vspace{0.55em}%
+  {\small
+   % ---- row 1: direct contact ----
+   \@contactstartedfalse
+   \ifx\@email\@cvempty\else\@contactitem{\faEnvelope}{\href{mailto:\@email}{\@email}}\fi
+   \ifx\@phone\@cvempty\else\@contactitem{\faPhone}{\@phone}\fi
+   \ifx\@location\@cvempty\else\@contactitem{\faMapMarker*}{\@location}\fi
+   % ---- row 2: web links ----
+   \if@weblinks
+     \par\vspace{0.15em}%
+     \@contactstartedfalse
+     \ifx\@website\@cvempty\else\@contactitem{\faGlobe}{\href{https://\@website}{\@website}}\fi
+     \ifx\@github\@cvempty\else\@contactitem{\faGithub}{\href{https://github.com/\@github}{github.com/\@github}}\fi
+     \ifx\@linkedin\@cvempty\else\@contactitem{\faLinkedin}{\href{https://www.linkedin.com/in/\@linkedin}{linkedin.com/in/\@linkedin}}\fi
+   \fi
+  \par}%
+  \vspace{0.35em}%
+}
+
+% ---------- Experience / education entries ---------------------------------
+% \cventry{Role or degree}{Organization}{Location}{Dates}
+\newcommand{\cventry}[4]{%
+  \par\if@firstentry\@firstentryfalse\else\vspace{0.55em}\fi
+  \noindent\textbf{#1}\hfill{\small\color{muted}#4}\par
+  \vspace{0.05em}%
+  \noindent{\color{accent}#2}\hfill{\small\color{muted}#3}\par
+  \vspace{0.15em}%
+}
+
+% ---------- Bullet list for entries ----------------------------------------
+\RequirePackage{enumitem}
+\newlist{cvitems}{itemize}{1}
+% rightmargin keeps bullet text clear of the right-hand date/location column
+\setlist[cvitems]{leftmargin=1.3em,rightmargin=3.0cm,itemsep=0.15em,topsep=0.15em,parsep=0pt,
+  label=\textcolor{accent}{\textbullet}}
+
+% ---------- Projects --------------------------------------------------------
+% \cvproject{Name}{Tech stack or link}{Dates}
+\newcommand{\cvproject}[3]{%
+  \par\if@firstentry\@firstentryfalse\else\vspace{0.55em}\fi
+  \noindent\textbf{#1}\hfill{\small\color{muted}#3}\par
+  \vspace{0.05em}%
+  \noindent{\small\color{accent}#2}\par
+  \vspace{0.15em}%
+}
+
+% ---------- Tech stack line (under an entry) --------------------------------
+% \cvtech{Next.js \textbullet\ React \textbullet\ Docker}
+\newcommand{\cvtech}[1]{%
+  \par\vspace{0.1em}{\small\color{muted}#1\par}\vspace{0.1em}%
+}
+
+% ---------- Skills ----------------------------------------------------------
+% \cvskill{Category}{Comma separated skills}
+% Fixed-width label + hanging indent: category and skill text sit on ONE
+% shared baseline (no table-cell alignment quirks), wrapped lines align
+% under the skill text, and row gaps are perfectly even.
+\newcommand{\cvskill}[2]{%
+  \par\noindent
+  \hangindent=3.4cm\hangafter=1%
+  \makebox[3.2cm][l]{\bfseries#1}#2\par
+  \vspace{0.3em}%
+}
+
+% ---------- Publications ----------------------------------------------------
+% \cvpub{Authors}{Title}{Venue}{Year}
+\newcommand{\cvpub}[4]{%
+  \par\if@firstentry\@firstentryfalse\else\vspace{0.3em}\fi
+  \noindent #1. \textbf{#2}. In \textit{#3}, #4.\par
+}
