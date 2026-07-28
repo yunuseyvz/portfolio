@@ -19,8 +19,8 @@
 % and ignores them — loading T1 under XeTeX can error, so guard with iftex.
 \RequirePackage{iftex}
 \ifpdftex
-  \RequirePackage[T1]{fontenc}
-  \RequirePackage[utf8]{inputenc}
+\RequirePackage[T1]{fontenc}
+\RequirePackage[utf8]{inputenc}
 \fi
 \RequirePackage[default,scaled=.97]{sourcesanspro}  % modern clean sans-serif
 \RequirePackage{microtype}
@@ -114,7 +114,7 @@
 \RequirePackage{enumitem}
 \newlist{cvitems}{itemize}{1}
 % rightmargin keeps bullet text clear of the right-hand date/location column
-\setlist[cvitems]{leftmargin=1.3em,rightmargin=3.0cm,itemsep=0.15em,topsep=0.15em,parsep=0pt,
+\setlist[cvitems]{leftmargin=1.3em,itemsep=0.15em,topsep=0.15em,parsep=0pt,
   label=\textcolor{accent}{\textbullet}}
 
 % ---------- Projects --------------------------------------------------------
