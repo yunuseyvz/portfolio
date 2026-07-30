@@ -1,6 +1,6 @@
 import { FaJava } from "react-icons/fa";
 import { Icons } from "../components/icons";
-import { BookIcon, CodeIcon, HomeIcon, LockKeyholeIcon, MailIcon, PartyPopper, VenetianMask, ServerIcon, DatabaseIcon, Container, NetworkIcon, TerminalIcon, GitBranchIcon, Code2Icon, BracesIcon, Brain, Bot, Cpu, Sparkles, Zap, Plug, Eye, ScanEye } from "lucide-react";
+import { BookIcon, CodeIcon, HomeIcon, LockKeyholeIcon, MailIcon, PartyPopper, VenetianMask, ServerIcon, DatabaseIcon, Container, NetworkIcon, TerminalIcon, GitBranchIcon, Code2Icon, BracesIcon, Brain, Bot, Cpu, Sparkles, Zap, Plug, Eye, ScanEye, PhoneCall } from "lucide-react";
 
 export const DATA = {
   name: "Yunus Emre Yavuz",
@@ -59,6 +59,8 @@ export const DATA = {
       { name: "Docker", icon: Icons.docker },
       { name: "Self-Hosting", icon: Container },
       { name: "VPS Management", icon: ServerIcon },
+      { name: "Tailscale", icon: NetworkIcon },
+      { name: "Asterisk / VoIP", icon: PhoneCall },
       { name: "CI/CD", icon: GitBranchIcon },
       { name: "Nginx", icon: Icons.nginx }
     ],
@@ -69,17 +71,18 @@ export const DATA = {
       { name: "Java", icon: Icons.java },
       { name: "C/C++", icon: Icons.cplusplus }
     ],
-    "Large Language Models": [
+    "AI & Language Models": [
       { name: "LLM APIs", icon: Zap },
+      { name: "Realtime Voice AI", icon: Sparkles },
       { name: "Local LLMs", icon: Cpu },
-      { name: "MCPs", icon: Plug }
+      { name: "MCPs", icon: Plug },
+      { name: "Cursor", icon: Code2Icon },
+      { name: "Copilot", icon: TerminalIcon },
     ],
     "Tools & Technologies": [
       { name: "Git", icon: Icons.git },
-      { name: "Cursor", icon: Code2Icon },
-      { name: "Copilot", icon: TerminalIcon },
       { name: "Figma", icon: Icons.figma },
-      { name: "Unity", icon: Icons.unity }
+      { name: "Unity", icon: Icons.unity },
     ]
   },
   navbar: [

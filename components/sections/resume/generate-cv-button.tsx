@@ -41,7 +41,7 @@ export const GenerateCVButton = () => {
     <button
       onClick={handleGenerateCV}
       disabled={isLoading}
-      className="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.15em] text-muted-foreground transition-colors hover:text-accent disabled:opacity-50"
+      className="inline-flex items-center gap-2 cursor-pointer font-mono text-[11px] uppercase tracking-[0.15em] text-muted-foreground transition-colors hover:text-accent disabled:opacity-50"
     >
       {isLoading ? (
         <>
